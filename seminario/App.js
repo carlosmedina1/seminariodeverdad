@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   txtInput: {
     borderWidth: 1,
     borderRadius: 20,
-    width: 250,
+    width: 330,
     height: 35,
     justifyContent: "center",
     marginTop: 15,
@@ -137,21 +137,28 @@ const HomeScreen = ({ navigation }) => {
               placeholder="¿Qué estás pensando?"
               onPress={() => navigation.navigate("MiModal")}
             >
-              ¿Qué estás pensando?
+              ¿Qué estás buscando?
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity>
-            <Ionicons
-              style={styles.icon}
-              name="images"
-              color="green"
-              size={25}
-              onPress={() => navigation.navigate("addFoto")}
-            />
-          </TouchableOpacity>
+          {
+            /*
+            <TouchableOpacity>
+              <Ionicons
+                style={styles.icon}
+                name="images"
+                color="green"
+                size={25}
+                onPress={() => navigation.navigate("addFoto")}
+              />
+            </TouchableOpacity>
+            */
+          }
+          
         </View>
 
-        <View
+    {
+      /*
+      <View
           style={{
             flexDirection: "row",
             justifyContent: "center",
@@ -169,37 +176,52 @@ const HomeScreen = ({ navigation }) => {
             <Text style={styles.txtBtn}>Salas</Text>
           </TouchableOpacity>
         </View>
+        */
+    }
+        
         <View style={{ backgroundColor: "white", height: 230 }}>
+          <View style={{ height: 30, alignContent: "center" }}>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  marginLeft: 20,
+                  marginTop: 10,
+                  fontSize: 15,
+                }}
+              >
+                Mis productos
+              </Text>
+            </View>
           <ScrollView horizontal={true} flexDirection="row">
             <View style={{ marginLeft: 10 }}>
               <TouchableOpacity>
                 <Image
-                  style={styles.imgHistorias}
+                  style={styles.imgPersonas}
                   source={{ uri: "http://placekitten.com/100/200" }}
                 />
               </TouchableOpacity>
             </View>
             <View style={{ marginLeft: 10 }}>
               <Image
-                style={styles.imgHistorias}
+                style={styles.imgPersonas}
                 source={{ uri: "http://placekitten.com/100/200" }}
               />
             </View>
             <View style={{ marginLeft: 10 }}>
               <Image
-                style={styles.imgHistorias}
+                style={styles.imgPersonas}
                 source={{ uri: "http://placekitten.com/100/200" }}
               />
             </View>
             <View style={{ marginLeft: 10 }}>
               <Image
-                style={styles.imgHistorias}
+                style={styles.imgPersonas}
                 source={{ uri: "http://placekitten.com/100/200" }}
               />
             </View>
             <View style={{ marginHorizontal: 10 }}>
               <Image
-                style={styles.imgHistorias}
+                style={styles.imgPersonas}
                 source={{ uri: "http://placekitten.com/100/200" }}
               />
             </View>
@@ -215,7 +237,7 @@ const HomeScreen = ({ navigation }) => {
                 fontSize: 15,
               }}
             >
-              Personas que quizá conozcas
+              Productos con mas likes
             </Text>
           </View>
           <ScrollView horizontal={true} flexDirection="row">
@@ -777,7 +799,7 @@ const AppNavigator = createMaterialTopTabNavigator(
 
 const RootStack = createStackNavigator(
   {
-    facebook: AppNavigator,
+    faceeeebook: AppNavigator,
     MiModal: () => (
       <View>
         <View style={{ flexDirection: "row" }}>
