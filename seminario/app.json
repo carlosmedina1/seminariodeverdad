@@ -1,11 +1,10 @@
 {
   "expo": {
-    "name": "seminario",
-    "slug": "seminario",
+    "name": "fbClon",
+    "slug": "fbClon",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
