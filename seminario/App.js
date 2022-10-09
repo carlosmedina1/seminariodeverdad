@@ -22,6 +22,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native-gesture-handler";
+import Login from './src/Login'
 import { clockRunning, color } from "react-native-reanimated";
 import { TabView, SceneMap } from "react-native-tab-view";
 import Video from "react-native-video";
@@ -47,13 +48,14 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   txtInput: {
+    flex: 1,
     borderWidth: 1,
     borderRadius: 20,
-    width: 330,
-    height: 35,
+    width: 400,
+    height: 45,
     justifyContent: "center",
     marginTop: 15,
-    marginRight: 1,
+    marginLeft: 7,
     borderColor: "lightgray",
   },
   miniImg: {
@@ -130,12 +132,17 @@ const HomeScreen = ({ navigation }) => {
     <ScrollView>
       <View style={{ backgroundColor: "lightgray", flex: 1 }}>
         <View style={{ flexDirection: "row", backgroundColor: "white" }}>
-          <Image style={styles.miniImg} source={require("./images/1.jpg")} />
+          {
+            /*
+            <Image style={styles.miniImg} source={require("./images/1.jpg")} />
+            */
+          }
+          
           <TouchableOpacity style={styles.txtInput}>
             <Text
               style={{ marginLeft: 10 }}
               placeholder="¿Qué estás pensando?"
-              onPress={() => navigation.navigate("MiModal")}
+              onPress={() => navigation.navigate("Busqueda")}
             >
               ¿Qué estás buscando?
             </Text>
@@ -153,45 +160,45 @@ const HomeScreen = ({ navigation }) => {
             </TouchableOpacity>
             */
           }
-          
+
         </View>
 
-    {
-      /*
-      <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            backgroundColor: "white",
-            marginTop: 15,
-          }}
-        >
-          <TouchableOpacity style={styles.boton}>
-            <Text style={styles.txtBtn}>Historias</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.boton}>
-            <Text style={styles.txtBtn}>Rests</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.boton} inactiveTintColor={"white"}>
-            <Text style={styles.txtBtn}>Salas</Text>
-          </TouchableOpacity>
-        </View>
-        */
-    }
-        
+        {
+          /*
+          <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                backgroundColor: "white",
+                marginTop: 15,
+              }}
+            >
+              <TouchableOpacity style={styles.boton}>
+                <Text style={styles.txtBtn}>Historias</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.boton}>
+                <Text style={styles.txtBtn}>Rests</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.boton} inactiveTintColor={"white"}>
+                <Text style={styles.txtBtn}>Salas</Text>
+              </TouchableOpacity>
+            </View>
+            */
+        }
+
         <View style={{ backgroundColor: "white", height: 230 }}>
           <View style={{ height: 30, alignContent: "center" }}>
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  marginLeft: 20,
-                  marginTop: 10,
-                  fontSize: 15,
-                }}
-              >
-                Mis productos
-              </Text>
-            </View>
+            <Text
+              style={{
+                fontWeight: "bold",
+                marginLeft: 20,
+                marginTop: 10,
+                fontSize: 15,
+              }}
+            >
+              Mis productos
+            </Text>
+          </View>
           <ScrollView horizontal={true} flexDirection="row">
             <View style={{ marginLeft: 10 }}>
               <TouchableOpacity>
@@ -293,7 +300,7 @@ const AmigosScreen = ({ navigation }) => {
               alignItems: "center",
             }}
           >
-            Personas que quizá conozcas
+            usuarios
           </Text>
         </View>
 
@@ -310,163 +317,7 @@ const AmigosScreen = ({ navigation }) => {
               <Text style={styles.txtProfiles}>Nombre de persona</Text>
               <View style={styles.vProfiles}>
                 <View style={{}}>
-                  <Button style={{}} color="blue" title="Agregar"></Button>
-                </View>
-                <View style={{ marginLeft: 10 }}>
-                  <Button
-                    style={{ marginLeft: 10 }}
-                    color="gray"
-                    title="Eliminar"
-                  ></Button>
-                </View>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={{ marginLeft: 10, marginTop: 10 }}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={{ flexDirection: "row" }}
-          >
-            <Image
-              style={{ height: 100, width: 100, borderRadius: 100 }}
-              source={{ uri: "http://placekitten.com/100/200" }}
-            />
-            <View>
-              <Text style={styles.txtProfiles}>Nombre de persona</Text>
-              <View style={styles.vProfiles}>
-                <View style={{}}>
-                  <Button style={{}} color="blue" title="Agregar"></Button>
-                </View>
-                <View style={{ marginLeft: 10 }}>
-                  <Button
-                    style={{ marginLeft: 10 }}
-                    color="gray"
-                    title="Eliminar"
-                  ></Button>
-                </View>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={{ marginLeft: 10, marginTop: 10 }}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={{ flexDirection: "row" }}
-          >
-            <Image
-              style={{ height: 100, width: 100, borderRadius: 100 }}
-              source={{ uri: "http://placekitten.com/100/200" }}
-            />
-            <View>
-              <Text style={styles.txtProfiles}>Nombre de persona</Text>
-              <View style={styles.vProfiles}>
-                <View style={{}}>
-                  <Button style={{}} color="blue" title="Agregar"></Button>
-                </View>
-                <View style={{ marginLeft: 10 }}>
-                  <Button
-                    style={{ marginLeft: 10 }}
-                    color="gray"
-                    title="Eliminar"
-                  ></Button>
-                </View>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={{ marginLeft: 10, marginTop: 10 }}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={{ flexDirection: "row" }}
-          >
-            <Image
-              style={{ height: 100, width: 100, borderRadius: 100 }}
-              source={{ uri: "http://placekitten.com/100/200" }}
-            />
-            <View>
-              <Text style={styles.txtProfiles}>Nombre de persona</Text>
-              <View style={styles.vProfiles}>
-                <View style={{}}>
-                  <Button style={{}} color="blue" title="Agregar"></Button>
-                </View>
-                <View style={{ marginLeft: 10 }}>
-                  <Button
-                    style={{ marginLeft: 10 }}
-                    color="gray"
-                    title="Eliminar"
-                  ></Button>
-                </View>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={{ marginLeft: 10, marginTop: 10 }}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={{ flexDirection: "row" }}
-          >
-            <Image
-              style={{ height: 100, width: 100, borderRadius: 100 }}
-              source={{ uri: "http://placekitten.com/100/200" }}
-            />
-            <View>
-              <Text style={styles.txtProfiles}>Nombre de persona</Text>
-              <View style={styles.vProfiles}>
-                <View style={{}}>
-                  <Button style={{}} color="blue" title="Agregar"></Button>
-                </View>
-                <View style={{ marginLeft: 10 }}>
-                  <Button
-                    style={{ marginLeft: 10 }}
-                    color="gray"
-                    title="Eliminar"
-                  ></Button>
-                </View>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={{ marginLeft: 10, marginTop: 10 }}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={{ flexDirection: "row" }}
-          >
-            <Image
-              style={{ height: 100, width: 100, borderRadius: 100 }}
-              source={{ uri: "http://placekitten.com/100/200" }}
-            />
-            <View>
-              <Text style={styles.txtProfiles}>Nombre de persona</Text>
-              <View style={styles.vProfiles}>
-                <View style={{}}>
-                  <Button style={{}} color="blue" title="Agregar"></Button>
-                </View>
-                <View style={{ marginLeft: 10 }}>
-                  <Button
-                    style={{ marginLeft: 10 }}
-                    color="gray"
-                    title="Eliminar"
-                  ></Button>
-                </View>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={{ marginLeft: 10, marginTop: 10 }}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={{ flexDirection: "row" }}
-          >
-            <Image
-              style={{ height: 100, width: 100, borderRadius: 100 }}
-              source={{ uri: "http://placekitten.com/100/200" }}
-            />
-            <View>
-              <Text style={styles.txtProfiles}>Nombre de persona</Text>
-              <View style={styles.vProfiles}>
-                <View style={{}}>
-                  <Button style={{}} color="blue" title="Agregar"></Button>
+                  <Button style={{}} color="blue" title="Perfil"></Button>
                 </View>
                 <View style={{ marginLeft: 10 }}>
                   <Button
@@ -799,8 +650,8 @@ const AppNavigator = createMaterialTopTabNavigator(
 
 const RootStack = createStackNavigator(
   {
-    faceeeebook: AppNavigator,
-    MiModal: () => (
+    MercadoUCM: AppNavigator,
+    Busqueda: () => (
       <View>
         <View style={{ flexDirection: "row" }}>
           <View>
@@ -883,6 +734,16 @@ const RootStack = createStackNavigator(
         <Text>-- Aquí va la galería --</Text>
       </View>
     ),
+    Login: {
+      screen: Login,
+  
+      navigationOptions: {
+        title: 'Ingresar',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
   },
 
   {
