@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, Text, ActivityIndicator, StatusBar, TouchableOpacity, FlatList, TextInput, Dimensions, } from 'react-native'
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Text, ActivityIndicator, TextInput, StatusBar, FlatList, TouchableOpacity, Dimensions ,Alert, ToastAndroid, Platform} from 'react-native'
+
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import Modal from '../components/customModal'
 
 import * as Animatable from 'react-native-animatable'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import Route from '../hooks/routes'
 
-import * as SQLite from 'expo-sqlite'
 
 const windowHeight = Dimensions.get('screen').height;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        minHeight: Math.round(windowHeight),
         backgroundColor: '#fff',
-        minHeight: Math.round(windowHeight)
     },
 
     image: {
@@ -26,8 +27,6 @@ const styles = StyleSheet.create({
 
     header: {
         flex: 0.5,
-        width: '100%',
-        height: '100%',
     },
 
     action: {
@@ -48,22 +47,8 @@ const styles = StyleSheet.create({
         shadowRadius: 8,
         elevation: 10,
     },
-
-    body: {
-        flex: 10,
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        //backgroundColor: 'red',
-    },
-
-    card: {
-        backgroundColor: '#fff',
-        width: '100%',
-    },
-
-    itemContainer: {
-        margin: 10,
+    botonAtras: {
+        marginRight: 10,
         padding: 10,
         backgroundColor: '#fff',
         borderRadius: 10,
@@ -75,9 +60,23 @@ const styles = StyleSheet.create({
         shadowRadius: 8,
         elevation: 10,
     },
+    body: {
+        flex: 10,
+        width: '100%',
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        //backgroundColor: 'red',
+    },
 
-    botonAtras: {
-        marginRight: 10,
+    card: {
+        backgroundColor: '#fff',
+        width: '100%',
+        height: '100%',
+    },
+
+    itemContainer: {
+        margin: 10,
         padding: 10,
         backgroundColor: '#fff',
         borderRadius: 10,
@@ -98,69 +97,68 @@ const styles = StyleSheet.create({
     },
 })
 
-const bd = SQLite.openDatabase('localhost.db', '1.0')
-
-export default function faenas({ navigation }) {
-    const [faenas, setFaenas] = useState([])
-    const [filterFaenas, setFilterFaenas] = useState([])
-
+export default function reportPendientes({ navigation }) {
+    const [report, setReport] = useState([])
+    const [filterReport, setFilterReport] = useState([])
+    const [loading, setLoading] = useState(false)
     const [busqueda, setBusqueda] = useState('')
-    const [loading, setLoading] = useState(true)
 
-    const filtrarFaena = (text) => {
+    const filtrarReport = (text) => {
         if (text) {
-            const newData = faenas.filter((item) => {
-                const itemData = item.nombre_faena + item.nombre_comuna
+            const newData = report.filter((item) => {
+                const itemData = item.nombre_producto + ' ' + item.nombre_producto + ' ' + item.nombre_producto + ' ' + item.nombre_producto.toUpperCase();
                 const textData = text.toUpperCase();
-
                 return itemData.indexOf(textData) > -1;
             })
-
-            setFilterFaenas(newData)
             setBusqueda(text)
+            setFilterReport(newData)
+            setLoading(false)
         }
         else {
-            setFilterFaenas(faenas)
             setBusqueda(text)
+            setFilterReport(report)
         }
     }
 
-    const goVehiculos = (item) => {
-        console.log(item.id_faena)
-        navigation.navigate('VehiculoFaena', {idFaena: item.id_faena, nombreFaena: item.nombre_faena})
-    }
-
-    const getFaenas = async () => {
-        bd.transaction(tx => {
-            tx.executeSql(
-                "select f.id_faena, f.nombre_faena, c.nombre_comuna from faena f join comuna c on c.id_comuna = f.id_comuna where f.vigente = true order by nombre_faena asc;",
-                [],
-                (tx, res) => {
-                    const array = res.rows._array
-                    console.log(array)
-                    const noDuplicate = array.filter((value, index, self) =>
-                        index === self.findIndex((item) => (
-                            item.id_faena === value.id_faena &&
-                            item.nombre_faena === item.nombre_faena
-                        ))
-                    )
-
-                    setFaenas(noDuplicate)
-                    setFilterFaenas(noDuplicate)
-                    setLoading(false)
-                },
-                (tx, e) => {
-                    console.error(e)
+    const getReports = async () => {
+        setBusqueda('')
+        try {
+            setLoading(true)
+            const response = await fetch(Route + 'busquedaProductos',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
                 }
             )
-        })
+            const data = await response.json()
+            console.log(data)
+            if (await data.length != 0) {
+                setFilterReport(data)
+                setReport(data)
+            }else {
+                setLoading(false)
+            }
+        }
+        catch (e) {
+            setLoading(false)
+        }
     }
 
+    const goDetalleProducto = (item) => {
+        console.log(item)
+        navigation.navigate('DetalleProducto', {
+            usuario: item
+        })
+        //console.log(item)
+        //setLoading2(true)
+        //obtenerSupervisor(item)
+    }    
     useEffect(() => {
-        getFaenas()
+        console.log('hola')
+        getReports()
     }, [])
-
-    console.log(faenas, filterFaenas)
 
     return (
         <View style={styles.container}>
@@ -170,43 +168,63 @@ export default function faenas({ navigation }) {
 
             <Animatable.View animation={'fadeInUpBig'} style={styles.body}>
                 <View style={styles.card}>
-                    <View style={{ paddingLeft: 20, paddingRight: 20, justifyContent: 'center' }}>
+                    <View style={{ paddingTop: 20, paddingLeft: 20, paddingRight: 20, justifyContent: 'center' }}>
                         <View style={{ flexDirection: 'row', width: '100%', marginBottom: 5, }}>
                             <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.pop(1)}>
                                 <MaterialIcons name="arrow-back" color="#000" size={20} style={{ alignSelf: 'center'}} />
                             </TouchableOpacity>
-                            <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000',  }}>Faenas</Text>
+                            <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000',  }}>Busqueda</Text>
                         </View>
                         <View style={styles.action}>
                             <MaterialIcons color="gray" name="search" size={20} style={{ flex: 1, marginRight: 10, alignSelf: 'center' }} />
                             <TextInput
-                                placeholder="Buscar Faena"
+                                placeholder="Buscar Producto"
                                 style={{ width: '100%', flex: 10 }}
-                                onChangeText={(text) => filtrarFaena(text)}
+                                onChangeText={(text) => filtrarReport(text)}
                                 value={busqueda} />
                         </View>
 
-                        {loading ? (
-                            <ActivityIndicator size={'large'} color='#000' style={{ alignSelf: 'center', flex: 1 }} />
-                        ) : (
-                            <FlatList
-                                data={filterFaenas}
-                                key={(x) => filterFaenas.indexOf(x)}
-                                keyExtractor={(x) => filterFaenas.indexOf(x)}
-                                renderItem={({ item }) => (
-                                    <TouchableOpacity name={'fadeInUpBig'} style={styles.itemContainer} onPress={() => goVehiculos(item)}>
-                                        <View style={{ flexDirection: 'row', width: '100%', marginBottom: 5, }}>
-                                            <MaterialIcons name="fiber-manual-record" color="#5dd069" size={10} style={{ alignSelf: 'center', marginRight: 5 }} />
-                                            <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#000' }}>{item.nombre_faena}</Text>
-                                        </View>
-                                        <View style={{ width: 100, backgroundColor: '#000', borderRadius: 50, padding: 5, alignItems: 'center', justifyContent: 'center' }}>
-                                            <Text numberOfLines={1} style={{ fontSize: 10, fontWeight: 'bold', color: '#fff', }}>{item.nombre_comuna}</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                )}
-                                style={{ height: '85%' }}
-                            />
-                        )}
+                        {
+                            filterReport.length > 0 ? (
+                                <FlatList
+                                    data={filterReport}
+                                    key={(x) => filterReport.indexOf(x)}
+                                    keyExtractor={(x) => filterReport.indexOf(x)}
+                                    renderItem={({ item }) => (
+                                        <TouchableOpacity style={styles.itemContainer} onPress={() => goDetalleProducto(item)}>
+                                            <View style={{ flexDirection: 'row', width: '100%', }}>
+                                                <MaterialIcons name="fiber-manual-record" color="#5dd069" size={10} style={{ flex: 1, alignSelf: 'center' }} />
+                                                <Text style={{ flex: 15, fontSize: 14, fontWeight: 'bold', color: '#000' }}>{item.nombre_producto}</Text>
+                                            </View>
+                                            <Text style={{ fontSize: 12, fontWeight: 'bold', color: 'gray', marginTop: 2, }}>TIPO VEH.: {item.nombre_producto}</Text>
+                                            <Text style={{ fontSize: 12, fontWeight: 'bold', color: 'gray', marginTop: 2, }}>PATENTE: {item.nombre_producto}</Text>
+                                            <Text style={{ fontSize: 12, fontWeight: 'bold', color: 'gray', marginTop: 2, }}>PROVEEDOR: {item.nombre_producto}</Text>
+                                        </TouchableOpacity>
+                                    )}
+                                    style={{ height: '85%' }}
+                                />
+                            ) : (
+                                loading ? (
+                                    <View style={{ width: '100%', height: '90%', alignItems: 'center', justifyContent: 'center' }}>
+                                        <ActivityIndicator size="small" color="#000" />
+                                        <Text style={{ color: 'gray', fontWeight: 'bold', fontSize: 15, marginBottom: 10, marginTop: 5 }}>Importando Datos...</Text>
+                                    </View>
+                                ) : (
+                                    <View style={{ width: '100%', height: '90%', alignItems: 'center', justifyContent: 'center' }}>
+                                        <Animatable.View animation="tada" easing="ease-out" iterationCount="infinite">
+                                            <MaterialCommunityIcons name="dump-truck" color='#000' size={80} />
+                                        </Animatable.View>
+
+                                        <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡Sin Report Pendientes!</Text>
+                                        <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => getReports()}>
+                                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'gray', }}>Puede intentar </Text>
+                                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'blue', }}>volver a Sincronizar. </Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                )
+                            )
+                        }
+
                     </View>
                 </View>
             </Animatable.View>

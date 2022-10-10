@@ -23,6 +23,7 @@ import {
   TouchableOpacity,
 } from "react-native-gesture-handler";
 import Login from './src/Login'
+import Buscar from './src/Buscar'
 import { clockRunning, color } from "react-native-reanimated";
 import { TabView, SceneMap } from "react-native-tab-view";
 import Video from "react-native-video";
@@ -142,7 +143,7 @@ const HomeScreen = ({ navigation }) => {
             <Text
               style={{ marginLeft: 10 }}
               placeholder="¿Qué estás pensando?"
-              onPress={() => navigation.navigate("Busqueda")}
+              onPress={() => navigation.navigate("Buscar")}
             >
               ¿Qué estás buscando?
             </Text>
@@ -736,6 +737,16 @@ const RootStack = createStackNavigator(
     ),
     Login: {
       screen: Login,
+  
+      navigationOptions: {
+        title: 'Ingresar',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    Buscar: {
+      screen: Buscar,
   
       navigationOptions: {
         title: 'Ingresar',
