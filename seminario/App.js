@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Button, Image, Touchable } from "react-native";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
+import * as Animatable from 'react-native-animatable'
 import {
   createBottomTabNavigator,
   createMaterialTopTabNavigator,
@@ -24,6 +25,7 @@ import {
 } from "react-native-gesture-handler";
 import Login from './src/Login'
 import Buscar from './src/Buscar'
+import DetalleProducto from './src/detalleProducto'
 import { clockRunning, color } from "react-native-reanimated";
 import { TabView, SceneMap } from "react-native-tab-view";
 import Video from "react-native-video";
@@ -59,6 +61,20 @@ const styles = StyleSheet.create({
     marginLeft: 7,
     borderColor: "lightgray",
   },
+  itemContainer: {
+    margin: 10,
+    padding: 10,
+    backgroundColor: '#fff',
+    justifyContent: "center",
+    borderRadius: 10,
+    height: 50,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 10,
+  },
+
   miniImg: {
     height: 50,
     width: 50,
@@ -132,61 +148,18 @@ const HomeScreen = ({ navigation }) => {
   return (
     <ScrollView>
       <View style={{ backgroundColor: "lightgray", flex: 1 }}>
-        <View style={{ flexDirection: "row", backgroundColor: "white" }}>
-          {
-            /*
-            <Image style={styles.miniImg} source={require("./images/1.jpg")} />
-            */
-          }
-          
-          <TouchableOpacity style={styles.txtInput}>
-            <Text
-              style={{ marginLeft: 10 }}
-              placeholder="¿Qué estás pensando?"
-              onPress={() => navigation.navigate("Buscar")}
-            >
-              ¿Qué estás buscando?
-            </Text>
-          </TouchableOpacity>
-          {
-            /*
-            <TouchableOpacity>
-              <Ionicons
-                style={styles.icon}
-                name="images"
-                color="green"
-                size={25}
-                onPress={() => navigation.navigate("addFoto")}
-              />
-            </TouchableOpacity>
-            */
-          }
-
-        </View>
-
-        {
-          /*
-          <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                backgroundColor: "white",
-                marginTop: 15,
-              }}
-            >
-              <TouchableOpacity style={styles.boton}>
-                <Text style={styles.txtBtn}>Historias</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.boton}>
-                <Text style={styles.txtBtn}>Rests</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.boton} inactiveTintColor={"white"}>
-                <Text style={styles.txtBtn}>Salas</Text>
-              </TouchableOpacity>
+        <View style={{ backgroundColor: "white", height: 100 }}>
+          <TouchableOpacity style={styles.itemContainer}>
+            <View>
+              <Text
+                style={{ marginLeft: 10 }}
+                onPress={() => navigation.navigate("Buscar")}
+              >
+                ¿Qué estás buscando?
+              </Text>
             </View>
-            */
-        }
-
+          </TouchableOpacity>
+        </View>
         <View style={{ backgroundColor: "white", height: 230 }}>
           <View style={{ height: 30, alignContent: "center" }}>
             <Text
@@ -336,210 +309,178 @@ const AmigosScreen = ({ navigation }) => {
   );
 };
 
-const WatchScreen = ({ navigation }) => {
-  return (
-    <View>
-      <Text>Texto de Watch</Text>
-    </View>
-  );
-};
-
-const StoreScreen = ({ navigation }) => {
-  return (
-    <View>
-      <Text>Texto de Store</Text>
-    </View>
-  );
-};
-
-const NotificationScreen = ({ navigation }) => {
-  return (
-    <View>
-      <Text>Texto de Notificaciones</Text>
-    </View>
-  );
-};
-
 const MenuScreen = ({ navigation }) => {
-  return (
-    <ScrollView>
-      <View style={{ backgroundColor: "rgba(239, 244, 245, 1)", flex: 1 }}>
-        <View
-          style={{
-            flexDirection: "row",
-            backgroundColor: "rgba(239, 244, 245, 1)",
-            height: 50,
-          }}
-        >
-          <View style={{ width: "50%", justifyContent: "center" }}>
-            <Text style={{ fontWeight: "bold", fontSize: 20, marginLeft: 20 }}>
-              Menú
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "flex-end",
-              alignItems: "center",
-              width: "50%",
-            }}
-          >
-            <View style={[styles.btnMenu, { marginRight: 5 }]}>
-              <TouchableOpacity>
-                <FontAwesome name={"gear"} size={20}></FontAwesome>
-              </TouchableOpacity>
-            </View>
-            <View style={[styles.btnMenu, { marginRight: 10 }]}>
-              <TouchableOpacity>
-                <Entypo name={"magnifying-glass"} size={20}></Entypo>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-        <TouchableOpacity>
-          <View
-            style={{ marginTop: 5, flexDirection: "row", alignItems: "center" }}
-          >
-            <View>
-              <Image
-                style={styles.miniImg}
-                source={require("./images/1.jpg")}
-              />
-            </View>
-            <View style={{ flexDirection: "column" }}>
-              <Text style={{ fontWeight: "bold" }}>Nombre Usuario</Text>
-              <Text style={{ color: "gray" }}>Ver tu perfil</Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-        <View>
-          <View style={{ flexDirection: "row", marginHorizontal: 10 }}>
-            <View
-              style={{ width: "50%", flexDirection: "column", marginTop: 10 }}
-            >
-              <View style={styles.menuCards}>
-                <TouchableOpacity onPress={() => navigation.navigate("Amigos")}>
-                  <View style={styles.btnCards}>
-                    <MaterialCommunityIcons
-                      name={"account-search"}
-                      size={23}
-                      color={"lightblue"}
-                    />
-                    <Text>Buscar amigos</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.menuCards}>
-                <TouchableOpacity onPress={() => navigation.navigate("Store")}>
-                  <View style={styles.btnCards}>
-                    <FontAwesome5
-                      name={"store"}
-                      size={18}
-                      color={"lightblue"}
-                    />
-                    <Text>Marketplace</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.menuCards}>
-                <TouchableOpacity>
-                  <View style={styles.btnCards}>
-                    <Entypo
-                      name={"back-in-time"}
-                      size={28}
-                      color={"lightblue"}
-                    />
-                    <Text>Recuerdos</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.menuCards}>
-                <TouchableOpacity>
-                  <View style={styles.btnCards}>
-                    <AntDesign name={"flag"} size={28} color={"red"} />
-                    <Text>Páginas</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.menuCards}>
-                <TouchableOpacity>
-                  <View style={styles.btnCards}>
-                    <MaterialCommunityIcons
-                      name={"calendar-star"}
-                      size={28}
-                      color={"red"}
-                    />
-                    <Text>Eventos</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View
-              style={{ width: "50%", flexDirection: "column", marginTop: 10 }}
-            >
-              <View style={styles.menuCards}>
-                <TouchableOpacity>
-                  <View style={styles.btnCards}>
-                    <FontAwesome name={"group"} color={"lightblue"} size={20} />
-                    <Text>Grupos</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.menuCards}>
-                <TouchableOpacity onPress={() => navigation.navigate("Watch")}>
-                  <View style={styles.btnCards}>
-                    <MaterialCommunityIcons
-                      name={"youtube-tv"}
-                      size={20}
-                      color={"lightblue"}
-                    />
-                    <Text>Videos en Watch</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.menuCards}>
-                <TouchableOpacity>
-                  <View style={styles.btnCards}>
-                    <Entypo name={"bookmark"} size={28} color={"purple"} />
-                    <Text>Guardado</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.menuCards}>
-                <TouchableOpacity>
-                  <View style={styles.btnCards}>
-                    <MaterialCommunityIcons
-                      name={"movie"}
-                      size={28}
-                      color={"orange"}
-                    />
-                    <Text>Reels</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.menuCards}>
-                <TouchableOpacity>
-                  <View style={styles.btnCards}>
-                    <MaterialIcons
-                      name={"videogame-asset"}
-                      size={28}
-                      color={"lightblue"}
-                    />
-                    <Text>Videojuegos</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
-    </ScrollView>
+  const [loading, setLoading] = useState(false)
+  const [logueado, setLogueado] = useState(false)
+  useEffect(() => {
 
-    /*
-     */
+  }, [])
+  return (
+
+    <ScrollView>
+      {!loading ? (
+        logueado ? (
+          <View style={{ backgroundColor: "rgba(239, 244, 245, 1)", flex: 1 }}>
+
+            <View style={{ flexDirection: "row", backgroundColor: "rgba(239, 244, 245, 1)", height: 50, }}>
+              <View style={{ width: "100%", justifyContent: "center" }}>
+                <Text style={{ fontWeight: "bold", fontSize: 20, marginLeft: 20 }}>
+                  Menú
+                </Text>
+              </View>
+            </View>
+
+
+
+            <TouchableOpacity>
+              <View
+                style={{ marginTop: 5, flexDirection: "row", alignItems: "center" }}
+              >
+                <View>
+                  <Image
+                    style={styles.miniImg}
+                    source={require("./images/1.jpg")}
+                  />
+                </View>
+                <View style={{ flexDirection: "column" }}>
+                  <Text style={{ fontWeight: "bold" }}>Nombre Usuario</Text>
+                  <Text style={{ color: "gray" }}>Ver tu perfil</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+
+
+
+
+            <View>
+              <View style={{ flexDirection: "row", marginHorizontal: 10 }}>
+                <View
+                  style={{ width: "50%", flexDirection: "column", marginTop: 10 }}
+                >
+                  <View style={styles.menuCards}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Amigos")}>
+                      <View style={styles.btnCards}>
+                        <MaterialCommunityIcons
+                          name={"account-search"}
+                          size={23}
+                          color={"lightblue"}
+                        />
+                        <Text>Buscar amigos</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.menuCards}>
+                    <TouchableOpacity>
+                      <View style={styles.btnCards}>
+                        <Entypo
+                          name={"back-in-time"}
+                          size={28}
+                          color={"lightblue"}
+                        />
+                        <Text>Recuerdos</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.menuCards}>
+                    <TouchableOpacity>
+                      <View style={styles.btnCards}>
+                        <AntDesign name={"flag"} size={28} color={"red"} />
+                        <Text>Páginas</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.menuCards}>
+                    <TouchableOpacity>
+                      <View style={styles.btnCards}>
+                        <MaterialCommunityIcons
+                          name={"calendar-star"}
+                          size={28}
+                          color={"red"}
+                        />
+                        <Text>Eventos</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                <View
+                  style={{ width: "50%", flexDirection: "column", marginTop: 10 }}
+                >
+                  <View style={styles.menuCards}>
+                    <TouchableOpacity>
+                      <View style={styles.btnCards}>
+                        <FontAwesome name={"group"} color={"lightblue"} size={20} />
+                        <Text>Grupos</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.menuCards}>
+                    <TouchableOpacity>
+                      <View style={styles.btnCards}>
+                        <Entypo name={"bookmark"} size={28} color={"purple"} />
+                        <Text>Guardado</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.menuCards}>
+                    <TouchableOpacity>
+                      <View style={styles.btnCards}>
+                        <MaterialCommunityIcons
+                          name={"movie"}
+                          size={28}
+                          color={"orange"}
+                        />
+                        <Text>Reels</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.menuCards}>
+                    <TouchableOpacity>
+                      <View style={styles.btnCards}>
+                        <MaterialIcons
+                          name={"videogame-asset"}
+                          size={28}
+                          color={"lightblue"}
+                        />
+                        <Text>Videojuegos</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        ) : (
+          <>
+            <View style={{ width: "100%", justifyContent: "center" }}>
+                  <Text style={{ fontWeight: "bold", fontSize: 20, marginLeft: 20 }}>
+                    Para ingresar a estas opciones, Inicia sesion con tu correo institucional, o crea una cuenta nueva
+                  </Text>
+                </View>
+            <Animatable.View animation="pulse" easing="ease-out" iterationCount="infinite" style={{marginTop:150,margin: 20, alignItems: 'center', justifyContent: 'center' }}>
+              <TouchableOpacity
+                style={{ flexDirection: 'row', backgroundColor: '#000', alignItems: 'center', justifyContent: 'center', width: 200, height: 50, borderRadius: 10, }}
+                onPress={() => iriniciosesion()}>
+                <MaterialIcons name="clear-all" color='#fff' size={20} />
+                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 18, marginLeft: 10 }}>Iniciar Sesion</Text>
+              </TouchableOpacity>
+            </Animatable.View>
+          </>
+          
+        )
+      ) : (
+        <Animatable.View animation={'fadeInUpBig'} style={{ alignItems: 'center', justifyContent: 'center', marginTop: 50 }}>
+          <Text style={{ fontSize: 28, fontWeight: 'bold' }}>Comprobando...</Text>
+          <Animatable.View animation="tada" easing="ease-out" iterationCount="infinite">
+            <MaterialCommunityIcons name='reload' size={40} color='#000' />
+          </Animatable.View>
+        </Animatable.View>
+      )}
+
+    </ScrollView>
   );
 };
 
+//PANTALLA PRINCIPAL
 const AppNavigator = createMaterialTopTabNavigator(
   {
     Home: {
@@ -547,15 +488,6 @@ const AppNavigator = createMaterialTopTabNavigator(
     },
     Amigos: {
       screen: AmigosScreen,
-    },
-    Watch: {
-      screen: WatchScreen,
-    },
-    Store: {
-      screen: StoreScreen,
-    },
-    Notifications: {
-      screen: NotificationScreen,
     },
     Menu: {
       screen: MenuScreen,
@@ -588,36 +520,6 @@ const AppNavigator = createMaterialTopTabNavigator(
               color={tintColor}
             ></Fontisto>
           );
-        } else if (routeName === "Watch") {
-          iconName = `youtube-tv`;
-          return (
-            <MaterialCommunityIcons
-              focused={focused}
-              name={iconName}
-              size={20}
-              color={tintColor}
-            ></MaterialCommunityIcons>
-          );
-        } else if (routeName === "Store") {
-          iconName = `store`;
-          return (
-            <FontAwesome5
-              focused={focused}
-              name={iconName}
-              size={20}
-              color={tintColor}
-            ></FontAwesome5>
-          );
-        } else if (routeName === "Notifications") {
-          iconName = `bell`;
-          return (
-            <FontAwesome
-              focused={focused}
-              name={iconName}
-              size={20}
-              color={tintColor}
-            ></FontAwesome>
-          );
         } else {
           iconName = `menu`;
           return (
@@ -648,96 +550,12 @@ const AppNavigator = createMaterialTopTabNavigator(
     }),
   }
 );
-
+//CONTROL PANTALLAS
 const RootStack = createStackNavigator(
   {
     MercadoUCM: AppNavigator,
-    Busqueda: () => (
-      <View>
-        <View style={{ flexDirection: "row" }}>
-          <View>
-            <Image style={styles.miniImg} source={require("./images/1.jpg")} />
-          </View>
-          <View style={{}}>
-            <View style={{ flexDirection: "column" }}>
-              <Text style={{ marginTop: 10, fontWeight: "bold" }}>
-                Nombre Persona
-              </Text>
-              <View style={{ flexDirection: "row", justifyContent: "center" }}>
-                <TouchableOpacity
-                  style={{
-                    borderWidth: 1,
-                    borderRadius: 5,
-                    borderColor: "gray",
-                    height: 30,
-                    justifyContent: "center",
-                  }}
-                >
-                  <View style={{ flexDirection: "row", marginHorizontal: 5 }}>
-                    <Fontisto
-                      name={"persons"}
-                      size={10}
-                      color={"gray"}
-                      style={{ marginTop: 5 }}
-                    ></Fontisto>
-                    <Text style={{ marginHorizontal: 5, color: "gray" }}>
-                      Amigos
-                    </Text>
-                    <AntDesign
-                      name={"caretdown"}
-                      size={10}
-                      color={"gray"}
-                      style={{ marginTop: 5 }}
-                    ></AntDesign>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={{
-                    borderWidth: 1,
-                    borderRadius: 5,
-                    borderColor: "gray",
-                    height: 30,
-                    justifyContent: "center",
-                    marginLeft: 10,
-                  }}
-                >
-                  <View style={{ flexDirection: "row", marginHorizontal: 5 }}>
-                    <Entypo
-                      name={"plus"}
-                      size={12}
-                      color={"gray"}
-                      style={{ marginTop: 3 }}
-                    ></Entypo>
-                    <Text style={{ marginHorizontal: 5, color: "gray" }}>
-                      Álbum
-                    </Text>
-                    <AntDesign
-                      name={"caretdown"}
-                      size={10}
-                      color={"gray"}
-                      style={{ marginTop: 5 }}
-                    ></AntDesign>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </View>
-        <TextInput
-          style={{ marginLeft: 10, marginTop: 10, fontSize: 20 }}
-          multiline={true}
-          placeholder="¿Qué estás pensando?"
-        ></TextInput>
-      </View>
-    ),
-    addFoto: () => (
-      <View>
-        <Text>-- Aquí va la galería --</Text>
-      </View>
-    ),
     Login: {
       screen: Login,
-  
       navigationOptions: {
         title: 'Ingresar',
         headerTintColor: '#fff',
@@ -747,9 +565,18 @@ const RootStack = createStackNavigator(
     },
     Buscar: {
       screen: Buscar,
-  
       navigationOptions: {
         title: 'Ingresar',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    DetalleProducto: {
+      screen: DetalleProducto,
+
+      navigationOptions: {
+        title: 'DetalleProducto',
         headerTintColor: '#fff',
         headerShown: false,
         headerBackTitleVisible: false,
@@ -762,30 +589,4 @@ const RootStack = createStackNavigator(
     title: "test",
   }
 );
-
-/*
-const renderScene = SceneMap({
-  primero: primeraRuta,
-  segundo: SegundaRuta,
-  tercero: TerceraRuta
-})
-
-export function TabViewExample(){
-  const [index, setIndex] = React.useState(0)
-  const [routes] = React.useState([
-    {key: 'primero', title:'Historias'},
-    {key: 'segundo', title:'Rests'},
-    {key: 'tercero', title:'Salas'},
-  ]);
-
-  return(
-    <TabView 
-    navigationState={{ index, routes }}
-    renderScene={renderScene}
-    onIndexChange={setIndex}
-    initialLayout={initialLayout}
-    style={styles.container}/>
-  )
-}*/
-
 export default createAppContainer(RootStack);

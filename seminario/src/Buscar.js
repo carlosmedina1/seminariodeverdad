@@ -7,6 +7,7 @@ import Modal from '../components/customModal'
 
 import * as Animatable from 'react-native-animatable'
 import Route from '../hooks/routes'
+import { set } from 'react-native-reanimated';
 
 
 const windowHeight = Dimensions.get('screen').height;
@@ -133,8 +134,8 @@ export default function reportPendientes({ navigation }) {
                 }
             )
             const data = await response.json()
-            console.log(data)
             if (await data.length != 0) {
+                setLoading(false)
                 setFilterReport(data)
                 setReport(data)
             }else {
@@ -149,7 +150,7 @@ export default function reportPendientes({ navigation }) {
     const goDetalleProducto = (item) => {
         console.log(item)
         navigation.navigate('DetalleProducto', {
-            usuario: item
+            producto: item
         })
         //console.log(item)
         //setLoading2(true)
@@ -207,18 +208,18 @@ export default function reportPendientes({ navigation }) {
                                 loading ? (
                                     <View style={{ width: '100%', height: '90%', alignItems: 'center', justifyContent: 'center' }}>
                                         <ActivityIndicator size="small" color="#000" />
-                                        <Text style={{ color: 'gray', fontWeight: 'bold', fontSize: 15, marginBottom: 10, marginTop: 5 }}>Importando Datos...</Text>
+                                        <Text style={{ color: 'gray', fontWeight: 'bold', fontSize: 15, marginBottom: 10, marginTop: 5 }}>Cargando...</Text>
                                     </View>
                                 ) : (
                                     <View style={{ width: '100%', height: '90%', alignItems: 'center', justifyContent: 'center' }}>
                                         <Animatable.View animation="tada" easing="ease-out" iterationCount="infinite">
-                                            <MaterialCommunityIcons name="dump-truck" color='#000' size={80} />
+                                            <MaterialCommunityIcons name="reload" color='#000' size={80} />
                                         </Animatable.View>
 
-                                        <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡Sin Report Pendientes!</Text>
+                                        <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡Sin Conexion a internet!</Text>
                                         <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => getReports()}>
                                             <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'gray', }}>Puede intentar </Text>
-                                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'blue', }}>volver a Sincronizar. </Text>
+                                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'blue', }}>volver a Recargar. </Text>
                                         </TouchableOpacity>
                                     </View>
                                 )
