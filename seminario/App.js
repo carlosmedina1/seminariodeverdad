@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Button, Image, Touchable,Alert } from "react-native";
+import { StyleSheet, Text, View, Button, Image, Touchable, Alert } from "react-native";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import * as Animatable from 'react-native-animatable'
@@ -24,6 +24,7 @@ import {
   TouchableOpacity,
 } from "react-native-gesture-handler";
 import Login from './src/Login'
+import Registro from './src/Registro'
 import Buscar from './src/Buscar'
 import DetalleProducto from './src/detalleProducto'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 8,
     elevation: 10,
-},
+  },
   miniImg: {
     height: 50,
     width: 50,
@@ -189,36 +190,36 @@ const HomeScreen = ({ navigation }) => {
             <View style={{ marginLeft: 10 }}>
               <Image
                 style={styles.imgPersonas}
-                  source={require('./images/icono_celulares.png')}
+                source={require('./images/icono_celulares.png')}
               />
             </View>
             <View style={{ marginLeft: 10 }}>
               <Image
                 style={styles.imgPersonas}
                 source={require('./images/icono_electronica.png')}
-                />
+              />
             </View>
             <View style={{ marginLeft: 10 }}>
               <Image
                 style={styles.imgPersonas}
                 source={require('./images/icono_juegos.png')}
-                />
+              />
             </View>
             <View style={{ marginHorizontal: 10 }}>
               <Image
                 style={styles.imgPersonas}
                 source={require('./images/icono_libros.png')}
-                />
+              />
             </View>
             <View style={{ marginHorizontal: 10 }}>
               <Image
                 style={styles.imgPersonas}
                 source={require('./images/icono_otros.png')}
-                />
+              />
             </View>
-            
+
           </ScrollView>
-          
+
         </View>
         <View style={{ backgroundColor: "white", height: 300 }}>
           <View style={{ height: 30, alignContent: "center" }}>
@@ -323,6 +324,7 @@ const AmigosScreen = ({ navigation }) => {
 
 const MenuScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false)
+  const [esAdmin, setEsAdmin] = useState(false)
   const [logueado, setLogueado] = useState(false)
   const [user, setUser] = useState('')
 
@@ -332,35 +334,50 @@ const MenuScreen = ({ navigation }) => {
   }, [])
 
   const irInicioSesion = async () => {
-    navigation.navigate("Login")
+    navigation.replace("Login")
   }
 
   const irRegistro = async () => {
-    navigation.navigate("Buscar")
+    navigation.replace("Registro")
   }
   const _loadSession = async () => {
     try {
-        const session = await AsyncStorage.getItem('isLoged')
-        if (session) {
-            setLogueado(true)
-            const nombre = await AsyncStorage.getItem('user')
-            setUser(nombre)
+      const session = await AsyncStorage.getItem('isLoged')
+      if (session) {
+        setLogueado(true)
+        const nombre = await AsyncStorage.getItem('user')
+        const admin = await AsyncStorage.getItem('es_admin')
+        if (admin == 'true') {
+          setEsAdmin(true)
         } else {
-            setLogueado(false)
+          setEsAdmin(false)
         }
-        setLoading(false)
-    }catch (e) {
-        setVerificando(false)
-        console.error('Error al traer los datos para el inicio de sesión: ')
-        console.error(e)
+        setUser(nombre)
 
-        Alert.alert(
-            'Error al Iniciar Sesión',
-            'Hemos tenido un inconveniente recuperar los datos para el inicio de Sesión',
-            [{ text: 'Entendido', }]
-        )
+      } else {
+        setLogueado(false)
+      }
+      setLoading(false)
+    } catch (e) {
+      setVerificando(false)
+      console.error('Error al traer los datos para el inicio de sesión: ')
+      console.error(e)
+
+      Alert.alert(
+        'Error al Iniciar Sesión',
+        'Hemos tenido un inconveniente recuperar los datos para el inicio de Sesión',
+        [{ text: 'Entendido', }]
+      )
     }
-}
+  }
+
+  const cerrarSesion = async () => {
+    await AsyncStorage.removeItem('user')
+    await AsyncStorage.removeItem('isLoged')
+    await AsyncStorage.removeItem('id_user')
+    await AsyncStorage.removeItem('es_admin')
+    setLogueado(false)
+  }
   return (
 
     <ScrollView>
@@ -429,16 +446,32 @@ const MenuScreen = ({ navigation }) => {
                       </View>
                     </TouchableOpacity>
                   </View>
+                  {esAdmin ?
+                    (
+                      <View style={styles.menuCards}>
+                        <TouchableOpacity>
+                          <View style={styles.btnCards}>
+                            <MaterialIcons
+                              name={"report"}
+                              size={28}
+                              color={"red"}
+                            />
+                            <Text>Revisar Reportes</Text>
+                          </View>
+                        </TouchableOpacity>
+                      </View>
+                    ) : null}
+
 
                   <View style={styles.menuCards}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate("Amigos")}>
                       <View style={styles.btnCards}>
-                        <MaterialIcons
-                          name={"report"}
+                        <MaterialCommunityIcons
+                          name={"plus-circle-outline"}
                           size={28}
-                          color={"red"}
+                          color={"green"}
                         />
-                        <Text>Revisar Reportes</Text>
+                        <Text>Añadir Productos</Text>
                       </View>
                     </TouchableOpacity>
                   </View>
@@ -458,20 +491,36 @@ const MenuScreen = ({ navigation }) => {
                   <View style={styles.menuCards}>
                     <TouchableOpacity>
                       <View style={styles.btnCards}>
-                        <Entypo name={"log-out"} size={28} color={"purple"} />
-                        <Text>Cerrar Sesion</Text>
+                        <Entypo name={"thumbs-up"} size={28} color={"blue"} />
+                        <Text>Mis Likes</Text>
                       </View>
                     </TouchableOpacity>
                   </View>
+
+
+
+                  {esAdmin ?
+                    (
+                      <View style={styles.menuCards}>
+                        <TouchableOpacity onPress={() => navigation.navigate("Amigos")}>
+                          <View style={styles.btnCards}>
+                            <MaterialCommunityIcons
+                              name={"dropbox"}
+                              size={23}
+                              color={"red"}
+                            />
+                            <Text>Productos eliminados</Text>
+                          </View>
+                        </TouchableOpacity>
+                      </View>
+                    ) : null}
+
+
                   <View style={styles.menuCards}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Amigos")}>
+                    <TouchableOpacity onPress={() => cerrarSesion()}>
                       <View style={styles.btnCards}>
-                        <MaterialCommunityIcons
-                          name={"dropbox"}
-                          size={23}
-                          color={"red"}
-                        />
-                        <Text>Productos eliminados</Text>
+                        <Entypo name={"log-out"} size={28} color={"purple"} />
+                        <Text>Cerrar Sesion</Text>
                       </View>
                     </TouchableOpacity>
                   </View>
@@ -498,7 +547,7 @@ const MenuScreen = ({ navigation }) => {
                 <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 18, marginLeft: 10 }}>Iniciar Sesion</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={{ flexDirection: 'row', backgroundColor: '#000', alignItems: 'center', justifyContent: 'center',marginTop: 20, width: 200, height: 50, borderRadius: 10, }}
+                style={{ flexDirection: 'row', backgroundColor: '#000', alignItems: 'center', justifyContent: 'center', marginTop: 20, width: 200, height: 50, borderRadius: 10, }}
                 onPress={() => irRegistro()}>
                 <MaterialIcons name="badge" color='#fff' size={20} />
                 <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 18, marginLeft: 10 }}>Registrarse</Text>
@@ -598,6 +647,15 @@ const RootStack = createStackNavigator(
       screen: Login,
       navigationOptions: {
         title: 'Ingresar',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    Registro: {
+      screen: Registro,
+      navigationOptions: {
+        title: 'Registro',
         headerTintColor: '#fff',
         headerShown: false,
         headerBackTitleVisible: false,

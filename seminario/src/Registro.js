@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, View, Image, StatusBar, TouchableOpacity, Alert } from 'react-native';
-
+import {
+    ScrollView,
+} from "react-native-gesture-handler";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import FeatherIcon from 'react-native-vector-icons/Feather'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Route from '../hooks/routes'
 import Message from '../components/message'
-
+import {
+    MaterialCommunityIcons,
+} from "@expo/vector-icons";
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -26,7 +30,7 @@ const styles = StyleSheet.create({
         elevation: 10,
     },
     header: {
-        flex: 4,
+        flex: 2,
         backgroundColor: '#000',
         alignItems: 'center',
         justifyContent: 'center',
@@ -89,9 +93,9 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function Login({ navigation }) {
+export default function Registro({ navigation }) {
     const [user, setUser] = useState('')
-    const [pass, setPass] = useState('1010')
+    const [pass, setPass] = useState('')
     const [text, setText] = useState('')
 
     const [logining, setLogining] = useState(false)
@@ -151,11 +155,11 @@ export default function Login({ navigation }) {
         )
         const data = await response.json()
         await AsyncStorage.setItem('id_user', JSON.stringify(await data[0].id_usuario))
-        
-        _storeSession(JSON.stringify(await data[0].nombre_usuario),JSON.stringify(await data[0].es_admin))
+
+        _storeSession(JSON.stringify(await data[0].nombre_usuario), JSON.stringify(await data[0].es_admin))
 
     }
-    const _storeSession = async (nombrex,es_admin) => {
+    const _storeSession = async (nombrex, es_admin) => {
         try {
             await AsyncStorage.setItem('isLoged', 'true')
             await AsyncStorage.setItem('user', nombrex)
@@ -218,10 +222,10 @@ export default function Login({ navigation }) {
                         <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.replace('MercadoUCM')}>
                             <MaterialIcons name="arrow-back" color="#000" size={20} style={{ alignSelf: 'center' }} />
                         </TouchableOpacity>
-                        <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000'}}>Login</Text>
+                        <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000' }}>Registro</Text>
                     </View>
                 </View>
-                
+
                 <View style={styles.header}>
                     <Image source={require('./image/loginBackground2.jpeg')} style={styles.image} />
                     <Text style={styles.title}>Mercado UCM</Text>
@@ -229,26 +233,48 @@ export default function Login({ navigation }) {
 
                 <View style={styles.body}>
                     <View style={{ marginTop: 20 }}>
-                        <Text style={{ fontWeight: 'bold', fontSize: 25, color: '#000' }}>Iniciar Sesión</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 25, color: '#000' }}>Registro</Text>
                     </View>
+                    <ScrollView>
+                        <View style={{ alignItems: 'center', width: '100%' }}>
+                            <View style={styles.action}>
+                                <FeatherIcon color="gray" name="user" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
+                                <TextInput placeholder="Nombre(*)" style={{ marginBottom: 10, width: '100%' }} onChangeText={(text) => setUser(text)} />
+                            </View>
 
-                    <View style={styles.action}>
-                        <FeatherIcon color="gray" name="user" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                        <TextInput placeholder="Correo electronico" style={{ marginBottom: 10, width: '100%' }} onChangeText={(text) => setUser(text)} >ABC@GMAIL.COM</TextInput>
-                    </View>
-
-                    <View style={styles.action}>
-                        <FeatherIcon color="gray" name="unlock" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                        <TextInput secureTextEntry={true} placeholder="Contraseña" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass) => setPass(pass)} >1010</TextInput>
-                    </View>
-
+                            <View style={styles.action}>
+                                <FeatherIcon color="gray" name="unlock" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
+                                <TextInput secureTextEntry={true} placeholder="Contraseña(*)" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass) => setPass(pass)} />
+                            </View>
+                            <View style={styles.action}>
+                                <FeatherIcon color="gray" name="mail" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
+                                <TextInput secureTextEntry={true} placeholder="Correo electronico(*)" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass) => setPass(pass)} />
+                            </View>
+                            <View style={styles.action}>
+                                <FeatherIcon color="gray" name="smartphone" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
+                                <TextInput secureTextEntry={true} placeholder="Numero Telefono" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass) => setPass(pass)} />
+                            </View>
+                            <View style={styles.action}>
+                                <FeatherIcon color="gray" name="facebook" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
+                                <TextInput secureTextEntry={true} placeholder="Facebook" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass) => setPass(pass)} />
+                            </View>
+                            <View style={styles.action}>
+                                <FeatherIcon color="gray" name="instagram" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
+                                <TextInput secureTextEntry={true} placeholder="Instagram" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass) => setPass(pass)} />
+                            </View>
+                            <View style={styles.action}>
+                                <MaterialCommunityIcons color="gray" name="whatsapp" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
+                                <TextInput secureTextEntry={true} placeholder="Whatsapp" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass) => setPass(pass)} />
+                            </View>
+                        </View>
+                    </ScrollView>
                     <View style={styles.ingresarContainer}>
                         {
                             logining ? (
                                 <Text style={{ fontWeight: 'bold', fontSize: 20, color: 'gray' }}>Ingresando...</Text>
                             ) : (
                                 <TouchableOpacity style={styles.btnIngresar} onPress={() => handleLogin()}>
-                                    <Text style={{ fontWeight: 'bold', fontSize: 20, color: '#fff' }}>Ingresar</Text>
+                                    <Text style={{ fontWeight: 'bold', fontSize: 20, color: '#fff' }}>Registrarse</Text>
                                 </TouchableOpacity>
                             )
                         }
