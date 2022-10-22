@@ -26,6 +26,7 @@ import {
 import Login from './src/Login'
 import Registro from './src/Registro'
 import Buscar from './src/Buscar'
+import Productos_propios from './src/Productos_propios'
 import DetalleProducto from './src/detalleProducto'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -423,7 +424,7 @@ const MenuScreen = ({ navigation }) => {
 
                 <View style={{ width: "50%", flexDirection: "column", marginTop: 10 }}>
                   <View style={styles.menuCards}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Amigos")}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Productos_propios")}>
                       <View style={styles.btnCards}>
                         <MaterialCommunityIcons
                           name={"dropbox"}
@@ -665,6 +666,15 @@ const RootStack = createStackNavigator(
       screen: Buscar,
       navigationOptions: {
         title: 'Ingresar',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    Productos_propios: {
+      screen: Productos_propios,
+      navigationOptions: {
+        title: 'Productos_propios',
         headerTintColor: '#fff',
         headerShown: false,
         headerBackTitleVisible: false,

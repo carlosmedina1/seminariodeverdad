@@ -40,6 +40,16 @@ const busquedaProductos = async (req, res) => {
         res.json(err)
     }
 }
+const busquedaProductosUsuario = async (req, res) => {
+    const { id_user } = req.body
+    try {
+        const response = await pool.query('select * from producto where id_usuario=$1',[id_user]);
+        res.json(response.rows)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
 const obtenerIdUsuario = async (req, res) => {
     const { nu } = req.body
     try{
@@ -55,4 +65,5 @@ module.exports = {
     login,
     obtenerIdUsuario,
     registro,
+    busquedaProductosUsuario,
 }

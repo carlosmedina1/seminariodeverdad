@@ -246,7 +246,7 @@ export default function Registro({ navigation }) {
                                 <TextInput placeholder="Correo electronico(*)" maxLength={50} style={{ marginBottom: 10, width: '100%' }} onChangeText={(correo) => setCorreo(correo)} />
                             </View>
                             <View style={styles.action}>
-                                <FeatherIcon color="gray" name="smartphone" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
+                                <FeatherIcon color="gray" name="smartphone" size={20 } style={{ marginBottom: 10, marginRight: 10 }} />
                                 <TextInput placeholder="Numero Telefono" maxLength={30} style={{ marginBottom: 10, width: '100%' }} onChangeText={(numero) => setNumero(numero)} />
                             </View>
                             <View style={styles.action}>
