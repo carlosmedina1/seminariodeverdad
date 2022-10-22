@@ -20,7 +20,17 @@ const login = async (req, res) => {
         res.json(err)
     }
 }
-
+const registro = async (req, res) => {
+    const {user, pass, correo,numero ,facebook ,instagram ,whatsapp  } = req.body
+    console.log(user, pass, correo,numero ,facebook ,instagram ,whatsapp )
+    try {
+        const response = await pool.query('select registro($1, $2, $3, $4, $5, $6, $7)', [user, pass,correo,numero,facebook,instagram,whatsapp])
+        res.json(response.rows)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
 const busquedaProductos = async (req, res) => {
     try {
         const response = await pool.query('select * from producto');
@@ -30,7 +40,7 @@ const busquedaProductos = async (req, res) => {
         res.json(err)
     }
 }
-const obtenerIdSupervisor = async (req, res) => {
+const obtenerIdUsuario = async (req, res) => {
     const { nu } = req.body
     try{
         const response = await pool.query('select * from usuario where correo_electronico = $1;', [nu])
@@ -43,5 +53,6 @@ const obtenerIdSupervisor = async (req, res) => {
 module.exports = {
     busquedaProductos,
     login,
-    obtenerIdSupervisor,
+    obtenerIdUsuario,
+    registro,
 }

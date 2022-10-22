@@ -96,6 +96,12 @@ const styles = StyleSheet.create({
 export default function Registro({ navigation }) {
     const [user, setUser] = useState('')
     const [pass, setPass] = useState('')
+    const [pass2, setPass2] = useState('')
+    const [correo, setCorreo] = useState('')
+    const [numero, setNumero] = useState('')
+    const [facebook, setFacebook] = useState('')
+    const [instagram, setInstagram] = useState('')
+    const [whatsapp, setWhatsapp] = useState('')
     const [text, setText] = useState('')
 
     const [logining, setLogining] = useState(false)
@@ -104,43 +110,53 @@ export default function Registro({ navigation }) {
 
     const handleLogin = async () => {
         setLogining(true)
-        if (user !== '' && pass !== '') {
-            const json = JSON.stringify({ user: user, pass: pass })
-            await fetch(Route + 'login',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: json
-                })
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log(data)
-                    if (data[0].login == 3) {
-                        setText('Nombre de usuario incorrecto')
-                        setMessage(true)
-                        setLogining(false)
-                    }
-                    else if (data[0].login == 2) {
-                        setText('Contraseña incorrecta')
-                        setMessage(true)
-                        setLogining(false)
-                    }
-                    else if (data[0].login == 1) {
-                        obtenerid(user)
-                    }
-                })
-                .catch((error) => {
-                    console.error(error)
+        console.log(validateEmail(correo))
+        if (user !== '' && pass !== '' && pass2 !== '' && correo !== '') {
+            if (pass == pass2) {
+                if(validateEmail(correo)){
+                    const json = JSON.stringify({ user: user, pass: pass, correo: correo, numero: numero, facebook: facebook, instagram: instagram, whatsapp: whatsapp })
+                    await fetch(Route + 'registro',
+                        {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: json
+                        })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            if (data[0].registro == 0) {
+                                setText('El correo ya esta ingresado')
+                                setMessage(true)
+                                setLogining(false)
+                            } else {
+                                obtenerid(correo)
+                            }
+                        })
+                        .catch((error) => {
+                            console.error(error)
+                            setLogining(false)
+                        })
+                }else{
                     setLogining(false)
-                })
-        }
-        else {
+                    setText('Correo invalido')
+                    setMessage(true)
+                }
+                
+            } else {
+                setLogining(false)
+                setText('Las contraseñas no coinciden')
+                setMessage(true)
+            }
+        } else {
             setLogining(false)
-            setText('Debe ingresar todos los datos solicitados')
+            setText('Debe ingresar todos los datos obligatorios(*)')
             setMessage(true)
         }
+    }
+    function validateEmail(email) {
+        var re = /\S+@\S+\.\S+/;
+        return re.test(email);
     }
     const obtenerid = async (user) => {
         const json = JSON.stringify({ nu: user })
@@ -176,30 +192,6 @@ export default function Registro({ navigation }) {
                 [{ text: 'Entendido', }]
             )
             setLogining(false)
-        }
-    }
-
-    const _loadSession = async () => {
-        try {
-            const session = await AsyncStorage.getItem('isLoged')
-            if (session) {
-                navigation.replace('Sync')
-            }
-            else {
-                console.log('sin sesión iniciada')
-                setVerificando(false)
-            }
-        }
-        catch (e) {
-            setVerificando(false)
-            console.error('Error al traer los datos para el inicio de sesión: ')
-            console.error(e)
-
-            Alert.alert(
-                'Error al Iniciar Sesión',
-                'Hemos tenido un inconveniente recuperar los datos para el inicio de Sesión',
-                [{ text: 'Entendido', }]
-            )
         }
     }
     useEffect(() => {
@@ -239,32 +231,35 @@ export default function Registro({ navigation }) {
                         <View style={{ alignItems: 'center', width: '100%' }}>
                             <View style={styles.action}>
                                 <FeatherIcon color="gray" name="user" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                                <TextInput placeholder="Nombre(*)" style={{ marginBottom: 10, width: '100%' }} onChangeText={(text) => setUser(text)} />
+                                <TextInput placeholder="Nombre(*)" maxLength={25} style={{ marginBottom: 10, width: '100%' }} onChangeText={(text) => setUser(text)} />
                             </View>
-
                             <View style={styles.action}>
                                 <FeatherIcon color="gray" name="unlock" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                                <TextInput secureTextEntry={true} placeholder="Contraseña(*)" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass) => setPass(pass)} />
+                                <TextInput secureTextEntry={true} maxLength={20} placeholder="Contraseña(*)" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass) => setPass(pass)} />
+                            </View>
+                            <View style={styles.action}>
+                                <FeatherIcon color="gray" name="unlock" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
+                                <TextInput secureTextEntry={true} maxLength={20} placeholder="Contraseña Nuevamente(*)" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass2) => setPass2(pass2)} />
                             </View>
                             <View style={styles.action}>
                                 <FeatherIcon color="gray" name="mail" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                                <TextInput secureTextEntry={true} placeholder="Correo electronico(*)" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass) => setPass(pass)} />
+                                <TextInput placeholder="Correo electronico(*)" maxLength={50} style={{ marginBottom: 10, width: '100%' }} onChangeText={(correo) => setCorreo(correo)} />
                             </View>
                             <View style={styles.action}>
                                 <FeatherIcon color="gray" name="smartphone" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                                <TextInput secureTextEntry={true} placeholder="Numero Telefono" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass) => setPass(pass)} />
+                                <TextInput placeholder="Numero Telefono" maxLength={30} style={{ marginBottom: 10, width: '100%' }} onChangeText={(numero) => setNumero(numero)} />
                             </View>
                             <View style={styles.action}>
                                 <FeatherIcon color="gray" name="facebook" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                                <TextInput secureTextEntry={true} placeholder="Facebook" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass) => setPass(pass)} />
+                                <TextInput placeholder="Facebook" maxLength={40} style={{ marginBottom: 10, width: '100%' }} onChangeText={(facebook) => setFacebook(facebook)} />
                             </View>
                             <View style={styles.action}>
                                 <FeatherIcon color="gray" name="instagram" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                                <TextInput secureTextEntry={true} placeholder="Instagram" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass) => setPass(pass)} />
+                                <TextInput placeholder="Instagram" maxLength={40} style={{ marginBottom: 10, width: '100%' }} onChangeText={(instagram) => setInstagram(instagram)} />
                             </View>
                             <View style={styles.action}>
                                 <MaterialCommunityIcons color="gray" name="whatsapp" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                                <TextInput secureTextEntry={true} placeholder="Whatsapp" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass) => setPass(pass)} />
+                                <TextInput placeholder="Whatsapp" maxLength={40} style={{ marginBottom: 10, width: '100%' }} onChangeText={(whatsapp) => setWhatsapp(whatsapp)} />
                             </View>
                         </View>
                     </ScrollView>
