@@ -140,8 +140,8 @@ const styles = StyleSheet.create({
     },
 })
 
-export default function detalleProducto({ navigation }) {
-    const producto = navigation.getParam('producto', '0')
+export default function detalleComentario({ navigation }) {
+    const comentario = navigation.getParam('comentario', '0')
     const [text, setText] = useState('')
     const [message, setMessage] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -156,11 +156,11 @@ export default function detalleProducto({ navigation }) {
                 setLikeado(false)
                 setLoading(false)
                 setMessage(true)
-                setText('¡Tienes que iniciar Sesion para dar likes a los Productos!')
+                setText('¡Tienes que iniciar Sesion para dar likes a los Comentarios!')
             }else{
                 
-                const json = JSON.stringify({ id_usuario : id_user ,id_producto: producto.id_producto })
-                await fetch(Route + 'verificar_likes',
+                const json = JSON.stringify({ id_usuario : id_user ,id_comentario: comentario.id_comentarios_producto })
+                await fetch(Route + 'verificarLikesComentarios',
                 {
                     method: 'POST',
                     headers: {
@@ -170,15 +170,15 @@ export default function detalleProducto({ navigation }) {
                 })
                 .then((response) => response.json())
                 .then((data) => {
-                    if (data[0].verificar_likes == 3) {
+                    if (data[0].verificar_likes_comentarios == 3) {
                         setLikeado(true)
                         setLoading(false)
                     }
-                    else if (data[0].verificar_likes == 2) {
+                    else if (data[0].verificar_likes_comentarios == 2) {
                         setLikeado(false)
                         setLoading(false)
                     }
-                    else if (data[0].verificar_likes == 1) {
+                    else if (data[0].verificar_likes_comentarios == 1) {
                         setLikeado(true)
                         setLoading(false)
                     }
@@ -206,8 +206,8 @@ export default function detalleProducto({ navigation }) {
                 setLikeado(false)
                 setLoading(false)
             }else{
-                const json = JSON.stringify({ id_usuario : id_user ,id_producto: producto.id_producto })
-                await fetch(Route + 'like_al_entrar',
+                const json = JSON.stringify({ id_usuario : id_user, id_comentario: comentario.id_comentarios_producto})
+                await fetch(Route + 'likeAlEntrarComentario',
                 {
                     method: 'POST',
                     headers: {
@@ -217,7 +217,6 @@ export default function detalleProducto({ navigation }) {
                 })
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data)
                     if (data[0].tiene >0) {
                         setLikeado(true)
                         setLoading(false)
@@ -242,8 +241,8 @@ export default function detalleProducto({ navigation }) {
     }
     const obtenerLikes = async () => {
         try {
-            const json = JSON.stringify({id_producto: producto.id_producto })
-            await fetch(Route + 'likesProducto',
+            const json = JSON.stringify({id_comentarios_productos: comentario.id_comentarios_producto })
+            await fetch(Route + 'likesComentario',
             {
                 method: 'POST',
                 headers: {
@@ -272,14 +271,8 @@ export default function detalleProducto({ navigation }) {
                 setMessage(true)
                 setText('¡Tienes que iniciar Sesion para reportar un Producto!')
             }else{
-                navigation.navigate("Reportar", { producto: producto })
+                navigation.navigate("ReportarComentario", { comentario: comentario })
             }
-    }
-    const contactosUsuario = async () =>{
-        navigation.navigate("Contactos", { id_usuario: producto.id_usuario })
-    }
-    const comentarProducto = async () =>{
-        navigation.navigate("Comentarios", {  producto: producto  })
     }
     useEffect(() => {
         obtenerLikes()
@@ -297,7 +290,7 @@ export default function detalleProducto({ navigation }) {
                                 <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.pop(2)}>
                                     <MaterialIcons name="arrow-back" color="#000" size={20} style={{ alignSelf: 'center' }} />
                                 </TouchableOpacity>
-                                <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000', }}>{producto.nombre_producto}</Text>
+                                <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000', }}>{comentario.nombre_producto}</Text>
                             </View>
 
                             <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 10, }}>Información General:</Text>
@@ -311,7 +304,7 @@ export default function detalleProducto({ navigation }) {
 
                                         <View style={{ marginBottom: 10, flexDirection: 'row', alignItems: 'center' }}>
                                             <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#000' }}>Usuario: </Text>
-                                            <Text style={{ fontSize: 14, }}>{producto.nombre_usuario}</Text>
+                                            <Text style={{ fontSize: 14, }}>{comentario.nombre_usuario}</Text>
                                         </View>
                                     </View>
                                     <View style={{ flexDirection: 'column', width: '10%', marginTop: 10 }}>
@@ -326,68 +319,11 @@ export default function detalleProducto({ navigation }) {
                                     </View>
                                 </View>
                             </View>
-                            <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 10, }}>Imagenes: </Text>
+                            <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 10, }}>Comentario: </Text>
                             <View style={styles.itemContainer}>
                                 <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 5, }}>
-                                    <ScrollView horizontal={true} flexDirection="row">
-                                        <View style={{ marginLeft: 10 }}>
-                                            <Image
-                                                style={styles.imgPersonas}
-                                                source={{ uri: "http://placekitten.com/100/200" }}
-                                            />
-                                        </View>
-                                        <View style={{ marginLeft: 10 }}>
-                                            <Image
-                                                style={styles.imgPersonas}
-                                                source={{ uri: "http://placekitten.com/100/200" }}
-                                            />
-                                        </View>
-                                        <View style={{ marginLeft: 10 }}>
-                                            <Image
-                                                style={styles.imgPersonas}
-                                                source={{ uri: "http://placekitten.com/100/200" }}
-                                            />
-                                        </View>
-                                        <View style={{ marginLeft: 10 }}>
-                                            <Image
-                                                style={styles.imgPersonas}
-                                                source={{ uri: "http://placekitten.com/100/200" }}
-                                            />
-                                        </View>
-                                        <View style={{ marginHorizontal: 10 }}>
-                                            <Image
-                                                style={styles.imgPersonas}
-                                                source={{ uri: "http://placekitten.com/100/200" }}
-                                            />
-                                        </View>
-                                    </ScrollView>
+                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginLeft: 10 }}>{comentario.comentario}</Text>
                                 </View>
-                            </View>
-                            <View style={styles.itemContainer}>
-                                <TouchableOpacity onPress={() => contactosUsuario()}>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop: 10 }}>
-                                        <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-                                            <MaterialIcons name='accessibility' color='green' size={30} />
-                                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginLeft: 10 }}>Contactos y Redes</Text>
-                                        </View>
-                                        <View style={{ flex: 1, }}>
-                                            <MaterialIcons name='keyboard-arrow-right' color='lightgray' size={30} />
-                                        </View>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.itemContainer}>
-                                <TouchableOpacity onPress={() => comentarProducto()}>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop: 10 }}>
-                                        <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-                                            <MaterialIcons name='chat-bubble' color='blue' size={30} />
-                                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginLeft: 10 }}>Comentarios</Text>
-                                        </View>
-                                        <View style={{ flex: 1, }}>
-                                            <MaterialIcons name='keyboard-arrow-right' color='lightgray' size={30} />
-                                        </View>
-                                    </View>
-                                </TouchableOpacity>
                             </View>
                             <View style={styles.itemContainer}>
                                 <TouchableOpacity onPress={() => reportarProducto()}>

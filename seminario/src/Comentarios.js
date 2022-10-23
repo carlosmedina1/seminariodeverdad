@@ -184,7 +184,7 @@ export default function Productos_propios({ navigation }) {
         }
     }
     const goDetalleComentario = (item) => {
-        navigation.navigate('detalleComentario', {
+        navigation.navigate('DetalleComentario', {
             comentario: item
         })
     }

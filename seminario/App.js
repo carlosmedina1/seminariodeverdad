@@ -33,6 +33,7 @@ import Contactos from './src/Contactos'
 import Productos_propios from './src/Productos_propios'
 import Productos_subcategorias from './src/Productos_subcategorias'
 import DetalleProducto from './src/detalleProducto'
+import DetalleComentario from './src/detalleComentario'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const styles = StyleSheet.create({
@@ -742,6 +743,16 @@ const RootStack = createStackNavigator(
 
       navigationOptions: {
         title: 'Comentarios',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    DetalleComentario: {
+      screen: DetalleComentario,
+
+      navigationOptions: {
+        title: 'DetalleComentario',
         headerTintColor: '#fff',
         headerShown: false,
         headerBackTitleVisible: false,

@@ -11,7 +11,6 @@ const pool = new Pool(dataConnection);
 
 const login = async (req, res) => {
     const { user, pass } = req.body
-    console.log(user+"-"+pass)
     try {
         const response = await pool.query('select login($1, $2)', [user, pass]);
         res.json(response.rows)
@@ -31,10 +30,19 @@ const verificar_likes = async (req, res) => {
         res.json(err)
     }
 }
+const verificar_likes_comentarios = async (req, res) => {
+    const { id_usuario, id_comentario } = req.body
+    try {
+        const response = await pool.query('select verificar_likes_comentarios($1, $2)', [id_usuario, id_comentario]);
+        res.json(response.rows)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
 const guardarComentario = async (req, res) => {
     const {id_usuario, id_producto,comentario} = req.body
     try {
-        console.log(id_usuario,id_producto,comentario)
         const response = await pool.query('insert into comentarios_producto (id_usuario,id_producto,comentario) values ($1,$2,$3)', [id_usuario, id_producto,comentario]);
         res.json(1)
     }
@@ -46,6 +54,16 @@ const likesProducto = async (req, res) => {
     const {  id_producto } = req.body
     try {
         const response = await pool.query('select likes from producto where id_producto = $1', [id_producto]);
+        res.json(response.rows)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
+const likesComentario = async (req, res) => {
+    const {  id_comentarios_productos } = req.body
+    try {
+        const response = await pool.query('select likes from comentarios_producto where id_comentarios_producto = $1', [id_comentarios_productos]);
         res.json(response.rows)
     }
     catch (err) {
@@ -66,7 +84,7 @@ const getContactos = async (req, res) => {
 const getComentarios = async (req, res) => {
     const { id_producto } = req.body
     try {
-        const response = await pool.query('select c.*,u.nombre_usuario from comentarios_producto c join usuario u on u.id_usuario=c.id_usuario where c.vigente=true and c.bloqueado=false and c.id_producto = $1', [id_producto]);
+        const response = await pool.query('select c.*,u.nombre_usuario,p.nombre_producto from comentarios_producto c join usuario u on u.id_usuario=c.id_usuario join producto p on p.id_producto=c.id_producto where c.vigente=true and c.bloqueado=false and c.id_producto = $1 order by c.likes desc', [id_producto]);
         res.json(response.rows)
     }
     catch (err) {
@@ -76,8 +94,19 @@ const getComentarios = async (req, res) => {
 const like_al_entrar = async (req, res) => {
     const { id_usuario, id_producto } = req.body
     try {
-        console.log(id_usuario, id_producto)
         const response = await pool.query('select count(id_detalle_likes) as tiene from detalle_likes where id_usuario = $1	and id_producto= $2 and vigente=true;', [id_usuario, id_producto]);
+        res.json(response.rows)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
+const like_al_entrar_comentario = async (req, res) => {
+    const { id_usuario, id_comentario } = req.body
+    console.log(id_usuario, id_comentario )
+    try {
+        const response = await pool.query('select count(id_detalle_likes_comentario) as tiene from detalle_likes_comentario where id_usuario = $1	and id_comentario= $2 and vigente=true;', [id_usuario, id_comentario]);
+        console.log(response.rows)
         res.json(response.rows)
     }
     catch (err) {
@@ -86,7 +115,6 @@ const like_al_entrar = async (req, res) => {
 }
 const registro = async (req, res) => {
     const {user, pass, correo,numero ,facebook ,instagram ,whatsapp  } = req.body
-    console.log(user, pass, correo,numero ,facebook ,instagram ,whatsapp )
     try {
         const response = await pool.query('select registro($1, $2, $3, $4, $5, $6, $7)', [user, pass,correo,numero,facebook,instagram,whatsapp])
         res.json(response.rows)
@@ -158,4 +186,7 @@ module.exports = {
     getContactos,
     getComentarios,
     guardarComentario,
+    verificar_likes_comentarios,
+    like_al_entrar_comentario,
+    likesComentario,
 }
