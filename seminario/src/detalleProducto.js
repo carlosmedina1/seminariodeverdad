@@ -248,6 +248,7 @@ export default function detalleProducto({ navigation }) {
             setLikes(0)
         }
     }
+    
     const reportarProducto = async () =>{
 
     }
