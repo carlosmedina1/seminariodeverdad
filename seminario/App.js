@@ -27,6 +27,9 @@ import Login from './src/Login'
 import Registro from './src/Registro'
 import Buscar from './src/Buscar'
 import Categoria from './src/Categoria'
+import Comentarios from './src/Comentarios'
+import Reportar from './src/Reportar'
+import Contactos from './src/Contactos'
 import Productos_propios from './src/Productos_propios'
 import Productos_subcategorias from './src/Productos_subcategorias'
 import DetalleProducto from './src/detalleProducto'
@@ -719,6 +722,36 @@ const RootStack = createStackNavigator(
 
       navigationOptions: {
         title: 'Categoria',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    Reportar: {
+      screen: Reportar,
+
+      navigationOptions: {
+        title: 'Reportar',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    Comentarios: {
+      screen: Comentarios,
+
+      navigationOptions: {
+        title: 'Comentarios',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    Contactos: {
+      screen: Contactos,
+
+      navigationOptions: {
+        title: 'Contactos',
         headerTintColor: '#fff',
         headerShown: false,
         headerBackTitleVisible: false,

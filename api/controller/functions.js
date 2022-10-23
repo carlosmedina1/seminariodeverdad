@@ -31,6 +31,17 @@ const verificar_likes = async (req, res) => {
         res.json(err)
     }
 }
+const guardarComentario = async (req, res) => {
+    const {id_usuario, id_producto,comentario} = req.body
+    try {
+        console.log(id_usuario,id_producto,comentario)
+        const response = await pool.query('insert into comentarios_producto (id_usuario,id_producto,comentario) values ($1,$2,$3)', [id_usuario, id_producto,comentario]);
+        res.json(1)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
 const likesProducto = async (req, res) => {
     const {  id_producto } = req.body
     try {
@@ -42,6 +53,26 @@ const likesProducto = async (req, res) => {
     }
 }
 
+const getContactos = async (req, res) => {
+    const {  id_usuario } = req.body
+    try {
+        const response = await pool.query('select numero_telefono,facebook,instagram,whatsapp from usuario where id_usuario = $1', [id_usuario]);
+        res.json(response.rows)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
+const getComentarios = async (req, res) => {
+    const { id_producto } = req.body
+    try {
+        const response = await pool.query('select c.*,u.nombre_usuario from comentarios_producto c join usuario u on u.id_usuario=c.id_usuario where c.vigente=true and c.bloqueado=false and c.id_producto = $1', [id_producto]);
+        res.json(response.rows)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
 const like_al_entrar = async (req, res) => {
     const { id_usuario, id_producto } = req.body
     try {
@@ -124,4 +155,7 @@ module.exports = {
     verificar_likes,
     like_al_entrar,
     likesProducto,
+    getContactos,
+    getComentarios,
+    guardarComentario,
 }
