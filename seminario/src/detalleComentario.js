@@ -146,68 +146,104 @@ export default function detalleComentario({ navigation }) {
     const [message, setMessage] = useState(false)
     const [loading, setLoading] = useState(false)
     const [likeado, setLikeado] = useState(false)
+    const [esPropio, setEsPropio] = useState(false)
     const [likes, setLikes] = useState(0)
 
     const verificar_likes = async () => {
         try {
             setLoading(true)
             const id_user = await AsyncStorage.getItem('id_user')
-            if(id_user==null){
+            if (id_user == null) {
                 setLikeado(false)
                 setLoading(false)
                 setMessage(true)
                 setText('¡Tienes que iniciar Sesion para dar likes a los Comentarios!')
-            }else{
-                
-                const json = JSON.stringify({ id_usuario : id_user ,id_comentario: comentario.id_comentarios_producto })
+            } else {
+
+                const json = JSON.stringify({ id_usuario: id_user, id_comentario: comentario.id_comentarios_producto })
                 await fetch(Route + 'verificarLikesComentarios',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: json
-                })
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data[0].verificar_likes_comentarios == 3) {
-                        setLikeado(true)
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: json
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data[0].verificar_likes_comentarios == 3) {
+                            setLikeado(true)
+                            setLoading(false)
+                        }
+                        else if (data[0].verificar_likes_comentarios == 2) {
+                            setLikeado(false)
+                            setLoading(false)
+                        }
+                        else if (data[0].verificar_likes_comentarios == 1) {
+                            setLikeado(true)
+                            setLoading(false)
+                        }
+                        obtenerLikes()
+                    })
+                    .catch((error) => {
+                        console.log(error)
                         setLoading(false)
-                    }
-                    else if (data[0].verificar_likes_comentarios == 2) {
                         setLikeado(false)
-                        setLoading(false)
-                    }
-                    else if (data[0].verificar_likes_comentarios == 1) {
-                        setLikeado(true)
-                        setLoading(false)
-                    }
-                    obtenerLikes()
-                })
-                .catch((error) => {
-                    console.log(error)
-                    setLoading(false)
-                    setLikeado(false)
-                })
+                    })
             }
-            
+
         }
         catch (e) {
             console.log(e)
-                setLoading(false)
-                setLikeado(false)
+            setLoading(false)
+            setLikeado(false)
         }
     }
     const like_al_entrar = async () => {
         try {
             setLoading(true)
             const id_user = await AsyncStorage.getItem('id_user')
-            if(id_user==null){
+            if (id_user == null) {
                 setLikeado(false)
                 setLoading(false)
-            }else{
-                const json = JSON.stringify({ id_usuario : id_user, id_comentario: comentario.id_comentarios_producto})
+            } else {
+                const json = JSON.stringify({ id_usuario: id_user, id_comentario: comentario.id_comentarios_producto })
                 await fetch(Route + 'likeAlEntrarComentario',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: json
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data[0].tiene > 0) {
+                            setLikeado(true)
+                            setLoading(false)
+                        } else {
+                            setLikeado(false)
+                            setLoading(false)
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        setLoading(false)
+                        setLikeado(false)
+                    })
+            }
+
+        }
+        catch (e) {
+            console.log(e)
+            setLoading(false)
+            setLikeado(false)
+        }
+    }
+    const obtenerLikes = async () => {
+        try {
+            const json = JSON.stringify({ id_comentarios_productos: comentario.id_comentarios_producto })
+            await fetch(Route + 'likesComentario',
                 {
                     method: 'POST',
                     headers: {
@@ -217,64 +253,61 @@ export default function detalleComentario({ navigation }) {
                 })
                 .then((response) => response.json())
                 .then((data) => {
-                    if (data[0].tiene >0) {
-                        setLikeado(true)
-                        setLoading(false)
-                    } else {
-                        setLikeado(false)
-                        setLoading(false)
-                    } 
+                    setLikes(data[0].likes)
                 })
                 .catch((error) => {
                     console.log(error)
-                    setLoading(false)
-                    setLikeado(false)
+                    setLikes(0)
                 })
-            }
-            
-        }
-        catch (e) {
-            console.log(e)
-                setLoading(false)
-                setLikeado(false)
-        }
-    }
-    const obtenerLikes = async () => {
-        try {
-            const json = JSON.stringify({id_comentarios_productos: comentario.id_comentarios_producto })
-            await fetch(Route + 'likesComentario',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: json
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                setLikes(data[0].likes)
-            })
-            .catch((error) => {
-                console.log(error)
-                setLikes(0)
-            })
         }
         catch (e) {
             console.log(e)
             setLikes(0)
         }
     }
-
-    const reportarProducto = async () =>{
+    const eliminarComentario = async () => {
+        try {
+            const json = JSON.stringify({ id_comentarios_productos: comentario.id_comentarios_producto })
+            await fetch(Route + 'eliminarComentario',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: json
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    navigation.pop(2)
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
+        catch (e) {
+            console.log(e)
+            setLikes(0)
+        }
+    }
+    const reportarProducto = async () => {
         const id_user = await AsyncStorage.getItem('id_user')
-            if(id_user==null){
-                setMessage(true)
-                setText('¡Tienes que iniciar Sesion para reportar un Producto!')
-            }else{
-                navigation.navigate("ReportarComentario", { comentario: comentario })
-            }
+        if (id_user == null) {
+            setMessage(true)
+            setText('¡Tienes que iniciar Sesion para reportar un Producto!')
+        } else {
+            navigation.navigate("ReportarComentario", { comentario: comentario })
+        }
+    }
+    const comentarioPropio = async () => {
+        const id_user = await AsyncStorage.getItem('id_user')
+        if (id_user == comentario.id_usuario) {
+            setEsPropio(true)
+        } else {
+            setEsPropio(false)
+        }
     }
     useEffect(() => {
+        comentarioPropio()
         obtenerLikes()
         like_al_entrar()
     }, [])
@@ -314,7 +347,7 @@ export default function detalleComentario({ navigation }) {
                                             ) : (
                                                 <MaterialIcons name="thumb-up" color="#9ca19c" size={50} style={{ flex: 1, alignSelf: 'center' }} />
                                             )}
-                                            
+
                                         </TouchableOpacity>
                                     </View>
                                 </View>
@@ -322,7 +355,7 @@ export default function detalleComentario({ navigation }) {
                             <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 10, }}>Comentario: </Text>
                             <View style={styles.itemContainer}>
                                 <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 5, }}>
-                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginLeft: 10 }}>{comentario.comentario}</Text>
+                                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginLeft: 10 }}>{comentario.comentario}</Text>
                                 </View>
                             </View>
                             <View style={styles.itemContainer}>
@@ -338,6 +371,23 @@ export default function detalleComentario({ navigation }) {
                                     </View>
                                 </TouchableOpacity>
                             </View>
+                            {esPropio ? (
+                                <View style={styles.itemContainer}>
+                                    <TouchableOpacity onPress={() => eliminarComentario()}>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop: 10 }}>
+                                            <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+                                                <MaterialIcons name='delete' color='red' size={30} />
+                                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginLeft: 10 }}>Eliminar Comentario</Text>
+                                            </View>
+                                            <View style={{ flex: 1, }}>
+                                                <MaterialIcons name='keyboard-arrow-right' color='lightgray' size={30} />
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                            ) : (
+                                null
+                            )}
                         </View>
                     </View>
                 </ScrollView>
@@ -351,15 +401,15 @@ export default function detalleComentario({ navigation }) {
                 </Animatable.View>
             )}
 
-                <Message visibility={message}>
-                    <View>
-                        <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{text}</Text>
-                    </View>
+            <Message visibility={message}>
+                <View>
+                    <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{text}</Text>
+                </View>
 
-                    <TouchableOpacity onPress={() => setMessage(false)} style={{ backgroundColor: '#000', borderRadius: 10, width: 150, height: 40, marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#fff' }}>Aceptar</Text>
-                    </TouchableOpacity>
-                </Message>
+                <TouchableOpacity onPress={() => setMessage(false)} style={{ backgroundColor: '#000', borderRadius: 10, width: 150, height: 40, marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
+                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#fff' }}>Aceptar</Text>
+                </TouchableOpacity>
+            </Message>
         </View>
     )
 }

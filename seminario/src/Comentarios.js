@@ -231,6 +231,7 @@ export default function Productos_propios({ navigation }) {
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{ flexDirection: 'column', height: '70%' }}>
+                                <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 10, }}>Comentarios: </Text>
                                     {
                                         filterReport.length > 0 ? (
                                             <FlatList
@@ -300,6 +301,7 @@ export default function Productos_propios({ navigation }) {
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'column', height: '93%' }}>
+                                <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 10, }}>Comentarios: </Text>
                                     {
                                         filterReport.length > 0 ? (
                                             <FlatList

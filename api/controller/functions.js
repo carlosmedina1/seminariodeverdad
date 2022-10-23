@@ -91,7 +91,16 @@ const likesComentario = async (req, res) => {
         res.json(err)
     }
 }
-
+const eliminarComentario = async (req, res) => {
+    const {  id_comentarios_productos } = req.body
+    try {
+        const response = await pool.query('update comentarios_producto set vigente=false where id_comentarios_producto = $1', [id_comentarios_productos]);
+        res.json(response.rows)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
 const getContactos = async (req, res) => {
     const {  id_usuario } = req.body
     try {
@@ -236,4 +245,5 @@ module.exports = {
     verificarReporte,
     guardarReportecomentario,
     verificarReporteComentario,
+    eliminarComentario,
 }

@@ -362,6 +362,13 @@ export default function detalleProducto({ navigation }) {
                                     </ScrollView>
                                 </View>
                             </View>
+                            <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 10, }}>Descripcion: </Text>
+                            <View style={styles.itemContainer}>
+                                <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 5, }}>
+                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}>{producto.descripcion}</Text>
+                                </View>
+                            </View>
+                            <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 10, }}>Opciones: </Text>
                             <View style={styles.itemContainer}>
                                 <TouchableOpacity onPress={() => contactosUsuario()}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop: 10 }}>
