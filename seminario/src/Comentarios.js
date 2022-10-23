@@ -164,7 +164,8 @@ export default function Productos_propios({ navigation }) {
     const guardarComentario = async () => {
         try {
             setLoading(true)
-            const json = JSON.stringify({ id_producto: producto.id_producto, id_usuario: producto.id_usuario, comentario: comentarioActual })
+            const id_user = await AsyncStorage.getItem('id_user')
+            const json = JSON.stringify({ id_producto: producto.id_producto, id_usuario: id_user, comentario: comentarioActual })
             const response = await fetch(Route + 'guardarComentario',
                 {
                     method: 'POST',

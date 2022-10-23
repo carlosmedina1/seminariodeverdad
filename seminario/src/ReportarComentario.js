@@ -145,14 +145,14 @@ export default function Reportar({ navigation }) {
     const [logeado, setLogeado] = useState(false)
     const [comentarioActual, setComentarioActual] = useState('')
     const [mensaje, setMensaje] = useState('')
-    const producto = navigation.getParam('producto', '0')
-
+    const comentario = navigation.getParam('comentario', '0')
+    console.log(comentario)
 
     const guardarComentario = async () => {
         const id_user = await AsyncStorage.getItem('id_user')
         try {
-            const json = JSON.stringify({ id_producto: producto.id_producto, id_usuario: id_user, justificacion: comentarioActual })
-            const response = await fetch(Route + 'guardarReporte',
+            const json = JSON.stringify({ id_producto: comentario.id_producto,id_comentarios_producto: comentario.id_comentarios_producto, id_usuario: id_user, justificacion: comentarioActual })
+            const response = await fetch(Route + 'guardarReportecomentario',
                 {
                     method: 'POST',
                     headers: {
@@ -171,13 +171,13 @@ export default function Reportar({ navigation }) {
     }
     const verificar_reporte = async () => {
         const id_user = await AsyncStorage.getItem('id_user')
-        if(id_user==producto.id_usuario){
+        if(id_user==comentario.id_usuario){
             setLogeado(false)
-            setMensaje('No puedes Reportar tu propio producto, si lo quieres borrar hazlo desde la opcion productos en el menu')
+            setMensaje('No puedes Reportar tu propio comentario, si lo quieres puedes borrarlo')
         }else{
             try {
-                const json = JSON.stringify({ id_producto: producto.id_producto, id_usuario: id_user })
-                const response = await fetch(Route + 'verificarReporte',
+                const json = JSON.stringify({ id_comentarios_producto: comentario.id_comentarios_producto, id_usuario: id_user })
+                const response = await fetch(Route + 'verificarReporteComentario',
                     {
                         method: 'POST',
                         headers: {
@@ -189,7 +189,7 @@ export default function Reportar({ navigation }) {
                 const data = await response.json()
                 if(data[0].tiene>0){
                     setLogeado(false)
-                    setMensaje('Ya reportaste este producto, se te avisara sobre el resultado en tus notificaciones')
+                    setMensaje('Ya reportaste este comentario, se te avisara sobre el resultado en tus notificaciones')
                 }else{
                     setLogeado(true)
                 }
@@ -219,7 +219,7 @@ export default function Reportar({ navigation }) {
                                         <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.pop(1)}>
                                             <MaterialIcons name="arrow-back" color="#000" size={20} style={{ alignSelf: 'center' }} />
                                         </TouchableOpacity>
-                                        <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000', }}>Reportar Producto</Text>
+                                        <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000', }}>Reportar Comentario</Text>
                                     </View>
                                     <View style={styles.action}>
                                         <TextInput
@@ -242,7 +242,7 @@ export default function Reportar({ navigation }) {
                                         <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.pop(1)}>
                                             <MaterialIcons name="arrow-back" color="#000" size={20} style={{ alignSelf: 'center' }} />
                                         </TouchableOpacity>
-                                        <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000', }}>Reportar Producto</Text>
+                                        <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000', }}>Reportar Comentario</Text>
                                     </View>
                                     <View style={{ flexDirection: 'row', width: '100%', marginBottom: 5, marginTop: 20 }}>
                                         <View style={styles.action2}>

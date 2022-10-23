@@ -50,6 +50,27 @@ const guardarComentario = async (req, res) => {
         res.json(err)
     }
 }
+const guardarReporte = async (req, res) => {
+    const {id_usuario, id_producto,justificacion} = req.body
+    try {
+        const response = await pool.query('insert into reportes_producto (id_usuario,id_producto,justificacion) values ($1,$2,$3)', [id_usuario, id_producto,justificacion]);
+        res.json(1)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
+const guardarReportecomentario = async (req, res) => {
+    const {id_usuario, id_producto,justificacion,id_comentarios_producto} = req.body
+    try {
+        const response = await pool.query('insert into reportes_comentario (id_usuario,id_producto,justificacion,id_comentarios_producto) values ($1,$2,$3,$4)', [id_usuario, id_producto,justificacion,id_comentarios_producto]);
+        res.json(1)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
+
 const likesProducto = async (req, res) => {
     const {  id_producto } = req.body
     try {
@@ -103,18 +124,40 @@ const like_al_entrar = async (req, res) => {
 }
 const like_al_entrar_comentario = async (req, res) => {
     const { id_usuario, id_comentario } = req.body
-    console.log(id_usuario, id_comentario )
     try {
         const response = await pool.query('select count(id_detalle_likes_comentario) as tiene from detalle_likes_comentario where id_usuario = $1	and id_comentario= $2 and vigente=true;', [id_usuario, id_comentario]);
-        console.log(response.rows)
+
         res.json(response.rows)
     }
     catch (err) {
         res.json(err)
     }
 }
+
+const verificarReporte = async (req, res) => {
+    const { id_usuario, id_producto } = req.body
+    try {
+        const response = await pool.query('select count(id_reportes_producto) as tiene from reportes_producto where id_usuario = $1	and id_producto= $2 and vigente=true;', [id_usuario, id_producto]);
+
+        res.json(response.rows)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
+const verificarReporteComentario = async (req, res) => {
+    const { id_usuario, id_comentarios_producto } = req.body
+    try {
+        const response = await pool.query('select count(id_reportes_comentario) as tiene from reportes_comentario where id_usuario = $1	and id_comentarios_producto= $2 and vigente=true;', [id_usuario, id_comentarios_producto]);
+        res.json(response.rows)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
+
 const registro = async (req, res) => {
-    const {user, pass, correo,numero ,facebook ,instagram ,whatsapp  } = req.body
+    const {user, pass, correo,numero ,facebook ,instagram ,whatsapp } = req.body
     try {
         const response = await pool.query('select registro($1, $2, $3, $4, $5, $6, $7)', [user, pass,correo,numero,facebook,instagram,whatsapp])
         res.json(response.rows)
@@ -189,4 +232,8 @@ module.exports = {
     verificar_likes_comentarios,
     like_al_entrar_comentario,
     likesComentario,
+    guardarReporte,
+    verificarReporte,
+    guardarReportecomentario,
+    verificarReporteComentario,
 }

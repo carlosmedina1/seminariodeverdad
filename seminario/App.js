@@ -29,6 +29,7 @@ import Buscar from './src/Buscar'
 import Categoria from './src/Categoria'
 import Comentarios from './src/Comentarios'
 import Reportar from './src/Reportar'
+import ReportarComentario from './src/ReportarComentario'
 import Contactos from './src/Contactos'
 import Productos_propios from './src/Productos_propios'
 import Productos_subcategorias from './src/Productos_subcategorias'
@@ -733,6 +734,16 @@ const RootStack = createStackNavigator(
 
       navigationOptions: {
         title: 'Reportar',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    ReportarComentario: {
+      screen: ReportarComentario,
+
+      navigationOptions: {
+        title: 'ReportarComentario',
         headerTintColor: '#fff',
         headerShown: false,
         headerBackTitleVisible: false,
