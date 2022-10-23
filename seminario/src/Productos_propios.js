@@ -103,6 +103,7 @@ export default function Productos_propios({ navigation }) {
     const [report, setReport] = useState([])
     const [filterReport, setFilterReport] = useState([])
     const [loading, setLoading] = useState(false)
+    const [sinProductos, setSinProductos] = useState(false)
     const [busqueda, setBusqueda] = useState('')
 
     const filtrarReport = (text) => {
@@ -140,14 +141,17 @@ export default function Productos_propios({ navigation }) {
             )
             const data = await response.json()
             if (await data.length != 0) {
+                setSinProductos(false)
                 setLoading(false)
                 setFilterReport(data)
                 setReport(data)
             } else {
+                setSinProductos(true)
                 setLoading(false)
             }
         }
         catch (e) {
+            setSinProductos(false)
             console.log(e)
             setLoading(false)
         }
@@ -158,6 +162,10 @@ export default function Productos_propios({ navigation }) {
         navigation.navigate('DetalleProducto', {
             producto: item
         })
+    }
+    const iraCreacionProducto = () => {
+        console.log('aaaaaaaaaaa')
+        //navigation.replace("MercadoUCM")
     }
     useEffect(() => {
         console.log('productos propios')
@@ -174,7 +182,7 @@ export default function Productos_propios({ navigation }) {
                 <View style={styles.card}>
                     <View style={{ paddingTop: 20, paddingLeft: 20, paddingRight: 20, justifyContent: 'center' }}>
                         <View style={{ flexDirection: 'row', width: '100%', marginBottom: 5, }}>
-                            <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.pop(1)}>
+                            <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.replace("MercadoUCM")}>
                                 <MaterialIcons name="arrow-back" color="#000" size={20} style={{ alignSelf: 'center' }} />
                             </TouchableOpacity>
                             <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000', }}>Mis Productos</Text>
@@ -198,13 +206,13 @@ export default function Productos_propios({ navigation }) {
                                         <TouchableOpacity style={styles.itemContainer} onPress={() => goDetalleProducto(item)}>
                                             <View style={{ flexDirection: 'row', width: '100%', }}>
                                                 <Image style={{ width: 100, height: 100, borderRadius: 5, marginVertical: 7 }} source={require('../images/icono_ropa.png')} />
-                                                <View style={{ flexDirection: 'column', width: '10%',marginTop:10}}>
+                                                <View style={{ flexDirection: 'column', width: '10%', marginTop: 10 }}>
                                                     <MaterialIcons name="fiber-manual-record" color="#5dd069" size={30} style={{ flex: 1, alignSelf: 'center' }} />
                                                     <MaterialIcons name="thumb-up" color="#5dd069" size={30} style={{ flex: 1, alignSelf: 'center' }} />
                                                 </View>
-                                                <View style={{ flexDirection: 'column', marginTop: 2, width: '50%',marginTop:14 }}>
+                                                <View style={{ flexDirection: 'column', marginTop: 2, width: '50%', marginTop: 14 }}>
                                                     <Text style={{ flex: 15, fontSize: 18, fontWeight: 'bold', color: '#000' }}>{item.nombre_producto}</Text>
-                                                    <Text style={{ flex: 15, fontSize: 17, fontWeight: 'bold', color: '#000',marginTop:6 }}>Likes: {item.likes}</Text>
+                                                    <Text style={{ flex: 15, fontSize: 17, fontWeight: 'bold', color: '#000', marginTop: 6 }}>Likes: {item.likes}</Text>
                                                 </View>
                                                 <MaterialIcons name="edit" color="#9ca19c" size={100} style={{ flex: 1, alignSelf: 'center' }} />
                                             </View>
@@ -219,17 +227,31 @@ export default function Productos_propios({ navigation }) {
                                         <Text style={{ color: 'gray', fontWeight: 'bold', fontSize: 15, marginBottom: 10, marginTop: 5 }}>Cargando...</Text>
                                     </View>
                                 ) : (
-                                    <View style={{ width: '100%', height: '90%', alignItems: 'center', justifyContent: 'center' }}>
-                                        <Animatable.View animation="tada" easing="ease-out" iterationCount="infinite">
-                                            <MaterialCommunityIcons name="reload" color='#000' size={80} />
-                                        </Animatable.View>
+                                    sinProductos ? (
+                                        <View style={{ width: '100%', height: '90%', alignItems: 'center', justifyContent: 'center' }}>
+                                            <Animatable.View animation="tada" easing="ease-out" iterationCount="infinite">
+                                                <MaterialCommunityIcons name="emoticon-sad" color='#000' size={80} />
+                                            </Animatable.View>
 
-                                        <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡Sin Conexion a internet!</Text>
-                                        <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => getReports()}>
-                                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'gray', }}>Puede intentar </Text>
-                                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'blue', }}>volver a Recargar. </Text>
-                                        </TouchableOpacity>
-                                    </View>
+                                            <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡No cuentas con Productos!</Text>
+                                            <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => iraCreacionProducto()}>
+                                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'gray', }}>Puede intentar </Text>
+                                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'blue', }}>crear un producto. </Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    ) : (
+                                        <View style={{ width: '100%', height: '90%', alignItems: 'center', justifyContent: 'center' }}>
+                                            <Animatable.View animation="tada" easing="ease-out" iterationCount="infinite">
+                                                <MaterialCommunityIcons name="reload" color='#000' size={80} />
+                                            </Animatable.View>
+
+                                            <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡Sin conexíon a internet!</Text>
+                                            <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => getReports()}>
+                                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'gray', }}>Puede intentar </Text>
+                                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'blue', }}>volver a Recargar. </Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    )
                                 )
                             )
                         }

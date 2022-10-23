@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, ActivityIndicator, TextInput, StatusBar, FlatList, TouchableOpacity, Dimensions ,Image,Alert, ToastAndroid, Platform} from 'react-native'
+import { View, StyleSheet, Text, ActivityIndicator, TextInput, StatusBar, FlatList, Image, TouchableOpacity, Dimensions, Alert, ToastAndroid, Platform } from 'react-native'
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Modal from '../components/customModal'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import * as Animatable from 'react-native-animatable'
 import Route from '../hooks/routes'
@@ -98,16 +99,18 @@ const styles = StyleSheet.create({
     },
 })
 
-export default function reportPendientes({ navigation }) {
+export default function Categoria({ navigation }) {
     const [report, setReport] = useState([])
     const [filterReport, setFilterReport] = useState([])
     const [loading, setLoading] = useState(false)
+    const [sinProductos, setSinProductos] = useState(false)
     const [busqueda, setBusqueda] = useState('')
+    const categoria = navigation.getParam('cat', '0')
 
     const filtrarReport = (text) => {
         if (text) {
             const newData = report.filter((item) => {
-                const itemData = item.nombre_producto + ' ' + item.nombre_producto + ' ' + item.nombre_producto + ' ' + item.nombre_producto.toUpperCase();
+                const itemData = item.nombre_subcategoria + ' ' + item.nombre_subcategoria + ' ' + item.nombre_subcategoria + ' ' + item.nombre_subcategoria.toUpperCase();
                 const textData = text.toUpperCase();
                 return itemData.indexOf(textData) > -1;
             })
@@ -125,38 +128,41 @@ export default function reportPendientes({ navigation }) {
         setBusqueda('')
         try {
             setLoading(true)
-            const response = await fetch(Route + 'busquedaProductos',
+            const json = JSON.stringify({ id_categoria: categoria })
+            const response = await fetch(Route + 'busquedaSubcategorias',
                 {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
-                    }
+                    },
+                    body: json
                 }
             )
             const data = await response.json()
             if (await data.length != 0) {
+                setSinProductos(false)
                 setLoading(false)
                 setFilterReport(data)
                 setReport(data)
-            }else {
+            } else {
+                setSinProductos(true)
                 setLoading(false)
             }
         }
         catch (e) {
+            setSinProductos(false)
+            console.log(e)
             setLoading(false)
         }
     }
 
-    const goDetalleProducto = (item) => {
-        navigation.navigate('DetalleProducto', {
-            producto: item
-        })
+    const goProductos = (item) => {
         //console.log(item)
-        //setLoading2(true)
-        //obtenerSupervisor(item)
-    }    
+        navigation.navigate('Productos_subcategorias', {
+            subcategoria: item
+        })
+    }
     useEffect(() => {
-        console.log('hola')
         getReports()
     }, [])
 
@@ -170,15 +176,15 @@ export default function reportPendientes({ navigation }) {
                 <View style={styles.card}>
                     <View style={{ paddingTop: 20, paddingLeft: 20, paddingRight: 20, justifyContent: 'center' }}>
                         <View style={{ flexDirection: 'row', width: '100%', marginBottom: 5, }}>
-                            <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.pop(1)}>
-                                <MaterialIcons name="arrow-back" color="#000" size={20} style={{ alignSelf: 'center'}} />
+                            <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.replace("MercadoUCM")}>
+                                <MaterialIcons name="arrow-back" color="#000" size={20} style={{ alignSelf: 'center' }} />
                             </TouchableOpacity>
-                            <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000',  }}>Busqueda</Text>
+                            <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000', }}>¿Que buscas?</Text>
                         </View>
                         <View style={styles.action}>
                             <MaterialIcons color="gray" name="search" size={20} style={{ flex: 1, marginRight: 10, alignSelf: 'center' }} />
                             <TextInput
-                                placeholder="Buscar Producto"
+                                placeholder="Buscar subcategoria"
                                 style={{ width: '100%', flex: 10 }}
                                 onChangeText={(text) => filtrarReport(text)}
                                 value={busqueda} />
@@ -191,16 +197,15 @@ export default function reportPendientes({ navigation }) {
                                     key={(x) => filterReport.indexOf(x)}
                                     keyExtractor={(x) => filterReport.indexOf(x)}
                                     renderItem={({ item }) => (
-                                        <TouchableOpacity style={styles.itemContainer} onPress={() => goDetalleProducto(item)}>
-                                            <View style={{ flexDirection: 'row', width: '100%', }}>
-                                                <Image style={{ width: 100, height: 100, borderRadius: 5, marginVertical: 7 }} source={require('../images/icono_ropa.png')} />
+                                        <TouchableOpacity style={styles.itemContainer} onPress={() => goProductos(item)}>
+                                            <View style={{ flexDirection: 'row', width: '100%',marginBottom:5 }}>
                                                 <View style={{ flexDirection: 'column', width: '10%', marginTop: 10 }}>
-                                                    <MaterialIcons name="fiber-manual-record" color="#5dd069" size={30} style={{ flex: 1, alignSelf: 'center' }} />
-                                                    <MaterialIcons name="thumb-up" color="#5dd069" size={30} style={{ flex: 1, alignSelf: 'center' }} />
+                                                    <MaterialIcons name="fiber-manual-record" color="#5dd069" size={30} style={{ flex: 1, alignSelf: 'center', }} />
+                                                    <MaterialIcons name="east" color="#5dd069" size={30} style={{ flex: 1, alignSelf: 'center', marginTop: 10 }} />
                                                 </View>
                                                 <View style={{ flexDirection: 'column', marginTop: 2, width: '50%', marginTop: 14 }}>
-                                                    <Text style={{ flex: 15, fontSize: 18, fontWeight: 'bold', color: '#000' }}>{item.nombre_producto}</Text>
-                                                    <Text style={{ flex: 15, fontSize: 17, fontWeight: 'bold', color: '#000', marginTop: 6 }}>Likes: {item.likes}</Text>
+                                                    <Text style={{ flex: 15, fontSize: 18, fontWeight: 'bold', color: '#000' }}>{item.nombre_subcategoria}</Text>
+                                                    <Text style={{ flex: 15, fontSize: 17, fontWeight: 'bold', color: '#000', marginTop: 10 }}>{item.cantidad} Producto disponibles </Text>
                                                 </View>
                                             </View>
                                         </TouchableOpacity>
@@ -214,17 +219,27 @@ export default function reportPendientes({ navigation }) {
                                         <Text style={{ color: 'gray', fontWeight: 'bold', fontSize: 15, marginBottom: 10, marginTop: 5 }}>Cargando...</Text>
                                     </View>
                                 ) : (
-                                    <View style={{ width: '100%', height: '90%', alignItems: 'center', justifyContent: 'center' }}>
-                                        <Animatable.View animation="tada" easing="ease-out" iterationCount="infinite">
-                                            <MaterialCommunityIcons name="reload" color='#000' size={80} />
-                                        </Animatable.View>
+                                    sinProductos ? (
+                                        <View style={{ width: '100%', height: '90%', alignItems: 'center', justifyContent: 'center' }}>
+                                            <Animatable.View animation="tada" easing="ease-out" iterationCount="infinite">
+                                                <MaterialCommunityIcons name="emoticon-sad" color='#000' size={80} />
+                                            </Animatable.View>
 
-                                        <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡Sin Conexion a internet!</Text>
-                                        <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => getReports()}>
-                                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'gray', }}>Puede intentar </Text>
-                                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'blue', }}>volver a Recargar. </Text>
-                                        </TouchableOpacity>
-                                    </View>
+                                            <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡No existen subcategorias aqui!</Text>
+                                        </View>
+                                    ) : (
+                                        <View style={{ width: '100%', height: '90%', alignItems: 'center', justifyContent: 'center' }}>
+                                            <Animatable.View animation="tada" easing="ease-out" iterationCount="infinite">
+                                                <MaterialCommunityIcons name="reload" color='#000' size={80} />
+                                            </Animatable.View>
+
+                                            <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡Sin conexíon a internet!</Text>
+                                            <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => getReports()}>
+                                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'gray', }}>Puede intentar </Text>
+                                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'blue', }}>volver a Recargar. </Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    )
                                 )
                             )
                         }

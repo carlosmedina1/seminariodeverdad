@@ -26,7 +26,9 @@ import {
 import Login from './src/Login'
 import Registro from './src/Registro'
 import Buscar from './src/Buscar'
+import Categoria from './src/Categoria'
 import Productos_propios from './src/Productos_propios'
+import Productos_subcategorias from './src/Productos_subcategorias'
 import DetalleProducto from './src/detalleProducto'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -181,7 +183,7 @@ const HomeScreen = ({ navigation }) => {
           </View>
           <ScrollView horizontal={true} flexDirection="row">
             <View style={{ marginLeft: 10 }}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.replace("Categoria", { cat: 1 })}>
                 <Image
                   style={styles.imgPersonas}
                   source={require('./images/icono_ropa.png')}
@@ -189,34 +191,46 @@ const HomeScreen = ({ navigation }) => {
               </TouchableOpacity>
             </View>
             <View style={{ marginLeft: 10 }}>
-              <Image
-                style={styles.imgPersonas}
-                source={require('./images/icono_celulares.png')}
-              />
+              <TouchableOpacity onPress={() => navigation.replace("Categoria", { cat: 2 })}>
+                <Image
+                  style={styles.imgPersonas}
+                  source={require('./images/icono_celulares.png')}
+                />
+
+              </TouchableOpacity>
             </View>
             <View style={{ marginLeft: 10 }}>
-              <Image
-                style={styles.imgPersonas}
-                source={require('./images/icono_electronica.png')}
-              />
+              <TouchableOpacity onPress={() => navigation.replace("Categoria", { cat: 3 })}>
+                <Image
+                  style={styles.imgPersonas}
+                  source={require('./images/icono_electronica.png')}
+                />
+              </TouchableOpacity>
             </View>
             <View style={{ marginLeft: 10 }}>
-              <Image
-                style={styles.imgPersonas}
-                source={require('./images/icono_juegos.png')}
-              />
+              <TouchableOpacity onPress={() => navigation.replace("Categoria", { cat: 4 })}>
+                <Image
+                  style={styles.imgPersonas}
+                  source={require('./images/icono_juegos.png')}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <View style={{ marginHorizontal: 10 }}>
+              <TouchableOpacity onPress={() => navigation.replace("Categoria", { cat: 5 })}>
+                <Image
+                  style={styles.imgPersonas}
+                  source={require('./images/icono_libros.png')}
+                />
+              </TouchableOpacity>
             </View>
             <View style={{ marginHorizontal: 10 }}>
-              <Image
-                style={styles.imgPersonas}
-                source={require('./images/icono_libros.png')}
-              />
-            </View>
-            <View style={{ marginHorizontal: 10 }}>
-              <Image
-                style={styles.imgPersonas}
-                source={require('./images/icono_otros.png')}
-              />
+              <TouchableOpacity onPress={() => navigation.replace("Categoria", { cat: 6 })}>
+                <Image
+                  style={styles.imgPersonas}
+                  source={require('./images/icono_otros.png')}
+                />
+              </TouchableOpacity>
             </View>
 
           </ScrollView>
@@ -421,10 +435,9 @@ const MenuScreen = ({ navigation }) => {
 
 
 
-
                 <View style={{ width: "50%", flexDirection: "column", marginTop: 10 }}>
                   <View style={styles.menuCards}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Productos_propios")}>
+                    <TouchableOpacity onPress={() => navigation.replace("Productos_propios")}>
                       <View style={styles.btnCards}>
                         <MaterialCommunityIcons
                           name={"dropbox"}
@@ -472,7 +485,7 @@ const MenuScreen = ({ navigation }) => {
                           size={28}
                           color={"green"}
                         />
-                        <Text>Añadir Productos</Text>
+                        <Text>Crear Producto</Text>
                       </View>
                     </TouchableOpacity>
                   </View>
@@ -685,6 +698,27 @@ const RootStack = createStackNavigator(
 
       navigationOptions: {
         title: 'DetalleProducto',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    
+    Productos_subcategorias: {
+      screen: Productos_subcategorias,
+
+      navigationOptions: {
+        title: 'Productos_subcategorias',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    Categoria: {
+      screen: Categoria,
+
+      navigationOptions: {
+        title: 'Categoria',
         headerTintColor: '#fff',
         headerShown: false,
         headerBackTitleVisible: false,
