@@ -20,6 +20,39 @@ const login = async (req, res) => {
         res.json(err)
     }
 }
+
+const verificar_likes = async (req, res) => {
+    const { id_usuario, id_producto } = req.body
+    try {
+        const response = await pool.query('select verificar_likes($1, $2)', [id_usuario, id_producto]);
+        res.json(response.rows)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
+const likesProducto = async (req, res) => {
+    const {  id_producto } = req.body
+    try {
+        const response = await pool.query('select likes from producto where id_producto = $1', [id_producto]);
+        res.json(response.rows)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
+
+const like_al_entrar = async (req, res) => {
+    const { id_usuario, id_producto } = req.body
+    try {
+        console.log(id_usuario, id_producto)
+        const response = await pool.query('select count(id_detalle_likes) as tiene from detalle_likes where id_usuario = $1	and id_producto= $2 and vigente=true;', [id_usuario, id_producto]);
+        res.json(response.rows)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
 const registro = async (req, res) => {
     const {user, pass, correo,numero ,facebook ,instagram ,whatsapp  } = req.body
     console.log(user, pass, correo,numero ,facebook ,instagram ,whatsapp )
@@ -33,7 +66,7 @@ const registro = async (req, res) => {
 }
 const busquedaProductos = async (req, res) => {
     try {
-        const response = await pool.query('select * from producto where vigente=true and bloqueado=false');
+        const response = await pool.query('select p.*,u.nombre_usuario from producto p join usuario u on p.id_usuario=u.id_usuario where p.vigente=true and p.bloqueado=false order by p.likes desc');
         res.json(response.rows)
     }
     catch (err) {
@@ -87,5 +120,8 @@ module.exports = {
     registro,
     busquedaProductosUsuario,
     busquedaSubcategorias,
-    busquedaProductosSubcategoria
+    busquedaProductosSubcategoria,
+    verificar_likes,
+    like_al_entrar,
+    likesProducto,
 }
