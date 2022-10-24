@@ -31,9 +31,13 @@ import Comentarios from './src/Comentarios'
 import Reportar from './src/Reportar'
 import ReportarComentario from './src/ReportarComentario'
 import Contactos from './src/Contactos'
+import SeleccionCategoria from './src/seleccionCategoria'
+import SeleccionSubcategoria from './src/seleccionSubcategoria'
 import Productos_propios from './src/Productos_propios'
 import Productos_subcategorias from './src/Productos_subcategorias'
 import DetalleProducto from './src/detalleProducto'
+import CrearProducto from './src/CrearProducto'
+
 import DetalleComentario from './src/detalleComentario'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -483,7 +487,7 @@ const MenuScreen = ({ navigation }) => {
 
 
                   <View style={styles.menuCards}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Amigos")}>
+                    <TouchableOpacity onPress={() => navigation.navigate("SeleccionCategoria")}>
                       <View style={styles.btnCards}>
                         <MaterialCommunityIcons
                           name={"plus-circle-outline"}
@@ -594,9 +598,6 @@ const AppNavigator = createMaterialTopTabNavigator(
     Home: {
       screen: HomeScreen,
     },
-    Amigos: {
-      screen: AmigosScreen,
-    },
     Menu: {
       screen: MenuScreen,
     },
@@ -666,6 +667,33 @@ const RootStack = createStackNavigator(
       screen: Login,
       navigationOptions: {
         title: 'Ingresar',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    SeleccionCategoria: {
+      screen: SeleccionCategoria,
+      navigationOptions: {
+        title: 'SeleccionCategoria',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    SeleccionSubcategoria: {
+      screen: SeleccionSubcategoria,
+      navigationOptions: {
+        title: 'SeleccionSubcategoria',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    CrearProducto: {
+      screen: CrearProducto,
+      navigationOptions: {
+        title: 'CrearProducto',
         headerTintColor: '#fff',
         headerShown: false,
         headerBackTitleVisible: false,

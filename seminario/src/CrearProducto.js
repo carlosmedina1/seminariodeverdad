@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 20,
         borderTopLeftRadius: 20,
         flex: 6,
-        backgroundColor: '#fff',
         alignItems: 'center',
         marginTop: -20,
         padding: 20,
@@ -71,7 +70,14 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: 'lightgray'
     },
-
+    action2: {
+        marginTop: 20,
+        marginBottom: 10,
+        flexDirection: 'row',
+        width: '90%',
+        borderBottomWidth: 1,
+        borderBottomColor: 'lightgray'
+    },
     ingresarContainer: {
         marginTop: 50,
     },
@@ -93,7 +99,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function Registro({ navigation }) {
+export default function CrearProducto({ navigation }) {
     const [user, setUser] = useState('')
     const [pass, setPass] = useState('')
     const [pass2, setPass2] = useState('')
@@ -103,7 +109,8 @@ export default function Registro({ navigation }) {
     const [instagram, setInstagram] = useState('')
     const [whatsapp, setWhatsapp] = useState('')
     const [text, setText] = useState('')
-
+    const datos = navigation.getParam('subcategoria', '0')
+    
     const [logining, setLogining] = useState(false)
     const [message, setMessage] = useState(false)
 
@@ -200,6 +207,7 @@ export default function Registro({ navigation }) {
         }
     }
     useEffect(() => {
+        console.log(datos)
         //_loadSession()
     }, [])
 
@@ -207,66 +215,45 @@ export default function Registro({ navigation }) {
     return (
         <View style={styles.container}>
             <View style={{ paddingTop: 20, paddingBottom: 20, paddingLeft: 20, paddingRight: 20, justifyContent: 'center' }}>
-                <View style={{ flexDirection: 'row', width: '100%', marginBottom: 5, }}>
-                    <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.replace('MercadoUCM')}>
+                <View style={{ flexDirection: 'row', width: '100%', marginBottom: 5,marginTop:10 }}>
+                    <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.pop(1)}>
                         <MaterialIcons name="arrow-back" color="#000" size={20} style={{ alignSelf: 'center' }} />
                     </TouchableOpacity>
-                    <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000' }}>Registro</Text>
+                    <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000' }}>Ingrese los datos</Text>
                 </View>
-            </View>
-
-            <View style={styles.header}>
-                <Image source={require('./image/loginBackground2.jpeg')} style={styles.image} />
-                <Text style={styles.title}>Mercado UCM</Text>
             </View>
 
             <View style={styles.body}>
                 <View style={{ marginTop: 20 }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 25, color: '#000' }}>Registro</Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 25, color: '#000' }}>Nuevo Producto</Text>
                 </View>
                 <ScrollView>
                     <View style={{ alignItems: 'center', width: '100%' }}>
-                        <View style={styles.action}>
-                            <FeatherIcon color="gray" name="user" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                            <TextInput placeholder="Nombre(*)" maxLength={25} style={{ marginBottom: 10, width: '100%' }} onChangeText={(text) => setUser(text)} />
+                        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop:20}}>Nombre del producto:</Text>
+                        <View style={styles.action2}>
+                            <TextInput placeholder="Nombre(*)" maxLength={50} style={{ marginBottom: 10, width: '100%' }} onChangeText={(text) => setNombre(text)} />
                         </View>
                         <View style={styles.action}>
                             <FeatherIcon color="gray" name="unlock" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                            <TextInput secureTextEntry={true} maxLength={20} placeholder="Contraseña(*)" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass) => setPass(pass)} />
+                            <Text  style={{ marginBottom: 10, width: '100%' }}>Categoria: {datos.nombre_categoria}</Text>
                         </View>
                         <View style={styles.action}>
                             <FeatherIcon color="gray" name="unlock" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                            <TextInput secureTextEntry={true} maxLength={20} placeholder="Contraseña Nuevamente(*)" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass2) => setPass2(pass2)} />
+                            <Text  style={{ marginBottom: 10, width: '100%' }}>Subcategoria: {datos.nombre_subcategoria}</Text>
                         </View>
-                        <View style={styles.action}>
-                            <FeatherIcon color="gray" name="mail" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                            <TextInput placeholder="Correo electronico(*)" maxLength={50} style={{ marginBottom: 10, width: '100%' }} onChangeText={(correo) => setCorreo(correo)} />
-                        </View>
-                        <View style={styles.action}>
-                            <FeatherIcon color="gray" name="smartphone" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                            <TextInput placeholder="Numero Telefono" maxLength={30} style={{ marginBottom: 10, width: '100%' }} onChangeText={(numero) => setNumero(numero)} />
-                        </View>
-                        <View style={styles.action}>
-                            <FeatherIcon color="gray" name="facebook" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                            <TextInput placeholder="Facebook" maxLength={40} style={{ marginBottom: 10, width: '100%' }} onChangeText={(facebook) => setFacebook(facebook)} />
-                        </View>
-                        <View style={styles.action}>
-                            <FeatherIcon color="gray" name="instagram" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                            <TextInput placeholder="Instagram" maxLength={40} style={{ marginBottom: 10, width: '100%' }} onChangeText={(instagram) => setInstagram(instagram)} />
-                        </View>
-                        <View style={styles.action}>
-                            <MaterialCommunityIcons color="gray" name="whatsapp" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                            <TextInput placeholder="Whatsapp" maxLength={40} style={{ marginBottom: 10, width: '100%' }} onChangeText={(whatsapp) => setWhatsapp(whatsapp)} />
+                        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop:10}}>Descripcion:</Text>
+                        <View style={styles.action2}>
+                            <TextInput  maxLength={200} multiline={true} placeholder="Descripcion(200)" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass2) => setDescripcion(pass2)} />
                         </View>
                     </View>
                 </ScrollView>
                 <View style={styles.ingresarContainer}>
                     {
                         logining ? (
-                            <Text style={{ fontWeight: 'bold', fontSize: 20, color: 'gray' }}>Ingresando...</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, color: 'gray' }}>Guardando</Text>
                         ) : (
                             <TouchableOpacity style={styles.btnIngresar} onPress={() => handleLogin()}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 20, color: '#fff' }}>Registrarse</Text>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20, color: '#fff' }}>Grabar producto</Text>
                             </TouchableOpacity>
                         )
                     }

@@ -187,7 +187,7 @@ const busquedaProductos = async (req, res) => {
 const busquedaSubcategorias = async (req, res) => {
     const { id_categoria } = req.body
     try {
-        const response = await pool.query('select s.*,(select count(p.id_producto) as cantidad from producto p where p.id_subcategoria=s.id_subcategoria and p.vigente=true and p.bloqueado=false) from subcategoria s   where s.id_categoria=$1  ORDER BY s.orden',[id_categoria]);
+        const response = await pool.query('select s.*,c.nombre_categoria,(select count(p.id_producto) as cantidad from producto p where p.id_subcategoria=s.id_subcategoria and p.vigente=true and p.bloqueado=false) from subcategoria s join categoria c on c.id_categoria=s.id_categoria   where s.id_categoria=$1  ORDER BY s.orden',[id_categoria]);
         res.json(response.rows)
     }
     catch (err) {
