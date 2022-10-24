@@ -224,6 +224,16 @@ const obtenerIdUsuario = async (req, res) => {
         res.json(err.message)
     }
 }
+const guardarNuevoProducto = async (req, res) => {
+    const {id_usuario, nombre_producto,descripcion,id_subcategoria} = req.body
+    try {
+        const response = await pool.query('insert into producto (id_usuario,nombre_producto,descripcion,id_subcategoria) values ($1,$2,$3,$4)', [id_usuario, nombre_producto,descripcion,id_subcategoria]);
+        res.json(1)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
 module.exports = {
     busquedaProductos,
     login,
@@ -246,4 +256,5 @@ module.exports = {
     guardarReportecomentario,
     verificarReporteComentario,
     eliminarComentario,
+    guardarNuevoProducto,
 }

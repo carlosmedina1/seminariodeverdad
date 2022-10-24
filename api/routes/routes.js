@@ -3,7 +3,7 @@ const router = Router();
 
 const { login, busquedaProductos,obtenerIdUsuario,registro,busquedaProductosUsuario,busquedaSubcategorias,busquedaProductosSubcategoria,verificar_likes,
         like_al_entrar,likesProducto,getContactos,getComentarios,guardarComentario,verificar_likes_comentarios ,like_al_entrar_comentario,likesComentario,
-        guardarReporte,verificarReporte,guardarReportecomentario,verificarReporteComentario,eliminarComentario} = require('../controller/functions');
+        guardarReporte,verificarReporte,guardarReportecomentario,verificarReporteComentario,eliminarComentario,guardarNuevoProducto} = require('../controller/functions');
 
 router.post('/seminarioAPI/login', login);
 router.post('/seminarioAPI/busquedaProductos', busquedaProductos);
@@ -26,5 +26,5 @@ router.post('/seminarioAPI/verificarReporte', verificarReporte);
 router.post('/seminarioAPI/guardarReportecomentario', guardarReportecomentario);
 router.post('/seminarioAPI/verificarReporteComentario', verificarReporteComentario);
 router.post('/seminarioAPI/eliminarComentario', eliminarComentario);
-
+router.post('/seminarioAPI/guardarNuevoProducto', guardarNuevoProducto);
 module.exports = router;
