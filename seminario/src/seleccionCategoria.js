@@ -104,6 +104,15 @@ const styles = StyleSheet.create({
 })
 
 export default function seleccionCategoria({ navigation }) {
+    const propio = navigation.getParam('propio', 'false')
+
+    const paraAtras = () => {
+        if(propio){
+            navigation.replace("Productos_propios")
+        }else{
+            navigation.replace("MercadoUCM")
+        }
+    }
     return (
         <View style={styles.container}>
             <StatusBar barStyle='dark-content' translucent backgroundColor="transparent" />
@@ -111,7 +120,7 @@ export default function seleccionCategoria({ navigation }) {
                 <View style={styles.card}>
                     <View style={{ paddingTop: 20, paddingLeft: 20, paddingRight: 20, justifyContent: 'center', marginTop: 50 }}>
                         <View style={{ flexDirection: 'row', width: '100%', marginBottom: 5, }}>
-                            <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.pop(1)}>
+                            <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => paraAtras()}>
                                 <MaterialIcons name="arrow-back" color="#000" size={20} style={{ alignSelf: 'center' }} />
                             </TouchableOpacity>
                             <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000', }}>Selecciona una categoria</Text>
@@ -131,7 +140,7 @@ export default function seleccionCategoria({ navigation }) {
                             </View>
                             <ScrollView contentContainerStyle={styles.contentContainer} >
                                 <View style={{ marginLeft: 10 }}>
-                                    <TouchableOpacity onPress={() => navigation.navigate("SeleccionSubcategoria", { cat: 1 })}>
+                                    <TouchableOpacity onPress={() => navigation.replace("SeleccionSubcategoria", { cat: 1, propio:propio })}>
                                         <Image
                                             style={styles.imgPersonas}
                                             source={require('../images/icono_ropa.png')}
@@ -139,7 +148,7 @@ export default function seleccionCategoria({ navigation }) {
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{ marginLeft: 10, }}>
-                                    <TouchableOpacity onPress={() => navigation.navigate("SeleccionSubcategoria", { cat: 2 })}>
+                                    <TouchableOpacity onPress={() => navigation.replace("SeleccionSubcategoria", { cat: 2, propio:propio })}>
                                         <Image
                                             style={styles.imgPersonas}
                                             source={require('../images/icono_celulares.png')}
@@ -148,7 +157,7 @@ export default function seleccionCategoria({ navigation }) {
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{ marginLeft: 10 }}>
-                                    <TouchableOpacity onPress={() => navigation.navigate("SeleccionSubcategoria", { cat: 3 })}>
+                                    <TouchableOpacity onPress={() => navigation.replace("SeleccionSubcategoria", { cat: 3, propio:propio })}>
                                         <Image
                                             style={styles.imgPersonas}
                                             source={require('../images/icono_electronica.png')}
@@ -156,7 +165,7 @@ export default function seleccionCategoria({ navigation }) {
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{ marginLeft: 10 }}>
-                                    <TouchableOpacity onPress={() => navigation.navigate("SeleccionSubcategoria", { cat: 4 })}>
+                                    <TouchableOpacity onPress={() => navigation.replace("SeleccionSubcategoria", { cat: 4, propio:propio })}>
                                         <Image
                                             style={styles.imgPersonas}
                                             source={require('../images/icono_juegos.png')}
@@ -165,7 +174,7 @@ export default function seleccionCategoria({ navigation }) {
                                 </View>
 
                                 <View style={{ marginLeft: 10 }}>
-                                    <TouchableOpacity onPress={() => navigation.navigate("SeleccionSubcategoria", { cat: 5 })}>
+                                    <TouchableOpacity onPress={() => navigation.replace("SeleccionSubcategoria", { cat: 5, propio:propio })}>
                                         <Image
                                             style={styles.imgPersonas}
                                             source={require('../images/icono_libros.png')}
@@ -173,7 +182,7 @@ export default function seleccionCategoria({ navigation }) {
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{ marginLeft: 10 }}>
-                                    <TouchableOpacity onPress={() => navigation.navigate("SeleccionSubcategoria", { cat: 6 })}>
+                                    <TouchableOpacity onPress={() => navigation.replace("SeleccionSubcategoria", { cat: 6, propio:propio })}>
                                         <Image
                                             style={styles.imgPersonas}
                                             source={require('../images/icono_otros.png')}

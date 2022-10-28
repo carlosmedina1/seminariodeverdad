@@ -142,72 +142,114 @@ const styles = StyleSheet.create({
 
 export default function detalleProducto({ navigation }) {
     const producto = navigation.getParam('producto', '0')
+    const editable = navigation.getParam('editable', 'false')
     const [text, setText] = useState('')
     const [message, setMessage] = useState(false)
     const [loading, setLoading] = useState(false)
     const [likeado, setLikeado] = useState(false)
     const [likes, setLikes] = useState(0)
-
+    const paraAtras = () => {
+        if(editable){
+            navigation.pop(1)
+        }else{
+            navigation.replace("MercadoUCM")
+        }
+    }
     const verificar_likes = async () => {
         try {
             setLoading(true)
             const id_user = await AsyncStorage.getItem('id_user')
-            if(id_user==null){
+            if (id_user == null) {
                 setLikeado(false)
                 setLoading(false)
                 setMessage(true)
                 setText('¡Tienes que iniciar Sesion para dar likes a los Productos!')
-            }else{
-                
-                const json = JSON.stringify({ id_usuario : id_user ,id_producto: producto.id_producto })
+            } else {
+
+                const json = JSON.stringify({ id_usuario: id_user, id_producto: producto.id_producto })
                 await fetch(Route + 'verificar_likes',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: json
-                })
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data[0].verificar_likes == 3) {
-                        setLikeado(true)
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: json
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data[0].verificar_likes == 3) {
+                            setLikeado(true)
+                            setLoading(false)
+                        }
+                        else if (data[0].verificar_likes == 2) {
+                            setLikeado(false)
+                            setLoading(false)
+                        }
+                        else if (data[0].verificar_likes == 1) {
+                            setLikeado(true)
+                            setLoading(false)
+                        }
+                        obtenerLikes()
+                    })
+                    .catch((error) => {
+                        console.log(error)
                         setLoading(false)
-                    }
-                    else if (data[0].verificar_likes == 2) {
                         setLikeado(false)
-                        setLoading(false)
-                    }
-                    else if (data[0].verificar_likes == 1) {
-                        setLikeado(true)
-                        setLoading(false)
-                    }
-                    obtenerLikes()
-                })
-                .catch((error) => {
-                    console.log(error)
-                    setLoading(false)
-                    setLikeado(false)
-                })
+                    })
             }
-            
+
         }
         catch (e) {
             console.log(e)
-                setLoading(false)
-                setLikeado(false)
+            setLoading(false)
+            setLikeado(false)
         }
     }
     const like_al_entrar = async () => {
         try {
             setLoading(true)
             const id_user = await AsyncStorage.getItem('id_user')
-            if(id_user==null){
+            if (id_user == null) {
                 setLikeado(false)
                 setLoading(false)
-            }else{
-                const json = JSON.stringify({ id_usuario : id_user ,id_producto: producto.id_producto })
+            } else {
+                const json = JSON.stringify({ id_usuario: id_user, id_producto: producto.id_producto })
                 await fetch(Route + 'like_al_entrar',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: json
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data[0].tiene > 0) {
+                            setLikeado(true)
+                            setLoading(false)
+                        } else {
+                            setLikeado(false)
+                            setLoading(false)
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        setLoading(false)
+                        setLikeado(false)
+                    })
+            }
+
+        }
+        catch (e) {
+            console.log(e)
+            setLoading(false)
+            setLikeado(false)
+        }
+    }
+    const obtenerLikes = async () => {
+        try {
+            const json = JSON.stringify({ id_producto: producto.id_producto })
+            await fetch(Route + 'likesProducto',
                 {
                     method: 'POST',
                     headers: {
@@ -217,47 +259,12 @@ export default function detalleProducto({ navigation }) {
                 })
                 .then((response) => response.json())
                 .then((data) => {
-                    if (data[0].tiene >0) {
-                        setLikeado(true)
-                        setLoading(false)
-                    } else {
-                        setLikeado(false)
-                        setLoading(false)
-                    } 
+                    setLikes(data[0].likes)
                 })
                 .catch((error) => {
                     console.log(error)
-                    setLoading(false)
-                    setLikeado(false)
+                    setLikes(0)
                 })
-            }
-            
-        }
-        catch (e) {
-            console.log(e)
-                setLoading(false)
-                setLikeado(false)
-        }
-    }
-    const obtenerLikes = async () => {
-        try {
-            const json = JSON.stringify({id_producto: producto.id_producto })
-            await fetch(Route + 'likesProducto',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: json
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                setLikes(data[0].likes)
-            })
-            .catch((error) => {
-                console.log(error)
-                setLikes(0)
-            })
         }
         catch (e) {
             console.log(e)
@@ -265,20 +272,23 @@ export default function detalleProducto({ navigation }) {
         }
     }
 
-    const reportarProducto = async () =>{
+    const reportarProducto = async () => {
         const id_user = await AsyncStorage.getItem('id_user')
-            if(id_user==null){
-                setMessage(true)
-                setText('¡Tienes que iniciar Sesion para reportar un Producto!')
-            }else{
-                navigation.navigate("Reportar", { producto: producto })
-            }
+        if (id_user == null) {
+            setMessage(true)
+            setText('¡Tienes que iniciar Sesion para reportar un Producto!')
+        } else {
+            navigation.navigate("Reportar", { producto: producto })
+        }
     }
-    const contactosUsuario = async () =>{
+    const contactosUsuario = async () => {
         navigation.navigate("Contactos", { id_usuario: producto.id_usuario })
     }
-    const comentarProducto = async () =>{
-        navigation.navigate("Comentarios", {  producto: producto  })
+    const editarProducto = async () => {
+        navigation.navigate("EditarProducto", {  producto: producto })
+    }
+    const comentarProducto = async () => {
+        navigation.navigate("Comentarios", { producto: producto })
     }
     useEffect(() => {
         obtenerLikes()
@@ -293,7 +303,7 @@ export default function detalleProducto({ navigation }) {
                     <View style={styles.card}>
                         <View style={{ paddingTop: 20, paddingLeft: 20, paddingRight: 20, justifyContent: 'center' }}>
                             <View style={{ flexDirection: 'row', width: '100%', marginBottom: 5, }}>
-                                <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.pop(2)}>
+                                <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => paraAtras()}>
                                     <MaterialIcons name="arrow-back" color="#000" size={20} style={{ alignSelf: 'center' }} />
                                 </TouchableOpacity>
                                 <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000', }}>{producto.nombre_producto}</Text>
@@ -320,7 +330,7 @@ export default function detalleProducto({ navigation }) {
                                             ) : (
                                                 <MaterialIcons name="thumb-up" color="#9ca19c" size={50} style={{ flex: 1, alignSelf: 'center' }} />
                                             )}
-                                            
+
                                         </TouchableOpacity>
                                     </View>
                                 </View>
@@ -365,23 +375,40 @@ export default function detalleProducto({ navigation }) {
                             <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 10, }}>Descripcion: </Text>
                             <View style={styles.itemContainer}>
                                 <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 5, }}>
-                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}>{producto.descripcion}</Text>
+                                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}>{producto.descripcion}</Text>
                                 </View>
                             </View>
                             <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 10, }}>Opciones: </Text>
-                            <View style={styles.itemContainer}>
-                                <TouchableOpacity onPress={() => contactosUsuario()}>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop: 10 }}>
-                                        <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-                                            <MaterialIcons name='accessibility' color='green' size={30} />
-                                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginLeft: 10 }}>Contactos y Redes</Text>
+                            {editable ? (
+                                <View style={styles.itemContainer}>
+                                    <TouchableOpacity onPress={() => editarProducto()}>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop: 10 }}>
+                                            <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+                                                <MaterialIcons name='edit' color='green' size={30} />
+                                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginLeft: 10 }}>Editar Producto</Text>
+                                            </View>
+                                            <View style={{ flex: 1, }}>
+                                                <MaterialIcons name='keyboard-arrow-right' color='lightgray' size={30} />
+                                            </View>
                                         </View>
-                                        <View style={{ flex: 1, }}>
-                                            <MaterialIcons name='keyboard-arrow-right' color='lightgray' size={30} />
+                                    </TouchableOpacity>
+                                </View>
+                            ) : (
+                                <View style={styles.itemContainer}>
+                                    <TouchableOpacity onPress={() => contactosUsuario()}>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop: 10 }}>
+                                            <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+                                                <MaterialIcons name='accessibility' color='green' size={30} />
+                                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginLeft: 10 }}>Contactos y Redes</Text>
+                                            </View>
+                                            <View style={{ flex: 1, }}>
+                                                <MaterialIcons name='keyboard-arrow-right' color='lightgray' size={30} />
+                                            </View>
                                         </View>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
+                                    </TouchableOpacity>
+                                </View>
+                            )}
+
                             <View style={styles.itemContainer}>
                                 <TouchableOpacity onPress={() => comentarProducto()}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop: 10 }}>
@@ -395,19 +422,24 @@ export default function detalleProducto({ navigation }) {
                                     </View>
                                 </TouchableOpacity>
                             </View>
-                            <View style={styles.itemContainer}>
-                                <TouchableOpacity onPress={() => reportarProducto()}>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop: 10 }}>
-                                        <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-                                            <MaterialIcons name='warning' color='red' size={30} />
-                                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginLeft: 10 }}>Reportar</Text>
+                            {editable ? (
+                                null
+                            ) : (
+                                <View style={styles.itemContainer}>
+                                    <TouchableOpacity onPress={() => reportarProducto()}>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop: 10 }}>
+                                            <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+                                                <MaterialIcons name='warning' color='red' size={30} />
+                                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000', marginLeft: 10 }}>Reportar</Text>
+                                            </View>
+                                            <View style={{ flex: 1, }}>
+                                                <MaterialIcons name='keyboard-arrow-right' color='lightgray' size={30} />
+                                            </View>
                                         </View>
-                                        <View style={{ flex: 1, }}>
-                                            <MaterialIcons name='keyboard-arrow-right' color='lightgray' size={30} />
-                                        </View>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
+                                    </TouchableOpacity>
+                                </View>
+                            )}
+
                         </View>
                     </View>
                 </ScrollView>
@@ -419,17 +451,18 @@ export default function detalleProducto({ navigation }) {
                         <MaterialCommunityIcons name='reload' size={40} color='#000' />
                     </Animatable.View>
                 </Animatable.View>
-            )}
+            )
+            }
 
-                <Message visibility={message}>
-                    <View>
-                        <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{text}</Text>
-                    </View>
+            <Message visibility={message}>
+                <View>
+                    <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{text}</Text>
+                </View>
 
-                    <TouchableOpacity onPress={() => setMessage(false)} style={{ backgroundColor: '#000', borderRadius: 10, width: 150, height: 40, marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#fff' }}>Aceptar</Text>
-                    </TouchableOpacity>
-                </Message>
-        </View>
+                <TouchableOpacity onPress={() => setMessage(false)} style={{ backgroundColor: '#000', borderRadius: 10, width: 150, height: 40, marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
+                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#fff' }}>Aceptar</Text>
+                </TouchableOpacity>
+            </Message>
+        </View >
     )
 }

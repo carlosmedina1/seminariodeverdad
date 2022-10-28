@@ -33,6 +33,10 @@ import ReportarComentario from './src/ReportarComentario'
 import Contactos from './src/Contactos'
 import SeleccionCategoria from './src/seleccionCategoria'
 import SeleccionSubcategoria from './src/seleccionSubcategoria'
+import SeleccionCategoriaEditar from './src/seleccionCategoriaEditar'
+import SeleccionSubcategoriaEditar from './src/seleccionSubcategoriaEditar'
+
+import EditarProducto from './src/EditarProducto'
 import Productos_propios from './src/Productos_propios'
 import Productos_subcategorias from './src/Productos_subcategorias'
 import DetalleProducto from './src/detalleProducto'
@@ -148,8 +152,34 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 1,
     elevation: 5,
+    
+  },
+  menuCardsAdmin: {
+    justifyContent: "center",
+    marginBottom: 10,
+    marginHorizontal: 5,
+    width: "95%",
+    height: 80,
+    backgroundColor: "white",
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: "lightgray",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 1,
+    elevation: 5,
+    
+    backgroundColor: "lightblue"
   },
   btnCards: {
+    marginLeft: 10,
+    height: "100%",
+    justifyContent: "center",
+  },
+  btnCards2: {
     marginLeft: 10,
     height: "100%",
     justifyContent: "center",
@@ -297,54 +327,6 @@ const HomeScreen = ({ navigation }) => {
   );
 };
 
-const AmigosScreen = ({ navigation }) => {
-  return (
-    <ScrollView>
-      <View>
-        <View style={{ height: 40, alignContent: "center" }}>
-          <Text
-            style={{
-              fontWeight: "bold",
-              fontSize: 15,
-              marginTop: 10,
-              marginLeft: 10,
-              alignItems: "center",
-            }}
-          >
-            usuarios
-          </Text>
-        </View>
-
-        <View style={{ marginLeft: 10, marginTop: 10 }}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={{ flexDirection: "row" }}
-          >
-            <Image
-              style={{ height: 100, width: 100, borderRadius: 100 }}
-              source={{ uri: "http://placekitten.com/100/200" }}
-            />
-            <View>
-              <Text style={styles.txtProfiles}>Nombre de persona</Text>
-              <View style={styles.vProfiles}>
-                <View style={{}}>
-                  <Button style={{}} color="blue" title="Perfil"></Button>
-                </View>
-                <View style={{ marginLeft: 10 }}>
-                  <Button
-                    style={{ marginLeft: 10 }}
-                    color="gray"
-                    title="Eliminar"
-                  ></Button>
-                </View>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </ScrollView>
-  );
-};
 
 const MenuScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false)
@@ -446,7 +428,7 @@ const MenuScreen = ({ navigation }) => {
 
                 <View style={{ width: "50%", flexDirection: "column", marginTop: 10 }}>
                   <View style={styles.menuCards}>
-                    <TouchableOpacity onPress={() => navigation.replace("Productos_propios")}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Productos_propios")}>
                       <View style={styles.btnCards}>
                         <MaterialCommunityIcons
                           name={"dropbox"}
@@ -471,23 +453,38 @@ const MenuScreen = ({ navigation }) => {
                   </View>
                   {esAdmin ?
                     (
-                      <View style={styles.menuCards}>
-                        <TouchableOpacity>
-                          <View style={styles.btnCards}>
-                            <MaterialIcons
-                              name={"report"}
-                              size={28}
-                              color={"red"}
-                            />
-                            <Text>Revisar Reportes</Text>
-                          </View>
-                        </TouchableOpacity>
-                      </View>
+                      <>
+                        <View style={styles.menuCardsAdmin}>
+                          <TouchableOpacity>
+                            <View style={styles.btnCards}>
+                              <MaterialIcons
+                                name={"report"}
+                                size={28}
+                                color={"red"}
+                              />
+                              <Text>Revisar Reportes</Text>
+                            </View>
+                          </TouchableOpacity>
+                        </View>
+                        <View style={styles.menuCardsAdmin}>
+                          <TouchableOpacity>
+                            <View style={styles.btnCards}>
+                              <MaterialCommunityIcons
+                                name={"plus-circle-outline"}
+                                size={28}
+                                color={"green"}
+                              />
+                              <Text>Agregar Subcategoria</Text>
+                            </View>
+                          </TouchableOpacity>
+                        </View>
+                      </>
+
                     ) : null}
 
 
                   <View style={styles.menuCards}>
-                    <TouchableOpacity onPress={() => navigation.navigate("SeleccionCategoria")}>
+                    <TouchableOpacity onPress={() => navigation.replace("SeleccionCategoria", { propio: false })}>
                       <View style={styles.btnCards}>
                         <MaterialCommunityIcons
                           name={"plus-circle-outline"}
@@ -524,18 +521,29 @@ const MenuScreen = ({ navigation }) => {
 
                   {esAdmin ?
                     (
-                      <View style={styles.menuCards}>
-                        <TouchableOpacity onPress={() => navigation.navigate("Amigos")}>
-                          <View style={styles.btnCards}>
-                            <MaterialCommunityIcons
-                              name={"dropbox"}
-                              size={23}
-                              color={"red"}
-                            />
-                            <Text>Productos eliminados</Text>
-                          </View>
-                        </TouchableOpacity>
-                      </View>
+                      <>
+                        <View style={styles.menuCardsAdmin}>
+                          <TouchableOpacity onPress={() => navigation.navigate("Amigos")}>
+                            <View style={styles.btnCards}>
+                              <MaterialCommunityIcons
+                                name={"dropbox"}
+                                size={23}
+                                color={"red"}
+                              />
+                              <Text>Productos eliminados</Text>
+                            </View>
+                          </TouchableOpacity>
+                        </View>
+                        <View style={styles.menuCardsAdmin}>
+                          <TouchableOpacity onPress={() => navigation.navigate("Amigos")}>
+                            <View style={styles.btnCards}>
+                              <Entypo name={"users"} size={28} color={"blue"} />
+                              <Text>Administracion de usuarios</Text>
+                            </View>
+                          </TouchableOpacity>
+                        </View>
+                      </>
+
                     ) : null}
 
 
@@ -690,6 +698,24 @@ const RootStack = createStackNavigator(
         headerBackTitleVisible: false,
       },
     },
+    SeleccionCategoriaEditar: {
+      screen: SeleccionCategoriaEditar,
+      navigationOptions: {
+        title: 'SeleccionCategoriaEditar',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    SeleccionSubcategoriaEditar: {
+      screen: SeleccionSubcategoriaEditar,
+      navigationOptions: {
+        title: 'SeleccionSubcategoriaEditar',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
     CrearProducto: {
       screen: CrearProducto,
       navigationOptions: {
@@ -736,7 +762,7 @@ const RootStack = createStackNavigator(
         headerBackTitleVisible: false,
       },
     },
-    
+
     Productos_subcategorias: {
       screen: Productos_subcategorias,
 
@@ -802,6 +828,16 @@ const RootStack = createStackNavigator(
 
       navigationOptions: {
         title: 'Contactos',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    EditarProducto: {
+      screen: EditarProducto,
+
+      navigationOptions: {
+        title: 'EditarProducto',
         headerTintColor: '#fff',
         headerShown: false,
         headerBackTitleVisible: false,

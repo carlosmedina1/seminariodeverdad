@@ -104,6 +104,7 @@ export default function seleccionSubcategoria({ navigation }) {
     const [busqueda, setBusqueda] = useState('')
     const categoria = navigation.getParam('cat', '0')
 
+    const propio = navigation.getParam('propio', 'false')
     const filtrarReport = (text) => {
         if (text) {
             const newData = report.filter((item) => {
@@ -159,7 +160,7 @@ export default function seleccionSubcategoria({ navigation }) {
         //console.log(item)
         navigation.navigate('CrearProducto', {
             subcategoria: item,
-
+            propio:propio
         })
     }
     useEffect(() => {
@@ -176,7 +177,7 @@ export default function seleccionSubcategoria({ navigation }) {
                 <View style={styles.card}>
                     <View style={{ paddingTop: 20, paddingLeft: 20, paddingRight: 20, justifyContent: 'center' }}>
                         <View style={{ flexDirection: 'row', width: '100%', marginBottom: 5, }}>
-                            <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.pop(1)}>
+                            <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.replace('SeleccionCategoria',{propio:propio})}>
                                 <MaterialIcons name="arrow-back" color="#000" size={20} style={{ alignSelf: 'center' }} />
                             </TouchableOpacity>
                             <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000', }}>Selecciona una subcategoria</Text>

@@ -158,14 +158,13 @@ export default function Productos_propios({ navigation }) {
     }
 
     const goDetalleProducto = (item) => {
-        console.log(item)
         navigation.navigate('DetalleProducto', {
-            producto: item
+            producto: item,
+            editable: true
         })
     }
     const iraCreacionProducto = () => {
-        console.log('aaaaaaaaaaa')
-        //navigation.replace("MercadoUCM")
+        navigation.replace("SeleccionCategoria", { propio: true })
     }
     useEffect(() => {
         console.log('productos propios')
@@ -182,7 +181,7 @@ export default function Productos_propios({ navigation }) {
                 <View style={styles.card}>
                     <View style={{ paddingTop: 20, paddingLeft: 20, paddingRight: 20, justifyContent: 'center' }}>
                         <View style={{ flexDirection: 'row', width: '100%', marginBottom: 5, }}>
-                            <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.replace("MercadoUCM")}>
+                            <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.pop(1)}>
                                 <MaterialIcons name="arrow-back" color="#000" size={20} style={{ alignSelf: 'center' }} />
                             </TouchableOpacity>
                             <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000', }}>Mis Productos</Text>
