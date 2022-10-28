@@ -33,8 +33,6 @@ import ReportarComentario from './src/ReportarComentario'
 import Contactos from './src/Contactos'
 import SeleccionCategoria from './src/seleccionCategoria'
 import SeleccionSubcategoria from './src/seleccionSubcategoria'
-import SeleccionCategoriaEditar from './src/seleccionCategoriaEditar'
-import SeleccionSubcategoriaEditar from './src/seleccionSubcategoriaEditar'
 
 import EditarProducto from './src/EditarProducto'
 import Productos_propios from './src/Productos_propios'
@@ -693,24 +691,6 @@ const RootStack = createStackNavigator(
       screen: SeleccionSubcategoria,
       navigationOptions: {
         title: 'SeleccionSubcategoria',
-        headerTintColor: '#fff',
-        headerShown: false,
-        headerBackTitleVisible: false,
-      },
-    },
-    SeleccionCategoriaEditar: {
-      screen: SeleccionCategoriaEditar,
-      navigationOptions: {
-        title: 'SeleccionCategoriaEditar',
-        headerTintColor: '#fff',
-        headerShown: false,
-        headerBackTitleVisible: false,
-      },
-    },
-    SeleccionSubcategoriaEditar: {
-      screen: SeleccionSubcategoriaEditar,
-      navigationOptions: {
-        title: 'SeleccionSubcategoriaEditar',
         headerTintColor: '#fff',
         headerShown: false,
         headerBackTitleVisible: false,

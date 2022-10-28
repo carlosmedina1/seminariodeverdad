@@ -20,6 +20,16 @@ const login = async (req, res) => {
     }
 }
 
+const buscarCategoria = async (req, res) => {
+    try {
+        const response = await pool.query('select * from categoria order by id_categoria asc');
+        res.json(response.rows)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
+
 const verificar_likes = async (req, res) => {
     const { id_usuario, id_producto } = req.body
     try {
@@ -197,7 +207,7 @@ const busquedaSubcategorias = async (req, res) => {
 const busquedaProductosUsuario = async (req, res) => {
     const { id_user } = req.body
     try {
-        const response = await pool.query('select p.*,sc.nombre_subcategoria,c.nombre_categoria from producto p join subcategoria sc on sc.id_subcategoria=p.id_subcategoria join categoria c on c.id_categoria=sc.id_categoria where id_usuario=$1',[id_user]);
+        const response = await pool.query('select p.*,sc.nombre_subcategoria,c.nombre_categoria,c.id_categoria from producto p join subcategoria sc on sc.id_subcategoria=p.id_subcategoria join categoria c on c.id_categoria=sc.id_categoria where id_usuario=$1',[id_user]);
         res.json(response.rows)
     }
     catch (err) {
@@ -234,6 +244,17 @@ const guardarNuevoProducto = async (req, res) => {
         res.json(err)
     }
 }
+const guardarProductoEditado = async (req, res) => {
+    const {id_producto, nombre_producto,descripcion,id_subcategoria} = req.body
+    console.log(id_producto, nombre_producto,descripcion,id_subcategoria)
+    try {
+        const response = await pool.query('update producto set nombre_producto=$1, descripcion=$2, id_subcategoria=$3 where id_producto=$4', [nombre_producto,descripcion,id_subcategoria,id_producto]);
+        res.json(1)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
 module.exports = {
     busquedaProductos,
     login,
@@ -257,4 +278,6 @@ module.exports = {
     verificarReporteComentario,
     eliminarComentario,
     guardarNuevoProducto,
+    buscarCategoria,
+    guardarProductoEditado
 }
