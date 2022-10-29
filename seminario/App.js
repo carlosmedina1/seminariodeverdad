@@ -40,7 +40,8 @@ import Productos_propios from './src/Productos_propios'
 import Productos_subcategorias from './src/Productos_subcategorias'
 import DetalleProducto from './src/detalleProducto'
 import CrearProducto from './src/CrearProducto'
-
+import SeleccionCategoriaAgregar from './src/seleccionCategoriaAgregar'
+import CrearSubcategoria from './src/CrearSubcategoria'
 import DetalleComentario from './src/detalleComentario'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import ListadoReporteProductos from "./src/ListadoReporteProductos";
@@ -470,7 +471,7 @@ const MenuScreen = ({ navigation }) => {
                           </TouchableOpacity>
                         </View>
                         <View style={styles.menuCardsAdmin}>
-                          <TouchableOpacity>
+                          <TouchableOpacity onPress={() => navigation.navigate("SeleccionCategoriaAgregar")}>
                             <View style={styles.btnCards}>
                               <MaterialCommunityIcons
                                 name={"plus-circle-outline"}
@@ -883,6 +884,26 @@ const RootStack = createStackNavigator(
 
       navigationOptions: {
         title: 'ListadoLikesComentarios',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    SeleccionCategoriaAgregar: {
+      screen: SeleccionCategoriaAgregar,
+
+      navigationOptions: {
+        title: 'SeleccionCategoriaAgregar',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    CrearSubcategoria: {
+      screen: CrearSubcategoria,
+
+      navigationOptions: {
+        title: 'CrearSubcategoria',
         headerTintColor: '#fff',
         headerShown: false,
         headerBackTitleVisible: false,

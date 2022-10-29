@@ -99,20 +99,16 @@ const styles = StyleSheet.create({
 
 export default function CrearProducto({ navigation }) {
     const [nombre, setNombre] = useState('')
-    const [descripcion, setDescripcion] = useState('')
     const [text, setText] = useState('')
-    const datos = navigation.getParam('subcategoria', '0')
-    const propio = navigation.getParam('propio', 'false')
+    const datos = navigation.getParam('cat', '0')
     const [logining, setLogining] = useState(false)
     const [message, setMessage] = useState(false)
 
     const handleLogin = async () => {
         setLogining(true)
-
-        if (nombre !== '' && descripcion !== '') {
-            const id_user = await AsyncStorage.getItem('id_user')
-            const json = JSON.stringify({ nombre_producto : nombre, descripcion: descripcion , id_subcategoria: datos.id_subcategoria,id_usuario: id_user })
-            await fetch(Route + 'guardarNuevoProducto',
+        if (nombre !== '') {
+            const json = JSON.stringify({ nombre_subcategoria : nombre, id_categoria: datos})
+            await fetch(Route + 'guardarNuevaSubcategoria',
                 {
                     method: 'POST',
                     headers: {
@@ -122,22 +118,13 @@ export default function CrearProducto({ navigation }) {
                 })
                 .then((response) => response.json())
                 .then((data) => {
-                    if(propio){
-                        if (Platform.OS === 'android') {
-                            ToastAndroid.show('Producto Creado', ToastAndroid.SHORT)
-                        }
-                        else {
-                            Alert.alert('Producto Creado')
-                        }
-                        navigation.replace("Productos_propios")
-                    }else{
-                        if (Platform.OS === 'android') {
-                            ToastAndroid.show('Producto Creado', ToastAndroid.SHORT)
-                        }
-                        else {
-                            Alert.alert('Producto Creado')
-                        }
-                        navigation.replace("MercadoUCM")
+                    if (Platform.OS === 'android') {
+                        ToastAndroid.show('Producto Modificado', ToastAndroid.SHORT)
+                        navigation.pop(3)
+                    }
+                    else {
+                        Alert.alert('Producto modificado')
+                        navigation.pop(3)
                     }
                 })
                 .catch((error) => {
@@ -150,10 +137,6 @@ export default function CrearProducto({ navigation }) {
             setMessage(true)
         }
     }
-    useEffect(() => {
-        console.log(datos)
-        //_loadSession()
-    }, [])
 
 
     return (
@@ -169,25 +152,13 @@ export default function CrearProducto({ navigation }) {
 
             <View style={styles.body}>
                 <View style={{ marginTop: 20 }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 25, color: '#000' }}>Nuevo Producto</Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 25, color: '#000' }}>Nueva Subcategoria</Text>
                 </View>
                 <ScrollView>
                     <View style={{ alignItems: 'center', width: '100%' }}>
-                        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 20 }}>Nombre del producto:</Text>
+                        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 20 }}>Nombre de la Subcategoria:</Text>
                         <View style={styles.action2}>
                             <TextInput placeholder="Nombre(*)" maxLength={50} style={{ marginBottom: 10, width: '100%' }} onChangeText={(text) => setNombre(text)} />
-                        </View>
-                        <View style={styles.action}>
-                            <FeatherIcon color="gray" name="unlock" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                            <Text style={{ marginBottom: 10, width: '100%' }}>Categoria: {datos.nombre_categoria}</Text>
-                        </View>
-                        <View style={styles.action}>
-                            <FeatherIcon color="gray" name="unlock" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                            <Text style={{ marginBottom: 10, width: '100%' }}>Subcategoria: {datos.nombre_subcategoria}</Text>
-                        </View>
-                        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 10 }}>Descripcion:</Text>
-                        <View style={styles.action2}>
-                            <TextInput maxLength={200} multiline={true} placeholder="Descripcion(200)" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass2) => setDescripcion(pass2)} />
                         </View>
                     </View>
                 </ScrollView>
@@ -197,7 +168,7 @@ export default function CrearProducto({ navigation }) {
                             <Text style={{ fontWeight: 'bold', fontSize: 20, color: 'gray' }}>Guardando</Text>
                         ) : (
                             <TouchableOpacity style={styles.btnIngresar} onPress={() => handleLogin()}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 20, color: '#fff' }}>Grabar producto</Text>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20, color: '#fff' }}>Grabar Subcategoria</Text>
                             </TouchableOpacity>
                         )
                     }
