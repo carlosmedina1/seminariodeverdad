@@ -33,7 +33,8 @@ import ReportarComentario from './src/ReportarComentario'
 import Contactos from './src/Contactos'
 import SeleccionCategoria from './src/seleccionCategoria'
 import SeleccionSubcategoria from './src/seleccionSubcategoria'
-
+import Categorias_reportes from './src/Categorias_reportes'
+import Categorias_Likes from './src/Categorias_Likes'
 import EditarProducto from './src/EditarProducto'
 import Productos_propios from './src/Productos_propios'
 import Productos_subcategorias from './src/Productos_subcategorias'
@@ -42,6 +43,10 @@ import CrearProducto from './src/CrearProducto'
 
 import DetalleComentario from './src/detalleComentario'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import ListadoReporteProductos from "./src/ListadoReporteProductos";
+import ListadoReporteComentarios from "./src/ListadoReporteComentarios";
+import ListadoLikesComentarios from "./src/ListadoLikesComentarios";
+import ListadoLikesProductos from "./src/ListadoLikesProductos";
 
 const styles = StyleSheet.create({
   container: {
@@ -438,7 +443,7 @@ const MenuScreen = ({ navigation }) => {
                     </TouchableOpacity>
                   </View>
                   <View style={styles.menuCards}>
-                    <TouchableOpacity>
+                    <TouchableOpacity  onPress={() => navigation.navigate("Categorias_reportes")}>
                       <View style={styles.btnCards}>
                         <MaterialIcons
                           name={"report"}
@@ -507,7 +512,7 @@ const MenuScreen = ({ navigation }) => {
                     </TouchableOpacity>
                   </View>
                   <View style={styles.menuCards}>
-                    <TouchableOpacity>
+                    <TouchableOpacity  onPress={() => navigation.navigate("Categorias_Likes")}>
                       <View style={styles.btnCards}>
                         <Entypo name={"thumbs-up"} size={28} color={"blue"} />
                         <Text>Mis Likes</Text>
@@ -818,6 +823,66 @@ const RootStack = createStackNavigator(
 
       navigationOptions: {
         title: 'EditarProducto',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    Categorias_reportes: {
+      screen: Categorias_reportes,
+
+      navigationOptions: {
+        title: 'Categorias_reportes',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    Categorias_Likes: {
+      screen: Categorias_Likes,
+
+      navigationOptions: {
+        title: 'Categorias_Likes',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    ListadoReporteProductos: {
+      screen: ListadoReporteProductos,
+
+      navigationOptions: {
+        title: 'ListadoReporteProductos',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    ListadoReporteComentarios: {
+      screen: ListadoReporteComentarios,
+
+      navigationOptions: {
+        title: 'ListadoReporteComentarios',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    ListadoLikesProductos: {
+      screen: ListadoLikesProductos,
+
+      navigationOptions: {
+        title: 'ListadoLikesProductos',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    ListadoLikesComentarios: {
+      screen: ListadoLikesComentarios,
+
+      navigationOptions: {
+        title: 'ListadoLikesComentarios',
         headerTintColor: '#fff',
         headerShown: false,
         headerBackTitleVisible: false,

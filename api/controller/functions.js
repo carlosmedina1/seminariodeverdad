@@ -234,6 +234,46 @@ const obtenerIdUsuario = async (req, res) => {
         res.json(err.message)
     }
 }
+const obtenerReportesUsuario = async (req, res) => {
+    const { id_usuario } = req.body
+    try{
+        const response = await pool.query('select r.*,p.nombre_producto from reportes_producto r join producto p on p.id_producto=r.id_producto where r.id_usuario = $1;', [id_usuario])
+        res.json(response.rows)
+    }
+    catch(err){
+        res.json(err.message)
+    }
+}
+const obtenerReportesUsuario2 = async (req, res) => {
+    const { id_usuario } = req.body
+    try{
+        const response = await pool.query('select r.*,p.nombre_producto from reportes_comentario r join producto p on p.id_producto=r.id_producto where r.id_usuario = $1;', [id_usuario])
+        res.json(response.rows)
+    }
+    catch(err){
+        res.json(err.message)
+    }
+}
+const obtenerLikesUsuario = async (req, res) => {
+    const { id_usuario } = req.body
+    try{
+        const response = await pool.query('select dl.*,p.nombre_producto from detalle_likes dl join producto p on p.id_producto=dl.id_producto where dl.vigente=true and dl.id_usuario = $1;', [id_usuario])
+        res.json(response.rows)
+    }
+    catch(err){
+        res.json(err.message)
+    }
+}
+const obtenerLikesUsuario2 = async (req, res) => {
+    const { id_usuario } = req.body
+    try{
+        const response = await pool.query('select dlc.*,p.nombre_producto,cp.comentario from detalle_likes_comentario dlc join comentarios_producto cp on dlc.id_comentario=cp.id_comentarios_producto join producto p on p.id_producto=cp.id_producto where dlc.vigente=true and dlc.id_usuario = $1;', [id_usuario])
+        res.json(response.rows)
+    }
+    catch(err){
+        res.json(err.message)
+    }
+}
 const guardarNuevoProducto = async (req, res) => {
     const {id_usuario, nombre_producto,descripcion,id_subcategoria} = req.body
     try {
@@ -279,5 +319,9 @@ module.exports = {
     eliminarComentario,
     guardarNuevoProducto,
     buscarCategoria,
-    guardarProductoEditado
+    guardarProductoEditado,
+    obtenerReportesUsuario,
+    obtenerReportesUsuario2,
+    obtenerLikesUsuario,
+    obtenerLikesUsuario2
 }

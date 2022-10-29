@@ -4,7 +4,7 @@ const router = Router();
 const { login, busquedaProductos,obtenerIdUsuario,registro,busquedaProductosUsuario,busquedaSubcategorias,busquedaProductosSubcategoria,verificar_likes,
         like_al_entrar,likesProducto,getContactos,getComentarios,guardarComentario,verificar_likes_comentarios ,like_al_entrar_comentario,likesComentario,
         guardarReporte,verificarReporte,guardarReportecomentario,verificarReporteComentario,eliminarComentario,guardarNuevoProducto,buscarCategoria,
-        guardarProductoEditado} = require('../controller/functions');
+        guardarProductoEditado,obtenerReportesUsuario,obtenerReportesUsuario2,obtenerLikesUsuario,obtenerLikesUsuario2} = require('../controller/functions');
 
 router.post('/seminarioAPI/login', login);
 router.post('/seminarioAPI/busquedaProductos', busquedaProductos);
@@ -30,4 +30,8 @@ router.post('/seminarioAPI/eliminarComentario', eliminarComentario);
 router.post('/seminarioAPI/guardarNuevoProducto', guardarNuevoProducto);
 router.post('/seminarioAPI/buscarCategoria', buscarCategoria);
 router.post('/seminarioAPI/guardarProductoEditado', guardarProductoEditado);
+router.post('/seminarioAPI/obtenerReportesUsuario', obtenerReportesUsuario);
+router.post('/seminarioAPI/obtenerReportesUsuario2', obtenerReportesUsuario2);
+router.post('/seminarioAPI/obtenerLikesUsuario', obtenerLikesUsuario);
+router.post('/seminarioAPI/obtenerLikesUsuario2', obtenerLikesUsuario2);
 module.exports = router;
