@@ -119,11 +119,11 @@ export default function CrearProducto({ navigation }) {
                 .then((response) => response.json())
                 .then((data) => {
                     if (Platform.OS === 'android') {
-                        ToastAndroid.show('Producto Modificado', ToastAndroid.SHORT)
+                        ToastAndroid.show('Subcategoria Creada', ToastAndroid.SHORT)
                         navigation.pop(3)
                     }
                     else {
-                        Alert.alert('Producto modificado')
+                        Alert.alert('Subcategoria Creada')
                         navigation.pop(3)
                     }
                 })
