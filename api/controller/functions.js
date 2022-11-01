@@ -207,7 +207,7 @@ const busquedaSubcategorias = async (req, res) => {
 const busquedaProductosUsuario = async (req, res) => {
     const { id_user } = req.body
     try {
-        const response = await pool.query('select p.*,sc.nombre_subcategoria,c.nombre_categoria,c.id_categoria from producto p join subcategoria sc on sc.id_subcategoria=p.id_subcategoria join categoria c on c.id_categoria=sc.id_categoria where id_usuario=$1 and vigente=true',[id_user]);
+        const response = await pool.query('select p.*,sc.nombre_subcategoria,c.nombre_categoria,c.id_categoria from producto p join subcategoria sc on sc.id_subcategoria=p.id_subcategoria join categoria c on c.id_categoria=sc.id_categoria where id_usuario=$1 and p.vigente=true',[id_user]);
         res.json(response.rows)
     }
     catch (err) {

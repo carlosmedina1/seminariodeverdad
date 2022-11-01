@@ -293,6 +293,7 @@ export default function detalleProducto({ navigation }) {
     useEffect(() => {
         obtenerLikes()
         like_al_entrar()
+        console.log(editable)
     }, [])
 
     return (

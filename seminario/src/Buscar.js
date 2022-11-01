@@ -149,7 +149,8 @@ export default function reportPendientes({ navigation }) {
 
     const goDetalleProducto = (item) => {
         navigation.navigate('DetalleProducto', {
-            producto: item
+            producto: item,
+            editable: false
         })
         //console.log(item)
         //setLoading2(true)
