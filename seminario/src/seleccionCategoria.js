@@ -102,7 +102,6 @@ export default function seleccionCategoria({ navigation }) {
     const [loading, setLoading] = useState(false)
     const [sinProductos, setSinProductos] = useState(false)
     const [busqueda, setBusqueda] = useState('')
-    const categoria = navigation.getParam('cat', '0')
     const propio = navigation.getParam('propio', 'false')
 
 

@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 
     btnIngresar: {
         backgroundColor: '#000',
-        width: 250,
+        width: 300,
         height: 50,
         borderRadius: 60,
         alignItems: 'center',
@@ -169,11 +169,11 @@ export default function CrearProducto({ navigation }) {
 
             <View style={styles.body}>
                 <View style={{ marginTop: 20 }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 25, color: '#000' }}>Nuevo Producto</Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 25, color: '#000' }}>Nuevo Producto o servicio</Text>
                 </View>
                 <ScrollView>
                     <View style={{ alignItems: 'center', width: '100%' }}>
-                        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 20 }}>Nombre del producto:</Text>
+                        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 20 }}>Nombre del producto o servicio:</Text>
                         <View style={styles.action2}>
                             <TextInput placeholder="Nombre(*)" maxLength={50} style={{ marginBottom: 10, width: '100%' }} onChangeText={(text) => setNombre(text)} />
                         </View>
@@ -197,7 +197,7 @@ export default function CrearProducto({ navigation }) {
                             <Text style={{ fontWeight: 'bold', fontSize: 20, color: 'gray' }}>Guardando</Text>
                         ) : (
                             <TouchableOpacity style={styles.btnIngresar} onPress={() => handleLogin()}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 20, color: '#fff' }}>Grabar producto</Text>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20, color: '#fff' }}>Grabar producto o servicio</Text>
                             </TouchableOpacity>
                         )
                     }
