@@ -121,6 +121,23 @@ const habilitarProducto = async (req, res) => {
         res.json(err)
     }
 }
+const cambiarEstadoUsuario = async (req, res) => {
+    const {  id_usuario,vigente } = req.body
+    try {
+        if(vigente){
+            const response = await pool.query('update usuario set vigente=false where id_usuario = $1', [id_usuario]);
+            const response2 = await pool.query('update producto set bloqueado=true where id_usuario = $1', [id_usuario]);
+            res.json(response.rows)
+        }else{
+            const response = await pool.query('update usuario set vigente=true where id_usuario = $1', [id_usuario]);
+            const response2 = await pool.query('update producto set bloqueado=false where id_usuario = $1', [id_usuario]);
+            res.json(response.rows)
+        }
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
 
 const getContactos = async (req, res) => {
     const {  id_usuario } = req.body
@@ -224,6 +241,17 @@ const busquedaCategorias = async (req, res) => {
         res.json(err)
     }
 }
+
+const busquedaUsuarios = async (req, res) => {
+    try {
+        const response = await pool.query('select s.*,(select count(p.id_producto) as cantidad_productos from producto p where p.id_usuario=s.id_usuario) from usuario s where s.es_admin=false ORDER BY s.id_usuario');
+        res.json(response.rows)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
+
 const busquedaProductosUsuario = async (req, res) => {
     const { id_user } = req.body
     try {
@@ -370,4 +398,6 @@ module.exports = {
     busquedaCategorias,
     busquedaProductosEliminados,
     habilitarProducto,
+    busquedaUsuarios,
+    cambiarEstadoUsuario,
 }

@@ -50,6 +50,8 @@ import ListadoLikesComentarios from "./src/ListadoLikesComentarios";
 import ListadoLikesProductos from "./src/ListadoLikesProductos";
 import Productos_eliminados from "./src/Productos_eliminados";
 import DetalleProductoEliminado from "./src/DetalleProductoEliminado";
+import MantencionUsuarios from "./src/MantencionUsuarios";
+import DetalleUsuarios from "./src/DetalleUsuarios";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -479,6 +481,18 @@ const MenuScreen = ({ navigation }) => {
                                 size={28}
                                 color={"green"}
                               />
+                              <Text>Agregar Categoria</Text>
+                            </View>
+                          </TouchableOpacity>
+                        </View>
+                        <View style={styles.menuCardsAdmin}>
+                          <TouchableOpacity onPress={() => navigation.navigate("SeleccionCategoriaAgregar")}>
+                            <View style={styles.btnCards}>
+                              <MaterialCommunityIcons
+                                name={"plus-circle-outline"}
+                                size={28}
+                                color={"green"}
+                              />
                               <Text>Agregar Subcategoria</Text>
                             </View>
                           </TouchableOpacity>
@@ -540,7 +554,7 @@ const MenuScreen = ({ navigation }) => {
                           </TouchableOpacity>
                         </View>
                         <View style={styles.menuCardsAdmin}>
-                          <TouchableOpacity onPress={() => navigation.navigate("Amigos")}>
+                          <TouchableOpacity onPress={() => navigation.navigate("MantencionUsuarios")}>
                             <View style={styles.btnCards}>
                               <Entypo name={"users"} size={28} color={"blue"} />
                               <Text>Administracion de usuarios</Text>
@@ -925,6 +939,26 @@ const RootStack = createStackNavigator(
 
       navigationOptions: {
         title: 'DetalleProductoEliminado',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    MantencionUsuarios: {
+      screen: MantencionUsuarios,
+
+      navigationOptions: {
+        title: 'MantencionUsuarios',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    DetalleUsuarios: {
+      screen: DetalleUsuarios,
+
+      navigationOptions: {
+        title: 'DetalleUsuarios',
         headerTintColor: '#fff',
         headerShown: false,
         headerBackTitleVisible: false,
