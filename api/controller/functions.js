@@ -352,6 +352,16 @@ const guardarNuevaSubcategoria = async (req, res) => {
         res.json(err)
     }
 }
+const guardarNuevaCategoria = async (req, res) => {
+    const {nombre_categoria} = req.body
+    try {
+        const response = await pool.query('insert into categoria (nombre_categoria) values ($1)', [nombre_categoria]);
+        res.json(1)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
 
 const guardarProductoEditado = async (req, res) => {
     const {id_producto, nombre_producto,descripcion,id_subcategoria} = req.body
@@ -400,4 +410,5 @@ module.exports = {
     habilitarProducto,
     busquedaUsuarios,
     cambiarEstadoUsuario,
+    guardarNuevaCategoria,
 }

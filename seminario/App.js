@@ -52,6 +52,10 @@ import Productos_eliminados from "./src/Productos_eliminados";
 import DetalleProductoEliminado from "./src/DetalleProductoEliminado";
 import MantencionUsuarios from "./src/MantencionUsuarios";
 import DetalleUsuarios from "./src/DetalleUsuarios";
+import CrearCategoria from "./src/CrearCategoria";
+
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -474,7 +478,7 @@ const MenuScreen = ({ navigation }) => {
                           </TouchableOpacity>
                         </View>
                         <View style={styles.menuCardsAdmin}>
-                          <TouchableOpacity onPress={() => navigation.navigate("SeleccionCategoriaAgregar")}>
+                          <TouchableOpacity onPress={() => navigation.navigate("CrearCategoria")}>
                             <View style={styles.btnCards}>
                               <MaterialCommunityIcons
                                 name={"plus-circle-outline"}
@@ -959,6 +963,16 @@ const RootStack = createStackNavigator(
 
       navigationOptions: {
         title: 'DetalleUsuarios',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    CrearCategoria: {
+      screen: CrearCategoria,
+
+      navigationOptions: {
+        title: 'CrearCategoria',
         headerTintColor: '#fff',
         headerShown: false,
         headerBackTitleVisible: false,

@@ -97,18 +97,17 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function CrearProducto({ navigation }) {
+export default function CrearCategoria({ navigation }) {
     const [nombre, setNombre] = useState('')
     const [text, setText] = useState('')
-    const datos = navigation.getParam('cat', '0')
     const [logining, setLogining] = useState(false)
     const [message, setMessage] = useState(false)
 
     const handleLogin = async () => {
         setLogining(true)
         if (nombre !== '') {
-            const json = JSON.stringify({ nombre_subcategoria : nombre, id_categoria: datos})
-            await fetch(Route + 'guardarNuevaSubcategoria',
+            const json = JSON.stringify({ nombre_categoria : nombre})
+            await fetch(Route + 'guardarNuevaCategoria',
                 {
                     method: 'POST',
                     headers: {
@@ -119,11 +118,11 @@ export default function CrearProducto({ navigation }) {
                 .then((response) => response.json())
                 .then((data) => {
                     if (Platform.OS === 'android') {
-                        ToastAndroid.show('Subcategoria Creada', ToastAndroid.SHORT)
+                        ToastAndroid.show('Categoria Creada', ToastAndroid.SHORT)
                         navigation.pop(3)
                     }
                     else {
-                        Alert.alert('Subcategoria Creada')
+                        Alert.alert('Categoria Creada')
                         navigation.pop(3)
                     }
                 })
@@ -133,7 +132,7 @@ export default function CrearProducto({ navigation }) {
                 })
         } else {
             setLogining(false)
-            setText('El nombre es obligatorio')
+            setText('El  nombre es obligatorio')
             setMessage(true)
         }
     }
@@ -152,11 +151,11 @@ export default function CrearProducto({ navigation }) {
 
             <View style={styles.body}>
                 <View style={{ marginTop: 20 }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 25, color: '#000' }}>Nueva Subcategoria</Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 25, color: '#000' }}>Nueva Categoria</Text>
                 </View>
                 <ScrollView>
                     <View style={{ alignItems: 'center', width: '100%' }}>
-                        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 20 }}>Nombre de la Subcategoria:</Text>
+                        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 20 }}>Nombre de la Categoria:</Text>
                         <View style={styles.action2}>
                             <TextInput placeholder="Nombre(*)" maxLength={50} style={{ marginBottom: 10, width: '100%' }} onChangeText={(text) => setNombre(text)} />
                         </View>
@@ -168,7 +167,7 @@ export default function CrearProducto({ navigation }) {
                             <Text style={{ fontWeight: 'bold', fontSize: 20, color: 'gray' }}>Guardando</Text>
                         ) : (
                             <TouchableOpacity style={styles.btnIngresar} onPress={() => handleLogin()}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 20, color: '#fff' }}>Grabar Subcategoria</Text>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20, color: '#fff' }}>Grabar Categoria</Text>
                             </TouchableOpacity>
                         )
                     }

@@ -5,7 +5,7 @@ const { login, busquedaProductos,obtenerIdUsuario,registro,busquedaProductosUsua
         like_al_entrar,likesProducto,getContactos,getComentarios,guardarComentario,verificar_likes_comentarios ,like_al_entrar_comentario,likesComentario,
         guardarReporte,verificarReporte,guardarReportecomentario,verificarReporteComentario,eliminarComentario,guardarNuevoProducto,buscarCategoria,
         guardarProductoEditado,obtenerReportesUsuario,obtenerReportesUsuario2,obtenerLikesUsuario,obtenerLikesUsuario2,guardarNuevaSubcategoria,busquedaCategorias,
-        busquedaProductosEliminados,habilitarProducto,busquedaUsuarios,cambiarEstadoUsuario} = require('../controller/functions');
+        busquedaProductosEliminados,habilitarProducto,busquedaUsuarios,cambiarEstadoUsuario,guardarNuevaCategoria} = require('../controller/functions');
 
 router.post('/seminarioAPI/login', login);
 router.post('/seminarioAPI/busquedaProductos', busquedaProductos);
@@ -41,4 +41,6 @@ router.post('/seminarioAPI/busquedaProductosEliminados', busquedaProductosElimin
 router.post('/seminarioAPI/habilitarProducto', habilitarProducto);
 router.post('/seminarioAPI/busquedaUsuarios', busquedaUsuarios);
 router.post('/seminarioAPI/cambiarEstadoUsuario', cambiarEstadoUsuario);
+router.post('/seminarioAPI/guardarNuevaCategoria', guardarNuevaCategoria);
+
 module.exports = router;
