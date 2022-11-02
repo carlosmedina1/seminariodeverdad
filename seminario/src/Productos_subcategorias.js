@@ -157,17 +157,12 @@ export default function Productos_propios({ navigation }) {
     }
 
     const goDetalleProducto = (item) => {
-        console.log(item)
         navigation.navigate('DetalleProducto', {
-            producto: item
+            producto: item,
+            editable:false
         })
     }
-    const iraCreacionProducto = () => {
-        console.log('aaaaaaaaaaa')
-        //navigation.replace("MercadoUCM")
-    }
     useEffect(() => {
-        console.log('productos propios')
         getReports()
     }, [])
 
@@ -184,7 +179,7 @@ export default function Productos_propios({ navigation }) {
                             <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.pop(1)}>
                                 <MaterialIcons name="arrow-back" color="#000" size={20} style={{ alignSelf: 'center' }} />
                             </TouchableOpacity>
-                            <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000', }}>Mis Productos</Text>
+                            <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000', }}>{subcategoria.nombre_subcategoria}</Text>
                         </View>
                         <View style={styles.action}>
                             <MaterialIcons color="gray" name="search" size={20} style={{ flex: 1, marginRight: 10, alignSelf: 'center' }} />
@@ -231,10 +226,9 @@ export default function Productos_propios({ navigation }) {
                                                 <MaterialCommunityIcons name="emoticon-sad" color='#000' size={80} />
                                             </Animatable.View>
 
-                                            <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡No cuentas con Productos!</Text>
+                                            <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡No hay productos Aqui!</Text>
                                             <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => iraCreacionProducto()}>
                                                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'gray', }}>Puede intentar </Text>
-                                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'blue', }}>crear un producto. </Text>
                                             </TouchableOpacity>
                                         </View>
                                     ) : (

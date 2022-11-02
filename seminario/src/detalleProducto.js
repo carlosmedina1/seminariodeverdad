@@ -152,7 +152,7 @@ export default function detalleProducto({ navigation }) {
         if(editable){
             navigation.pop(1)
         }else{
-            navigation.replace("MercadoUCM")
+            navigation.pop(1)
         }
     }
     const verificar_likes = async () => {

@@ -152,9 +152,6 @@ export default function reportPendientes({ navigation }) {
             producto: item,
             editable: false
         })
-        //console.log(item)
-        //setLoading2(true)
-        //obtenerSupervisor(item)
     }    
     useEffect(() => {
         getReports()

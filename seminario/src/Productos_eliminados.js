@@ -99,18 +99,17 @@ const styles = StyleSheet.create({
     },
 })
 
-export default function Categoria({ navigation }) {
+export default function Productos_eliminados({ navigation }) {
     const [report, setReport] = useState([])
     const [filterReport, setFilterReport] = useState([])
     const [loading, setLoading] = useState(false)
     const [sinProductos, setSinProductos] = useState(false)
     const [busqueda, setBusqueda] = useState('')
-    const categoria = navigation.getParam('cat', '0')
 
     const filtrarReport = (text) => {
         if (text) {
             const newData = report.filter((item) => {
-                const itemData = item.nombre_subcategoria + ' ' + item.nombre_subcategoria + ' ' + item.nombre_subcategoria + ' ' + item.nombre_subcategoria.toUpperCase();
+                const itemData = item.nombre_producto + ' ' + item.nombre_producto + ' ' + item.nombre_producto + ' ' + item.nombre_producto.toUpperCase();
                 const textData = text.toUpperCase();
                 return itemData.indexOf(textData) > -1;
             })
@@ -128,14 +127,12 @@ export default function Categoria({ navigation }) {
         setBusqueda('')
         try {
             setLoading(true)
-            const json = JSON.stringify({ id_categoria: categoria })
-            const response = await fetch(Route + 'busquedaSubcategorias',
+            const response = await fetch(Route + 'busquedaProductosEliminados',
                 {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
-                    },
-                    body: json
+                    }
                 }
             )
             const data = await response.json()
@@ -156,10 +153,9 @@ export default function Categoria({ navigation }) {
         }
     }
 
-    const goProductos = (item) => {
-        //console.log(item)
-        navigation.navigate('Productos_subcategorias', {
-            subcategoria: item
+    const goDetalleProducto = (item) => {
+        navigation.navigate('DetalleProductoEliminado', {
+            producto: item
         })
     }
     useEffect(() => {
@@ -179,12 +175,12 @@ export default function Categoria({ navigation }) {
                             <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.pop(1)}>
                                 <MaterialIcons name="arrow-back" color="#000" size={20} style={{ alignSelf: 'center' }} />
                             </TouchableOpacity>
-                            <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000', }}>¿Que buscas?</Text>
+                            <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000', }}>Productos Eliminados</Text>
                         </View>
                         <View style={styles.action}>
                             <MaterialIcons color="gray" name="search" size={20} style={{ flex: 1, marginRight: 10, alignSelf: 'center' }} />
                             <TextInput
-                                placeholder="Buscar subcategoria"
+                                placeholder="Buscar Producto"
                                 style={{ width: '100%', flex: 10 }}
                                 onChangeText={(text) => filtrarReport(text)}
                                 value={busqueda} />
@@ -197,15 +193,16 @@ export default function Categoria({ navigation }) {
                                     key={(x) => filterReport.indexOf(x)}
                                     keyExtractor={(x) => filterReport.indexOf(x)}
                                     renderItem={({ item }) => (
-                                        <TouchableOpacity style={styles.itemContainer} onPress={() => goProductos(item)}>
-                                            <View style={{ flexDirection: 'row', width: '100%',marginBottom:5 }}>
+                                        <TouchableOpacity style={styles.itemContainer} onPress={() => goDetalleProducto(item)}>
+                                            <View style={{ flexDirection: 'row', width: '100%', }}>
+                                                <Image style={{ width: 100, height: 100, borderRadius: 5, marginVertical: 7 }} source={require('../images/icono_ropa.png')} />
                                                 <View style={{ flexDirection: 'column', width: '10%', marginTop: 10 }}>
-                                                    <MaterialIcons name="fiber-manual-record" color="#5dd069" size={30} style={{ flex: 1, alignSelf: 'center', }} />
-                                                    <MaterialIcons name="east" color="#5dd069" size={30} style={{ flex: 1, alignSelf: 'center', marginTop: 10 }} />
+                                                    <MaterialIcons name="fiber-manual-record" color="#5dd069" size={30} style={{ flex: 1, alignSelf: 'center' }} />
+                                                    <MaterialIcons name="person" color="#5dd069" size={30} style={{ flex: 1, alignSelf: 'center' }} />
                                                 </View>
                                                 <View style={{ flexDirection: 'column', marginTop: 2, width: '50%', marginTop: 14 }}>
-                                                    <Text style={{ flex: 15, fontSize: 18, fontWeight: 'bold', color: '#000' }}>{item.nombre_subcategoria}</Text>
-                                                    <Text style={{ flex: 15, fontSize: 17, fontWeight: 'bold', color: '#000', marginTop: 10 }}>{item.cantidad} Producto disponibles </Text>
+                                                    <Text style={{ flex: 15, fontSize: 18, fontWeight: 'bold', color: '#000' }}>{item.nombre_producto}</Text>
+                                                    <Text style={{ flex: 15, fontSize: 17, fontWeight: 'bold', color: '#000', marginTop: 6 }}>{item.nombre_usuario}</Text>
                                                 </View>
                                             </View>
                                         </TouchableOpacity>
@@ -225,7 +222,11 @@ export default function Categoria({ navigation }) {
                                                 <MaterialCommunityIcons name="emoticon-sad" color='#000' size={80} />
                                             </Animatable.View>
 
-                                            <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡No existen subcategorias aqui!</Text>
+                                            <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡No hay productos eliminados!</Text>
+                                            <TouchableOpacity style={{ flexDirection: 'row' }}>
+                                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'gray', }}>Puede intentar </Text>
+                                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'blue', }}>crear un producto. </Text>
+                                            </TouchableOpacity>
                                         </View>
                                     ) : (
                                         <View style={{ width: '100%', height: '90%', alignItems: 'center', justifyContent: 'center' }}>
@@ -236,7 +237,7 @@ export default function Categoria({ navigation }) {
                                             <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡Sin conexíon a internet!</Text>
                                             <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => getReports()}>
                                                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'gray', }}>Puede intentar </Text>
-                                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'blue', }}>volver a Recargar. </Text>
+                                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'gray', }}>volver a Recargar. </Text>
                                             </TouchableOpacity>
                                         </View>
                                     )

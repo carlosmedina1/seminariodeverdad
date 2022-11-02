@@ -48,7 +48,8 @@ import ListadoReporteProductos from "./src/ListadoReporteProductos";
 import ListadoReporteComentarios from "./src/ListadoReporteComentarios";
 import ListadoLikesComentarios from "./src/ListadoLikesComentarios";
 import ListadoLikesProductos from "./src/ListadoLikesProductos";
-
+import Productos_eliminados from "./src/Productos_eliminados";
+import DetalleProductoEliminado from "./src/DetalleProductoEliminado";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -226,7 +227,7 @@ const HomeScreen = ({ navigation }) => {
           </View>
           <ScrollView horizontal={true} flexDirection="row">
             <View style={{ marginLeft: 10 }}>
-              <TouchableOpacity onPress={() => navigation.replace("Categoria", { cat: 1 })}>
+              <TouchableOpacity onPress={() => navigation.navigate("Categoria", { cat: 1 })}>
                 <Image
                   style={styles.imgPersonas}
                   source={require('./images/icono_ropa.png')}
@@ -234,7 +235,7 @@ const HomeScreen = ({ navigation }) => {
               </TouchableOpacity>
             </View>
             <View style={{ marginLeft: 10 }}>
-              <TouchableOpacity onPress={() => navigation.replace("Categoria", { cat: 2 })}>
+              <TouchableOpacity onPress={() => navigation.navigate("Categoria", { cat: 2 })}>
                 <Image
                   style={styles.imgPersonas}
                   source={require('./images/icono_celulares.png')}
@@ -243,7 +244,7 @@ const HomeScreen = ({ navigation }) => {
               </TouchableOpacity>
             </View>
             <View style={{ marginLeft: 10 }}>
-              <TouchableOpacity onPress={() => navigation.replace("Categoria", { cat: 3 })}>
+              <TouchableOpacity onPress={() => navigation.navigate("Categoria", { cat: 3 })}>
                 <Image
                   style={styles.imgPersonas}
                   source={require('./images/icono_electronica.png')}
@@ -251,7 +252,7 @@ const HomeScreen = ({ navigation }) => {
               </TouchableOpacity>
             </View>
             <View style={{ marginLeft: 10 }}>
-              <TouchableOpacity onPress={() => navigation.replace("Categoria", { cat: 4 })}>
+              <TouchableOpacity onPress={() => navigation.navigate("Categoria", { cat: 4 })}>
                 <Image
                   style={styles.imgPersonas}
                   source={require('./images/icono_juegos.png')}
@@ -260,7 +261,7 @@ const HomeScreen = ({ navigation }) => {
             </View>
 
             <View style={{ marginHorizontal: 10 }}>
-              <TouchableOpacity onPress={() => navigation.replace("Categoria", { cat: 5 })}>
+              <TouchableOpacity onPress={() => navigation.navigate("Categoria", { cat: 5 })}>
                 <Image
                   style={styles.imgPersonas}
                   source={require('./images/icono_libros.png')}
@@ -268,7 +269,7 @@ const HomeScreen = ({ navigation }) => {
               </TouchableOpacity>
             </View>
             <View style={{ marginHorizontal: 10 }}>
-              <TouchableOpacity onPress={() => navigation.replace("Categoria", { cat: 6 })}>
+              <TouchableOpacity onPress={() => navigation.navigate("Categoria", { cat: 6 })}>
                 <Image
                   style={styles.imgPersonas}
                   source={require('./images/icono_otros.png')}
@@ -289,7 +290,7 @@ const HomeScreen = ({ navigation }) => {
                 fontSize: 15,
               }}
             >
-              Productos con mas likes
+              Productos o servicios con mas likes
             </Text>
           </View>
           <ScrollView horizontal={true} flexDirection="row">
@@ -439,7 +440,7 @@ const MenuScreen = ({ navigation }) => {
                           size={23}
                           color={"lightblue"}
                         />
-                        <Text>Mis productos</Text>
+                        <Text>Mis productos y servicios</Text>
                       </View>
                     </TouchableOpacity>
                   </View>
@@ -495,7 +496,7 @@ const MenuScreen = ({ navigation }) => {
                           size={28}
                           color={"green"}
                         />
-                        <Text>Crear Producto</Text>
+                        <Text>Crear Producto o servicio</Text>
                       </View>
                     </TouchableOpacity>
                   </View>
@@ -527,14 +528,14 @@ const MenuScreen = ({ navigation }) => {
                     (
                       <>
                         <View style={styles.menuCardsAdmin}>
-                          <TouchableOpacity onPress={() => navigation.navigate("Amigos")}>
+                          <TouchableOpacity onPress={() => navigation.navigate("Productos_eliminados")}>
                             <View style={styles.btnCards}>
                               <MaterialCommunityIcons
                                 name={"dropbox"}
                                 size={23}
                                 color={"red"}
                               />
-                              <Text>Productos eliminados</Text>
+                              <Text>Productos o servicios eliminados</Text>
                             </View>
                           </TouchableOpacity>
                         </View>
@@ -904,6 +905,26 @@ const RootStack = createStackNavigator(
 
       navigationOptions: {
         title: 'CrearSubcategoria',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    Productos_eliminados: {
+      screen: Productos_eliminados,
+
+      navigationOptions: {
+        title: 'Productos_eliminados',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    DetalleProductoEliminado: {
+      screen: DetalleProductoEliminado,
+
+      navigationOptions: {
+        title: 'DetalleProductoEliminado',
         headerTintColor: '#fff',
         headerShown: false,
         headerBackTitleVisible: false,

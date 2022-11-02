@@ -111,6 +111,17 @@ const eliminarComentario = async (req, res) => {
         res.json(err)
     }
 }
+const habilitarProducto = async (req, res) => {
+    const {  id_producto } = req.body
+    try {
+        const response = await pool.query('update producto set bloqueado=false where id_producto = $1', [id_producto]);
+        res.json(response.rows)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
+
 const getContactos = async (req, res) => {
     const {  id_usuario } = req.body
     try {
@@ -216,7 +227,16 @@ const busquedaCategorias = async (req, res) => {
 const busquedaProductosUsuario = async (req, res) => {
     const { id_user } = req.body
     try {
-        const response = await pool.query('select p.*,sc.nombre_subcategoria,c.nombre_categoria,c.id_categoria from producto p join subcategoria sc on sc.id_subcategoria=p.id_subcategoria join categoria c on c.id_categoria=sc.id_categoria where id_usuario=$1 and p.vigente=true',[id_user]);
+        const response = await pool.query('select p.*,sc.nombre_subcategoria,c.nombre_categoria,c.id_categoria,u.nombre_usuario from producto p join usuario u on p.id_usuario=u.id_usuario join subcategoria sc on sc.id_subcategoria=p.id_subcategoria join categoria c on c.id_categoria=sc.id_categoria where p.id_usuario=$1 and p.vigente=true',[id_user]);
+        res.json(response.rows)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
+const busquedaProductosEliminados = async (req, res) => {
+    try {
+        const response = await pool.query('select p.*,u.nombre_usuario from producto p join usuario u on p.id_usuario=u.id_usuario where p.bloqueado=true');
         res.json(response.rows)
     }
     catch (err) {
@@ -226,7 +246,7 @@ const busquedaProductosUsuario = async (req, res) => {
 const busquedaProductosSubcategoria = async (req, res) => {
     const { id_subcategoria } = req.body
     try {
-        const response = await pool.query('select * from producto where vigente=true and bloqueado=false and id_subcategoria=$1',[id_subcategoria]);
+        const response = await pool.query('select p.*,u.nombre_usuario from producto p join usuario u on p.id_usuario=u.id_usuario where p.vigente=true and p.bloqueado=false and p.id_subcategoria=$1',[id_subcategoria]);
         res.json(response.rows)
     }
     catch (err) {
@@ -347,5 +367,7 @@ module.exports = {
     obtenerReportesUsuario2,
     obtenerLikesUsuario,
     obtenerLikesUsuario2,
-    busquedaCategorias
+    busquedaCategorias,
+    busquedaProductosEliminados,
+    habilitarProducto,
 }
