@@ -162,10 +162,11 @@ export default function EditarProducto({ navigation }) {
         }
     }
     useEffect(() => {
+        console.log(producto)
         setNombre(producto.nombre_producto)
         setDescripcion(producto.descripcion)
         getCategoria()
-        setIdSubcategoria(producto.setIdSubcategoria)
+        setIdSubcategoria(producto.id_subcategoria)
         getsubcategorias(producto.id_categoria)
         setNombreCategoria(producto.nombre_categoria)
         setNombreSubcategoria(producto.nombre_subcategoria)

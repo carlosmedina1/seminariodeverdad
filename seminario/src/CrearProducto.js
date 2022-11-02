@@ -129,7 +129,7 @@ export default function CrearProducto({ navigation }) {
                         else {
                             Alert.alert('Producto Creado')
                         }
-                        navigation.replace("Productos_propios")
+                        navigation.pop(7)
                     }else{
                         if (Platform.OS === 'android') {
                             ToastAndroid.show('Producto Creado', ToastAndroid.SHORT)
@@ -137,7 +137,7 @@ export default function CrearProducto({ navigation }) {
                         else {
                             Alert.alert('Producto Creado')
                         }
-                        navigation.replace("MercadoUCM")
+                        navigation.pop(7)
                     }
                 })
                 .catch((error) => {

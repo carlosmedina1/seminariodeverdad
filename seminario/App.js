@@ -488,7 +488,7 @@ const MenuScreen = ({ navigation }) => {
 
 
                   <View style={styles.menuCards}>
-                    <TouchableOpacity onPress={() => navigation.replace("SeleccionCategoria", { propio: false })}>
+                    <TouchableOpacity onPress={() => navigation.navigate("SeleccionCategoria", { propio: false })}>
                       <View style={styles.btnCards}>
                         <MaterialCommunityIcons
                           name={"plus-circle-outline"}

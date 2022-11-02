@@ -204,6 +204,15 @@ const busquedaSubcategorias = async (req, res) => {
         res.json(err)
     }
 }
+const busquedaCategorias = async (req, res) => {
+    try {
+        const response = await pool.query('select s.*,(select count(p.id_subcategoria) as cantidad from subcategoria p where p.id_categoria=s.id_categoria and p.vigente=true) from categoria s ORDER BY s.orden');
+        res.json(response.rows)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
 const busquedaProductosUsuario = async (req, res) => {
     const { id_user } = req.body
     try {
@@ -301,6 +310,7 @@ const guardarProductoEditado = async (req, res) => {
     console.log(id_producto, nombre_producto,descripcion,id_subcategoria)
     try {
         const response = await pool.query('update producto set nombre_producto=$1, descripcion=$2, id_subcategoria=$3 where id_producto=$4', [nombre_producto,descripcion,id_subcategoria,id_producto]);
+        console.log(response)
         res.json(1)
     }
     catch (err) {
@@ -336,5 +346,6 @@ module.exports = {
     obtenerReportesUsuario,
     obtenerReportesUsuario2,
     obtenerLikesUsuario,
-    obtenerLikesUsuario2
+    obtenerLikesUsuario2,
+    busquedaCategorias
 }
