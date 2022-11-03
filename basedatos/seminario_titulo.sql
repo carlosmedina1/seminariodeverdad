@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.3.25
 -- Dumped by pg_dump version 9.3.25
--- Started on 2022-10-24 19:05:11
+-- Started on 2022-11-03 19:18:14
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -23,7 +23,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2086 (class 0 OID 0)
+-- TOC entry 2118 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -32,7 +32,7 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
--- TOC entry 203 (class 1255 OID 46113)
+-- TOC entry 207 (class 1255 OID 46113)
 -- Name: login(character varying, character varying); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -78,7 +78,7 @@ $_$;
 ALTER FUNCTION public.login(usuario character varying, pass character varying) OWNER TO postgres;
 
 --
--- TOC entry 204 (class 1255 OID 46123)
+-- TOC entry 208 (class 1255 OID 46123)
 -- Name: registro(character varying, character varying, character varying, character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -114,7 +114,7 @@ $_$;
 ALTER FUNCTION public.registro(usuario character varying, pass character varying, correo character varying, numero character varying, facebook character varying, instagram character varying, whatsapp character varying) OWNER TO postgres;
 
 --
--- TOC entry 205 (class 1255 OID 54315)
+-- TOC entry 209 (class 1255 OID 54315)
 -- Name: verificar_likes(integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -168,7 +168,7 @@ $_$;
 ALTER FUNCTION public.verificar_likes(id_usuario integer, id_producto integer) OWNER TO postgres;
 
 --
--- TOC entry 206 (class 1255 OID 54349)
+-- TOC entry 210 (class 1255 OID 54349)
 -- Name: verificar_likes_comentarios(integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -249,7 +249,8 @@ CREATE TABLE public.categoria (
     id_categoria integer DEFAULT nextval('public.categoria_id_categoria_seq'::regclass) NOT NULL,
     nombre_categoria character varying(100) NOT NULL,
     orden integer DEFAULT 0,
-    vigente boolean DEFAULT true
+    vigente boolean DEFAULT true,
+    url character varying(300)
 );
 
 
@@ -282,7 +283,8 @@ CREATE TABLE public.comentarios_producto (
     id_producto integer DEFAULT 0,
     id_usuario integer DEFAULT 0,
     bloqueado boolean DEFAULT false,
-    vigente boolean DEFAULT true
+    vigente boolean DEFAULT true,
+    cant_reportes integer DEFAULT 0
 );
 
 
@@ -334,7 +336,7 @@ CREATE SEQUENCE public.detalle_likes_comentario_id_detalle_likes_comentario_seq
 ALTER TABLE public.detalle_likes_comentario_id_detalle_likes_comentario_seq OWNER TO postgres;
 
 --
--- TOC entry 2087 (class 0 OID 0)
+-- TOC entry 2119 (class 0 OID 0)
 -- Dependencies: 185
 -- Name: detalle_likes_comentario_id_detalle_likes_comentario_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -358,12 +360,92 @@ CREATE SEQUENCE public.detalle_likes_id_detalle_likes_seq
 ALTER TABLE public.detalle_likes_id_detalle_likes_seq OWNER TO postgres;
 
 --
--- TOC entry 2088 (class 0 OID 0)
+-- TOC entry 2120 (class 0 OID 0)
 -- Dependencies: 182
 -- Name: detalle_likes_id_detalle_likes_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.detalle_likes_id_detalle_likes_seq OWNED BY public.detalle_likes.id_detalle_likes;
+
+
+--
+-- TOC entry 194 (class 1259 OID 62533)
+-- Name: notificaciones_comentario; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE public.notificaciones_comentario (
+    id_notificacion_comentario integer NOT NULL,
+    notificacion character varying(250) NOT NULL,
+    id_usuario integer DEFAULT 0,
+    id_comentario integer DEFAULT 0,
+    vista boolean DEFAULT false
+);
+
+
+ALTER TABLE public.notificaciones_comentario OWNER TO postgres;
+
+--
+-- TOC entry 193 (class 1259 OID 62531)
+-- Name: notificaciones_comentario_id_notificacion_comentario_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.notificaciones_comentario_id_notificacion_comentario_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.notificaciones_comentario_id_notificacion_comentario_seq OWNER TO postgres;
+
+--
+-- TOC entry 2121 (class 0 OID 0)
+-- Dependencies: 193
+-- Name: notificaciones_comentario_id_notificacion_comentario_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.notificaciones_comentario_id_notificacion_comentario_seq OWNED BY public.notificaciones_comentario.id_notificacion_comentario;
+
+
+--
+-- TOC entry 192 (class 1259 OID 62522)
+-- Name: notificaciones_producto; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE public.notificaciones_producto (
+    id_notificacion_producto integer NOT NULL,
+    notificacion character varying(250) NOT NULL,
+    id_usuario integer DEFAULT 0,
+    id_producto integer DEFAULT 0,
+    vista boolean DEFAULT false
+);
+
+
+ALTER TABLE public.notificaciones_producto OWNER TO postgres;
+
+--
+-- TOC entry 191 (class 1259 OID 62520)
+-- Name: notificaciones_producto_id_notificacion_producto_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.notificaciones_producto_id_notificacion_producto_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.notificaciones_producto_id_notificacion_producto_seq OWNER TO postgres;
+
+--
+-- TOC entry 2122 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: notificaciones_producto_id_notificacion_producto_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.notificaciones_producto_id_notificacion_producto_seq OWNED BY public.notificaciones_producto.id_notificacion_producto;
 
 
 --
@@ -394,7 +476,14 @@ CREATE TABLE public.producto (
     id_usuario integer DEFAULT 0,
     vigente boolean DEFAULT true,
     bloqueado boolean DEFAULT false,
-    descripcion character varying(250)
+    descripcion character varying(250),
+    url_1 character varying(300),
+    url_2 character varying(300),
+    url_3 character varying(300),
+    url_4 character varying(300),
+    bloqueo_cantidad boolean DEFAULT false,
+    razon_bloqueo character varying(300),
+    cant_reportes integer DEFAULT 0
 );
 
 
@@ -436,7 +525,7 @@ CREATE SEQUENCE public.reportes_comentario_id_reportes_comentario_seq
 ALTER TABLE public.reportes_comentario_id_reportes_comentario_seq OWNER TO postgres;
 
 --
--- TOC entry 2089 (class 0 OID 0)
+-- TOC entry 2123 (class 0 OID 0)
 -- Dependencies: 189
 -- Name: reportes_comentario_id_reportes_comentario_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -479,7 +568,7 @@ CREATE SEQUENCE public.reportes_producto_id_reportes_producto_seq
 ALTER TABLE public.reportes_producto_id_reportes_producto_seq OWNER TO postgres;
 
 --
--- TOC entry 2090 (class 0 OID 0)
+-- TOC entry 2124 (class 0 OID 0)
 -- Dependencies: 187
 -- Name: reportes_producto_id_reportes_producto_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -585,7 +674,7 @@ CREATE TABLE public.usuario (
 ALTER TABLE public.usuario OWNER TO postgres;
 
 --
--- TOC entry 1900 (class 2604 OID 54309)
+-- TOC entry 1915 (class 2604 OID 54309)
 -- Name: id_detalle_likes; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -593,7 +682,7 @@ ALTER TABLE ONLY public.detalle_likes ALTER COLUMN id_detalle_likes SET DEFAULT 
 
 
 --
--- TOC entry 1910 (class 2604 OID 54343)
+-- TOC entry 1926 (class 2604 OID 54343)
 -- Name: id_detalle_likes_comentario; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -601,7 +690,23 @@ ALTER TABLE ONLY public.detalle_likes_comentario ALTER COLUMN id_detalle_likes_c
 
 
 --
--- TOC entry 1921 (class 2604 OID 54395)
+-- TOC entry 1949 (class 2604 OID 62536)
+-- Name: id_notificacion_comentario; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.notificaciones_comentario ALTER COLUMN id_notificacion_comentario SET DEFAULT nextval('public.notificaciones_comentario_id_notificacion_comentario_seq'::regclass);
+
+
+--
+-- TOC entry 1945 (class 2604 OID 62525)
+-- Name: id_notificacion_producto; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.notificaciones_producto ALTER COLUMN id_notificacion_producto SET DEFAULT nextval('public.notificaciones_producto_id_notificacion_producto_seq'::regclass);
+
+
+--
+-- TOC entry 1937 (class 2604 OID 54395)
 -- Name: id_reportes_comentario; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -609,7 +714,7 @@ ALTER TABLE ONLY public.reportes_comentario ALTER COLUMN id_reportes_comentario 
 
 
 --
--- TOC entry 1914 (class 2604 OID 54366)
+-- TOC entry 1930 (class 2604 OID 54366)
 -- Name: id_reportes_producto; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -617,74 +722,78 @@ ALTER TABLE ONLY public.reportes_producto ALTER COLUMN id_reportes_producto SET 
 
 
 --
--- TOC entry 2065 (class 0 OID 21477)
+-- TOC entry 2093 (class 0 OID 21477)
 -- Dependencies: 178
 -- Data for Name: categoria; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.categoria (id_categoria, nombre_categoria, orden, vigente) FROM stdin;
-1	VESTUARIO Y CALZADO	1	t
-3	ELECTRONICA, AUDIO Y VIDEO	3	t
-4	CONSOLAS Y VIDEOJUEGOS	4	t
-2	CELULARES Y TELEFONIA	2	t
-5	LIBROS, REVISTAS Y COMICS	5	t
-6	OTRAS CATEGORIAS	6	t
+COPY public.categoria (id_categoria, nombre_categoria, orden, vigente, url) FROM stdin;
+1	VESTUARIO Y CALZADO	1	t	\N
+3	ELECTRONICA, AUDIO Y VIDEO	3	t	\N
+4	CONSOLAS Y VIDEOJUEGOS	4	t	\N
+2	CELULARES Y TELEFONIA	2	t	\N
+5	LIBROS, REVISTAS Y COMICS	5	t	\N
+6	OTRAS CATEGORIAS	6	t	\N
+7	Prueba	0	t	\N
 \.
 
 
 --
--- TOC entry 2091 (class 0 OID 0)
+-- TOC entry 2125 (class 0 OID 0)
 -- Dependencies: 173
 -- Name: categoria_id_categoria_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.categoria_id_categoria_seq', 6, true);
+SELECT pg_catalog.setval('public.categoria_id_categoria_seq', 7, true);
 
 
 --
--- TOC entry 2071 (class 0 OID 54316)
+-- TOC entry 2099 (class 0 OID 54316)
 -- Dependencies: 184
 -- Data for Name: comentarios_producto; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.comentarios_producto (id_comentarios_producto, comentario, likes, id_producto, id_usuario, bloqueado, vigente) FROM stdin;
-4	dsaoudhsakjdbsajkbdjsabdlsahdklasjlkdasdsadasdsadsadiddsaasdsadsadsadasdasdasdasdsadasdsadasdasdasdasdsadasdasdasdsadasdasfdsfdsfdsfdsfsdfsdfdsfdsfdsfsdfdsfdsfsdfsdfdsfsdfsdfsdfsdfsdfsdfsdfsdfsdfdsfds	0	1	2	f	t
-7	comentario de prueba	1	2	2	f	t
-8	este es un comentario de verdad	0	1	2	f	t
-5	dsaoudhsakjdbsajkbdjsabdlsahdklasjlkdasdsadasdsadsadiddsaasdsadsadsadasdasdasdasdsadasdsadasdasdasdasdsadasdasdasdsadasdasfdsfdsfdsfdsfsdfsdfdsfdsfdsfsdfdsfdsfsdfsdfdsfsdfsdfsdfsdfsdfsdfsdfsdfsdfdsfds	1	1	2	f	t
-6	a	0	1	2	f	t
-3	hola 3	0	1	1	f	f
-2	hola 2	0	1	1	f	f
-1	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa	0	1	1	f	f
-9	hola	1	4	1	f	t
+COPY public.comentarios_producto (id_comentarios_producto, comentario, likes, id_producto, id_usuario, bloqueado, vigente, cant_reportes) FROM stdin;
+4	dsaoudhsakjdbsajkbdjsabdlsahdklasjlkdasdsadasdsadsadiddsaasdsadsadsadasdasdasdasdsadasdsadasdasdasdasdsadasdasdasdsadasdasfdsfdsfdsfdsfsdfsdfdsfdsfdsfsdfdsfdsfsdfsdfdsfsdfsdfsdfsdfsdfsdfsdfsdfsdfdsfds	0	1	2	f	t	0
+7	comentario de prueba	1	2	2	f	t	0
+8	este es un comentario de verdad	0	1	2	f	t	0
+5	dsaoudhsakjdbsajkbdjsabdlsahdklasjlkdasdsadasdsadsadiddsaasdsadsadsadasdasdasdasdsadasdsadasdasdasdasdsadasdasdasdsadasdasfdsfdsfdsfdsfsdfsdfdsfdsfdsfsdfdsfdsfsdfsdfdsfsdfsdfsdfsdfsdfsdfsdfsdfsdfdsfds	1	1	2	f	t	0
+6	a	0	1	2	f	t	0
+3	hola 3	0	1	1	f	f	0
+2	hola 2	0	1	1	f	f	0
+1	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa	0	1	1	f	f	0
+9	hola	1	4	1	f	t	0
+10	este jeans salio muy malo 	1	7	6	f	t	0
 \.
 
 
 --
--- TOC entry 2092 (class 0 OID 0)
+-- TOC entry 2126 (class 0 OID 0)
 -- Dependencies: 176
 -- Name: comentarios_producto_id_comentarios_producto_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.comentarios_producto_id_comentarios_producto_seq', 9, true);
+SELECT pg_catalog.setval('public.comentarios_producto_id_comentarios_producto_seq', 10, true);
 
 
 --
--- TOC entry 2070 (class 0 OID 54306)
+-- TOC entry 2098 (class 0 OID 54306)
 -- Dependencies: 183
 -- Data for Name: detalle_likes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.detalle_likes (id_detalle_likes, id_producto, id_usuario, vigente) FROM stdin;
-5	2	1	f
 6	3	1	f
 4	4	1	f
 7	1	1	t
+8	7	6	t
+9	6	6	f
+5	2	1	t
 \.
 
 
 --
--- TOC entry 2073 (class 0 OID 54340)
+-- TOC entry 2101 (class 0 OID 54340)
 -- Dependencies: 186
 -- Data for Name: detalle_likes_comentario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -698,94 +807,136 @@ COPY public.detalle_likes_comentario (id_detalle_likes_comentario, id_comentario
 7	6	1	f
 4	2	1	f
 10	9	1	t
+11	10	6	t
 \.
 
 
 --
--- TOC entry 2093 (class 0 OID 0)
+-- TOC entry 2127 (class 0 OID 0)
 -- Dependencies: 185
 -- Name: detalle_likes_comentario_id_detalle_likes_comentario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.detalle_likes_comentario_id_detalle_likes_comentario_seq', 10, true);
+SELECT pg_catalog.setval('public.detalle_likes_comentario_id_detalle_likes_comentario_seq', 11, true);
 
 
 --
--- TOC entry 2094 (class 0 OID 0)
+-- TOC entry 2128 (class 0 OID 0)
 -- Dependencies: 182
 -- Name: detalle_likes_id_detalle_likes_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.detalle_likes_id_detalle_likes_seq', 7, true);
+SELECT pg_catalog.setval('public.detalle_likes_id_detalle_likes_seq', 9, true);
 
 
 --
--- TOC entry 2067 (class 0 OID 21494)
--- Dependencies: 180
--- Data for Name: producto; Type: TABLE DATA; Schema: public; Owner: postgres
+-- TOC entry 2109 (class 0 OID 62533)
+-- Dependencies: 194
+-- Data for Name: notificaciones_comentario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.producto (id_producto, nombre_producto, id_subcategoria, likes, id_usuario, vigente, bloqueado, descripcion) FROM stdin;
-2	P2	2	0	2	t	f	holaholaholaholaholaholaholaholahola
-3	P3	3	0	2	t	f	holaholaholaholaholaholaholaholahola
-4	P4	1	0	2	t	f	holaholaholaholaholaholaholaholahola
-1	P1	1	1	2	t	f	holaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholaho
-5	hawaiyanas	1	0	1	t	f	son muy comodas
+COPY public.notificaciones_comentario (id_notificacion_comentario, notificacion, id_usuario, id_comentario, vista) FROM stdin;
 \.
 
 
 --
--- TOC entry 2095 (class 0 OID 0)
+-- TOC entry 2129 (class 0 OID 0)
+-- Dependencies: 193
+-- Name: notificaciones_comentario_id_notificacion_comentario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.notificaciones_comentario_id_notificacion_comentario_seq', 1, false);
+
+
+--
+-- TOC entry 2107 (class 0 OID 62522)
+-- Dependencies: 192
+-- Data for Name: notificaciones_producto; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.notificaciones_producto (id_notificacion_producto, notificacion, id_usuario, id_producto, vista) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2130 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: notificaciones_producto_id_notificacion_producto_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.notificaciones_producto_id_notificacion_producto_seq', 1, false);
+
+
+--
+-- TOC entry 2095 (class 0 OID 21494)
+-- Dependencies: 180
+-- Data for Name: producto; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.producto (id_producto, nombre_producto, id_subcategoria, likes, id_usuario, vigente, bloqueado, descripcion, url_1, url_2, url_3, url_4, bloqueo_cantidad, razon_bloqueo, cant_reportes) FROM stdin;
+6	aaaaa	1	0	1	f	f	aaaaa	\N	\N	\N	\N	f	\N	0
+9	e	1	0	1	t	f	eeeeeeeeeeee	\N	\N	\N	\N	f	\N	0
+10	nintendo switch	1	0	1	t	f	aaaaae	\N	\N	\N	\N	f	\N	0
+11	asdasdaeeeeeeeeeeeeeee	1	0	1	t	f	asdasdasdeeeeeeeeeeeeeeee	\N	\N	\N	\N	f	\N	0
+3	P3	3	0	2	t	f	holaholaholaholaholaholaholaholahola	\N	\N	\N	\N	f	\N	0
+4	P4	1	0	2	t	f	holaholaholaholaholaholaholaholahola	\N	\N	\N	\N	f	\N	0
+2	P2	2	1	2	t	f	holaholaholaholaholaholaholaholahola	\N	\N	\N	\N	f	\N	0
+7	jeans	1	1	6	t	f	Pantalones jeans vintage	\N	\N	\N	\N	f	sipoaaaaaaaa	0
+8	a	11	0	1	t	f	aaaa	\N	\N	\N	\N	f	\N	0
+1	P1	1	1	2	t	f	holaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholahoholaholaho	\N	\N	\N	\N	f	\N	1
+\.
+
+
+--
+-- TOC entry 2131 (class 0 OID 0)
 -- Dependencies: 175
 -- Name: producto_id_producto_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.producto_id_producto_seq', 5, true);
+SELECT pg_catalog.setval('public.producto_id_producto_seq', 11, true);
 
 
 --
--- TOC entry 2077 (class 0 OID 54392)
+-- TOC entry 2105 (class 0 OID 54392)
 -- Dependencies: 190
 -- Data for Name: reportes_comentario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.reportes_comentario (id_reportes_comentario, justificacion, id_comentarios_producto, id_usuario, id_producto, vigente, aceptado, rechazado, fecha) FROM stdin;
-1	prueba reporte comentario	5	1	1	t	f	f	2022-10-23 19:13:44.41
 \.
 
 
 --
--- TOC entry 2096 (class 0 OID 0)
+-- TOC entry 2132 (class 0 OID 0)
 -- Dependencies: 189
 -- Name: reportes_comentario_id_reportes_comentario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.reportes_comentario_id_reportes_comentario_seq', 1, true);
+SELECT pg_catalog.setval('public.reportes_comentario_id_reportes_comentario_seq', 2, true);
 
 
 --
--- TOC entry 2075 (class 0 OID 54363)
+-- TOC entry 2103 (class 0 OID 54363)
 -- Dependencies: 188
 -- Data for Name: reportes_producto; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.reportes_producto (id_reportes_producto, justificacion, id_producto, id_usuario, vigente, aceptado, rechazado, fecha) FROM stdin;
-1	El producto es inapropiado	1	2	t	f	f	2022-10-23 18:17:55.657
-2	hola	1	1	t	f	f	2022-10-23 18:32:14.08
+4	aaaaaaa	1	1	t	f	f	2022-11-02 21:44:01.691
 \.
 
 
 --
--- TOC entry 2097 (class 0 OID 0)
+-- TOC entry 2133 (class 0 OID 0)
 -- Dependencies: 187
 -- Name: reportes_producto_id_reportes_producto_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.reportes_producto_id_reportes_producto_seq', 2, true);
+SELECT pg_catalog.setval('public.reportes_producto_id_reportes_producto_seq', 4, true);
 
 
 --
--- TOC entry 2064 (class 0 OID 21460)
+-- TOC entry 2092 (class 0 OID 21460)
 -- Dependencies: 177
 -- Data for Name: rol; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -798,7 +949,7 @@ COPY public.rol (id_rol, nombre_rol, vigente) FROM stdin;
 
 
 --
--- TOC entry 2098 (class 0 OID 0)
+-- TOC entry 2134 (class 0 OID 0)
 -- Dependencies: 172
 -- Name: rol_id_rol_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -807,7 +958,7 @@ SELECT pg_catalog.setval('public.rol_id_rol_seq', 3, true);
 
 
 --
--- TOC entry 2066 (class 0 OID 21485)
+-- TOC entry 2094 (class 0 OID 21485)
 -- Dependencies: 179
 -- Data for Name: subcategoria; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -816,20 +967,28 @@ COPY public.subcategoria (id_subcategoria, nombre_subcategoria, id_categoria, or
 1	PANTALONES	1	1	t
 2	POLERAS	1	2	t
 3	ZAPATILLAS	1	3	t
+4	SAMSUNG	2	0	t
+5	AUDIFONOS	3	0	t
+6	NINTENDO	4	0	t
+7	LIBROS DE FANTASIA	5	0	t
+8	DULCES	6	0	t
+9	Categoria Prueba	6	0	t
+10	a	6	0	t
+11	x	7	0	t
 \.
 
 
 --
--- TOC entry 2099 (class 0 OID 0)
+-- TOC entry 2135 (class 0 OID 0)
 -- Dependencies: 174
 -- Name: subcategoria_id_subcategoria_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.subcategoria_id_subcategoria_seq', 3, true);
+SELECT pg_catalog.setval('public.subcategoria_id_subcategoria_seq', 11, true);
 
 
 --
--- TOC entry 2068 (class 0 OID 21515)
+-- TOC entry 2096 (class 0 OID 21515)
 -- Dependencies: 181
 -- Data for Name: usuario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -840,20 +999,21 @@ COPY public.usuario (id_usuario, nombre_usuario, correo_electronico, numero_tele
 4	1	carlos.medina@gmail.com	4	4	4	4	1	0	t	f
 2	adadad	adadad12	\N	2	2	\N	adadad	0	t	f
 5	carlos medina	carlosmedina@gmail.com	+56991222541				1234	0	t	f
+6	Cristofer Valdevenito	cristofer.valdevenito@alu.ucm.cl	40071423				987654	0	t	f
 \.
 
 
 --
--- TOC entry 2100 (class 0 OID 0)
+-- TOC entry 2136 (class 0 OID 0)
 -- Dependencies: 171
 -- Name: usuario_id_usuario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.usuario_id_usuario_seq', 5, true);
+SELECT pg_catalog.setval('public.usuario_id_usuario_seq', 6, true);
 
 
 --
--- TOC entry 1932 (class 2606 OID 21484)
+-- TOC entry 1956 (class 2606 OID 21484)
 -- Name: pkcategoria; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -862,7 +1022,7 @@ ALTER TABLE ONLY public.categoria
 
 
 --
--- TOC entry 1944 (class 2606 OID 54326)
+-- TOC entry 1968 (class 2606 OID 54326)
 -- Name: pkcomentarios_producto; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -871,7 +1031,7 @@ ALTER TABLE ONLY public.comentarios_producto
 
 
 --
--- TOC entry 1942 (class 2606 OID 54314)
+-- TOC entry 1966 (class 2606 OID 54314)
 -- Name: pkdetalle_likes; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -880,7 +1040,7 @@ ALTER TABLE ONLY public.detalle_likes
 
 
 --
--- TOC entry 1946 (class 2606 OID 54348)
+-- TOC entry 1970 (class 2606 OID 54348)
 -- Name: pkdetalle_likes_comentario; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -889,7 +1049,25 @@ ALTER TABLE ONLY public.detalle_likes_comentario
 
 
 --
--- TOC entry 1936 (class 2606 OID 21504)
+-- TOC entry 1978 (class 2606 OID 62541)
+-- Name: pknotificaciones_comentario; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY public.notificaciones_comentario
+    ADD CONSTRAINT pknotificaciones_comentario PRIMARY KEY (id_notificacion_comentario);
+
+
+--
+-- TOC entry 1976 (class 2606 OID 62530)
+-- Name: pknotificaciones_producto; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY public.notificaciones_producto
+    ADD CONSTRAINT pknotificaciones_producto PRIMARY KEY (id_notificacion_producto);
+
+
+--
+-- TOC entry 1960 (class 2606 OID 21504)
 -- Name: pkproducto; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -898,7 +1076,7 @@ ALTER TABLE ONLY public.producto
 
 
 --
--- TOC entry 1950 (class 2606 OID 54404)
+-- TOC entry 1974 (class 2606 OID 54404)
 -- Name: pkreportes_comentario; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -907,7 +1085,7 @@ ALTER TABLE ONLY public.reportes_comentario
 
 
 --
--- TOC entry 1948 (class 2606 OID 54374)
+-- TOC entry 1972 (class 2606 OID 54374)
 -- Name: pkreportes_producto; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -916,7 +1094,7 @@ ALTER TABLE ONLY public.reportes_producto
 
 
 --
--- TOC entry 1930 (class 2606 OID 21466)
+-- TOC entry 1954 (class 2606 OID 21466)
 -- Name: pkrol; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -925,7 +1103,7 @@ ALTER TABLE ONLY public.rol
 
 
 --
--- TOC entry 1934 (class 2606 OID 21493)
+-- TOC entry 1958 (class 2606 OID 21493)
 -- Name: pksubcategoria; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -934,7 +1112,7 @@ ALTER TABLE ONLY public.subcategoria
 
 
 --
--- TOC entry 1938 (class 2606 OID 21522)
+-- TOC entry 1962 (class 2606 OID 21522)
 -- Name: pkusuario; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -943,7 +1121,7 @@ ALTER TABLE ONLY public.usuario
 
 
 --
--- TOC entry 1940 (class 2606 OID 21524)
+-- TOC entry 1964 (class 2606 OID 21524)
 -- Name: usuario_correo_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -952,7 +1130,7 @@ ALTER TABLE ONLY public.usuario
 
 
 --
--- TOC entry 2085 (class 0 OID 0)
+-- TOC entry 2117 (class 0 OID 0)
 -- Dependencies: 6
 -- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -963,7 +1141,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2022-10-24 19:05:11
+-- Completed on 2022-11-03 19:18:15
 
 --
 -- PostgreSQL database dump complete

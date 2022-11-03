@@ -53,7 +53,9 @@ import DetalleProductoEliminado from "./src/DetalleProductoEliminado";
 import MantencionUsuarios from "./src/MantencionUsuarios";
 import DetalleUsuarios from "./src/DetalleUsuarios";
 import CrearCategoria from "./src/CrearCategoria";
-
+import ListadoNotificacionesProductos from "./src/ListadoNotificacionesProductos";
+import ListadoNotificacionesComentarios from "./src/ListadoNotificacionesComentarios";
+import Categorias_notificaciones from "./src/Categorias_notificaciones";
 
 
 const styles = StyleSheet.create({
@@ -520,11 +522,11 @@ const MenuScreen = ({ navigation }) => {
                   </View>
                 </View>
 
-
+                
 
                 <View style={{ width: "50%", flexDirection: "column", marginTop: 10 }}>
                   <View style={styles.menuCards}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate("Categorias_notificaciones")}>
                       <View style={styles.btnCards}>
                         <Ionicons name={"notifications"} color={"red"} size={20} />
                         <Text>Notificaciones</Text>
@@ -973,6 +975,37 @@ const RootStack = createStackNavigator(
 
       navigationOptions: {
         title: 'CrearCategoria',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+
+    ListadoNotificacionesProductos : {
+      screen: ListadoNotificacionesProductos,
+
+      navigationOptions: {
+        title: 'ListadoNotificacionesProductos',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    ListadoNotificacionesComentarios : {
+      screen: ListadoNotificacionesComentarios,
+
+      navigationOptions: {
+        title: 'ListadoNotificacionesComentarios',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    Categorias_notificaciones: {
+      screen: Categorias_notificaciones,
+
+      navigationOptions: {
+        title: 'Categorias_notificaciones',
         headerTintColor: '#fff',
         headerShown: false,
         headerBackTitleVisible: false,
