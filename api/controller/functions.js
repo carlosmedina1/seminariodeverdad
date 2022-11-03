@@ -64,6 +64,14 @@ const guardarReporte = async (req, res) => {
     const {id_usuario, id_producto,justificacion} = req.body
     try {
         const response = await pool.query('insert into reportes_producto (id_usuario,id_producto,justificacion) values ($1,$2,$3)', [id_usuario, id_producto,justificacion]);
+        const detalle_report = await pool.query('select cant_reportes from producto where id_producto= $1;', [id_producto]);
+        const cant_reportes = detalle_report.rows[0].cant_reportes+1;
+        if(cant_reportes>=30){
+            const response2 = await pool.query("update producto set cant_reportes=$2,bloqueado=true,razon_bloqueo='Se superaron las 30 denuncias' where id_producto = $1", [id_producto,cant_reportes]);
+                const responsez = await pool.query("insert into notificaciones_producto (id_usuario,id_producto,notificacion) values ($1,$2,¡Tu Denuncia fue Aceptada!')", [id_usuario, id_producto]);
+        }else{
+            const response2 = await pool.query('update producto set cant_reportes=$2 where id_producto = $1', [id_producto,cant_reportes]);
+        }
         res.json(1)
     }
     catch (err) {
@@ -74,6 +82,14 @@ const guardarReportecomentario = async (req, res) => {
     const {id_usuario, id_producto,justificacion,id_comentarios_producto} = req.body
     try {
         const response = await pool.query('insert into reportes_comentario (id_usuario,id_producto,justificacion,id_comentarios_producto) values ($1,$2,$3,$4)', [id_usuario, id_producto,justificacion,id_comentarios_producto]);
+        const detalle_report = await pool.query('select cant_reportes from comentarios_producto where id_comentarios_producto= $1;', [id_comentarios_producto]);
+        const cant_reportes = detalle_report.rows[0].cant_reportes+1;
+        if(cant_reportes>=10){
+            const response2 = await pool.query("update comentarios_producto set cant_reportes=$2,bloqueado=true,razon_bloqueo='Se superaron las 10 denuncias' where id_comentarios_producto = $1", [id_comentarios_producto,cant_reportes]); 
+            const responsez = await pool.query("insert into notificaciones_comentario (id_usuario,id_comentario,notificacion) values ($1,$2,¡Tu Denuncia fue Aceptada!')", [id_usuario, id_comentarios_producto]);
+        }else{
+            const response2 = await pool.query('update comentarios_producto set cant_reportes=$2 where id_comentarios_producto = $1', [id_comentarios_producto,cant_reportes]); 
+        }
         res.json(1)
     }
     catch (err) {
