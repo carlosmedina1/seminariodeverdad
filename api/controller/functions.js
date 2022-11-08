@@ -391,6 +391,26 @@ const guardarProductoEditado = async (req, res) => {
         res.json(err)
     }
 }
+const obtenerNotificacionesProducto = async (req, res) => {
+    const { id_usuario } = req.body
+    try{
+        const response = await pool.query('select np.*,p.nombre_producto from notificaciones_producto np join producto p on p.id_producto =np.id_producto where np.id_usuario = $1;', [id_usuario])
+        res.json(response.rows)
+    }
+    catch(err){
+        res.json(err.message)
+    }
+}
+const obtenerNotificacionesComentarios = async (req, res) => {
+    const { id_usuario } = req.body
+    try{
+        const response = await pool.query('select nc.*,c.comentario from notificaciones_comentario nc join comentarios_producto c on nc.id_comentario=c.id_comentarios_producto where nc.id_usuario = $1;', [id_usuario])
+        res.json(response.rows)
+    }
+    catch(err){
+        res.json(err.message)
+    }
+}
 module.exports = {
     busquedaProductos,
     login,
@@ -427,4 +447,6 @@ module.exports = {
     busquedaUsuarios,
     cambiarEstadoUsuario,
     guardarNuevaCategoria,
+    obtenerNotificacionesProducto,
+    obtenerNotificacionesComentarios,
 }

@@ -131,7 +131,7 @@ export default function ListadoNotificacionesComentarios({ navigation }) {
             setLoading(true)
             const id_user = await AsyncStorage.getItem('id_user')
             const json = JSON.stringify({ id_usuario: id_user})
-            const response = await fetch(Route + 'obtenerLikesUsuario2',
+            const response = await fetch(Route + 'obtenerNotificacionesComentarios',
                 {
                     method: 'POST',
                     headers: {
@@ -171,11 +171,11 @@ export default function ListadoNotificacionesComentarios({ navigation }) {
                                         <TouchableOpacity name={'fadeInUpBig'} style={styles.botonAtras} onPress={() => navigation.pop(1)}>
                                             <MaterialIcons name="arrow-back" color="#000" size={20} style={{ alignSelf: 'center' }} />
                                         </TouchableOpacity>
-                                        <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000', }}>Likes de comentarios</Text>
+                                        <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#000', }}>Notificaciones de comentarios</Text>
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'column', height: '93%' }}>
-                                <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 10, }}>Tus Likes de Comentarios </Text>
+                                <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 10, }}>Tus Notificaciones de Comentarios </Text>
                                     {
                                         filterReport.length > 0 ? (
                                             <FlatList
@@ -186,7 +186,7 @@ export default function ListadoNotificacionesComentarios({ navigation }) {
                                                     <TouchableOpacity style={styles.itemContainer}>
                                                         <View style={{ flexDirection: 'row', width: '100%' }}>
                                                             <View style={{ flexDirection: 'column', marginTop: 10, width: '80%' }}>
-                                                                <Text style={{ flex: 15, fontSize: 30, fontWeight: 'bold', color: '#000' }}>{item.nombre_producto} </Text>
+                                                                <Text style={{ flex: 15, fontSize: 30, fontWeight: 'bold', color: '#000' }}>{item.notificacion} </Text>
                                                             </View>
                                                             <View style={{ flexDirection: 'column', width: '20%', marginTop: 10 }}>
                                                             <MaterialIcons name="thumb-up" color="blue" size={50} style={{ flex: 1, alignSelf: 'center' }} />
@@ -210,7 +210,7 @@ export default function ListadoNotificacionesComentarios({ navigation }) {
                                                         <Animatable.View animation="tada" easing="ease-out" iterationCount="infinite">
                                                             <MaterialCommunityIcons name="emoticon-sad" color='#000' size={80} />
                                                         </Animatable.View>
-                                                        <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡Este producto no cuenta con Comentarios!</Text>
+                                                        <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡No tienes notificaciones!</Text>
                                                     </View>
                                                 ) : (
                                                     <View style={{ width: '100%', height: '90%', alignItems: 'center', justifyContent: 'center' }}>
