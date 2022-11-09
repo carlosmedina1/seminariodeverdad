@@ -174,6 +174,71 @@ export default function ListadoReportesRealesComentarios({ navigation }) {
             setLoading(false)
         }
     }
+
+    const enviarApruebo = async () => {
+        try {
+            setLoading(true)
+            const json = JSON.stringify({ id_comentarios_producto: datax.id_comentarios_producto })
+            const response = await fetch(Route + 'aprueboReporteComentario',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: json
+                }
+            )
+            const data = await response.json()
+            console.log(data)
+            if (await data.length != 0) {
+                setLoading(false)
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show('Todos los reportes fueron Aprobados', ToastAndroid.SHORT)
+                    navigation.pop(5)
+                }
+                else {
+                    Alert.alert('Todos los reportes fueron Aprobados')
+                    navigation.pop(5)
+                }
+            }
+        }
+        catch (e) {
+            console.log(e)
+            setLoading(false)
+        }
+    }
+    const enviarRechazo = async () => {
+        try {
+            setLoading(true)
+            const json = JSON.stringify({ id_comentarios_producto: datax.id_comentarios_producto })
+            const response = await fetch(Route + 'rechazoReporteComentario',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: json
+                }
+            )
+            const data = await response.json()
+            console.log(data)
+            if (await data.length != 0) {
+                setLoading(false)
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show('Todos los reportes fueron Rechazados', ToastAndroid.SHORT)
+                    navigation.pop(5)
+                }
+                else {
+                    Alert.alert('Todos los reportes fueron Rechazados')
+                    navigation.pop(5)
+                }
+            }
+        }
+        catch (e) {
+            console.log(e)
+            setLoading(false)
+        }
+    }
     useEffect(() => {
         getReports()
     }, [])
@@ -203,7 +268,7 @@ export default function ListadoReportesRealesComentarios({ navigation }) {
                             </View>
                             <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 10, }}>Acciones: </Text>
                             <View style={styles.itemContainer}>
-                                <TouchableOpacity onPress={() => console.log('aaa')}>
+                                <TouchableOpacity onPress={() => enviarApruebo()}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop: 10 }}>
                                         <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
                                             <MaterialIcons name='check' color='green' size={30} />
@@ -216,7 +281,7 @@ export default function ListadoReportesRealesComentarios({ navigation }) {
                                 </TouchableOpacity>
                             </View>
                             <View style={styles.itemContainer}>
-                                <TouchableOpacity onPress={() => console.log('aaa')}>
+                                <TouchableOpacity onPress={() => enviarRechazo()}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop: 10 }}>
                                         <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
                                             <MaterialIcons name='cancel' color='red' size={30} />

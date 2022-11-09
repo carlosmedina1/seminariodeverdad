@@ -6,7 +6,8 @@ const { login, busquedaProductos,obtenerIdUsuario,registro,busquedaProductosUsua
         guardarReporte,verificarReporte,guardarReportecomentario,verificarReporteComentario,eliminarComentario,guardarNuevoProducto,buscarCategoria,
         guardarProductoEditado,obtenerReportesUsuario,obtenerReportesUsuario2,obtenerLikesUsuario,obtenerLikesUsuario2,guardarNuevaSubcategoria,busquedaCategorias,
         busquedaProductosEliminados,habilitarProducto,busquedaUsuarios,cambiarEstadoUsuario,guardarNuevaCategoria,obtenerNotificacionesProducto,
-        obtenerNotificacionesComentarios,obtenerReportesProducto,obtenerReportesComentarios,listadoReportesRealesProducto,listadoReportesRealesComentario} = require('../controller/functions');
+        obtenerNotificacionesComentarios,obtenerReportesProducto,obtenerReportesComentarios,listadoReportesRealesProducto,listadoReportesRealesComentario,
+        aprueboReporteComentario,rechazoReporteComentario,rechazoReporteProducto,aprueboReporteProducto} = require('../controller/functions');
 
 router.post('/seminarioAPI/login', login);
 router.post('/seminarioAPI/busquedaProductos', busquedaProductos);
@@ -49,4 +50,8 @@ router.post('/seminarioAPI/obtenerReportesProducto', obtenerReportesProducto);
 router.post('/seminarioAPI/obtenerReportesComentarios', obtenerReportesComentarios);
 router.post('/seminarioAPI/listadoReportesRealesProducto', listadoReportesRealesProducto);
 router.post('/seminarioAPI/listadoReportesRealesComentario', listadoReportesRealesComentario);
+router.post('/seminarioAPI/aprueboReporteComentario', aprueboReporteComentario);
+router.post('/seminarioAPI/rechazoReporteComentario', rechazoReporteComentario);
+router.post('/seminarioAPI/rechazoReporteProducto', rechazoReporteProducto);
+router.post('/seminarioAPI/aprueboReporteProducto', aprueboReporteProducto);
 module.exports = router;
