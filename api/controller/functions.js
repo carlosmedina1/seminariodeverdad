@@ -317,6 +317,24 @@ const obtenerReportesUsuario = async (req, res) => {
         res.json(err.message)
     }
 }
+const obtenerReportesProducto = async (req, res) => {
+    try{
+        const response = await pool.query('select count(rp.id_reportes_producto)as cantidad_reportes,p.nombre_producto,p.id_producto,p.descripcion from reportes_producto rp join producto p on p.id_producto=rp.id_producto where rp.vigente=true group by p.nombre_producto, p.id_producto')
+        res.json(response.rows)
+    }
+    catch(err){
+        res.json(err.message)
+    }
+}
+const obtenerReportesComentarios = async (req, res) => {
+    try{
+        const response = await pool.query('select count(rc.id_reportes_comentario)as cantidad_reportes, c.comentario,c.id_comentarios_producto,p.nombre_producto from reportes_comentario rc join comentarios_producto c on c.id_comentarios_producto=rc.id_comentarios_producto join producto p on c.id_producto=p.id_producto where rc.vigente=true group by c.comentario,c.id_comentarios_producto,p.nombre_producto')
+        res.json(response.rows)
+    }
+    catch(err){
+        res.json(err.message)
+    }
+}
 const obtenerReportesUsuario2 = async (req, res) => {
     const { id_usuario } = req.body
     try{
@@ -411,6 +429,26 @@ const obtenerNotificacionesComentarios = async (req, res) => {
         res.json(err.message)
     }
 }
+const listadoReportesRealesProducto = async (req, res) => {
+    const { id_producto } = req.body
+    try{
+        const response = await pool.query('select rp.justificacion, u.nombre_usuario from reportes_producto rp join usuario u on u.id_usuario=rp.id_usuario where rp.vigente=true and rp.id_producto= $1;', [id_producto])
+        res.json(response.rows)
+    }
+    catch(err){
+        res.json(err.message)
+    }
+}
+const listadoReportesRealesComentario = async (req, res) => {
+    const { id_comentarios_producto } = req.body
+    try{
+        const response = await pool.query('select rc.justificacion, u.nombre_usuario from reportes_comentario rc join usuario u on u.id_usuario=rc.id_usuario where rc.vigente=true and rc.id_comentarios_producto= $1;', [id_comentarios_producto])
+        res.json(response.rows)
+    }
+    catch(err){
+        res.json(err.message)
+    }
+}
 module.exports = {
     busquedaProductos,
     login,
@@ -449,4 +487,8 @@ module.exports = {
     guardarNuevaCategoria,
     obtenerNotificacionesProducto,
     obtenerNotificacionesComentarios,
+    obtenerReportesProducto,
+    obtenerReportesComentarios,
+    listadoReportesRealesProducto,
+    listadoReportesRealesComentario
 }

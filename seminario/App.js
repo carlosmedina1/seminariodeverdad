@@ -56,6 +56,11 @@ import CrearCategoria from "./src/CrearCategoria";
 import ListadoNotificacionesProductos from "./src/ListadoNotificacionesProductos";
 import ListadoNotificacionesComentarios from "./src/ListadoNotificacionesComentarios";
 import Categorias_notificaciones from "./src/Categorias_notificaciones";
+import Categorias_revisar_reportes from "./src/Categorias_revisar_reportes";
+import ListadoReporteProductosRevisar from "./src/ListadoReporteProductosRevisar";
+import ListadoReporteComentariosRevisar from "./src/ListadoReporteComentariosRevisar";
+import ListadoReportesRealesProducto from "./src/ListadoReportesRealesProducto";
+import ListadoReportesRealesComentarios from "./src/ListadoReportesRealesComentarios";
 
 
 const styles = StyleSheet.create({
@@ -468,7 +473,7 @@ const MenuScreen = ({ navigation }) => {
                     (
                       <>
                         <View style={styles.menuCardsAdmin}>
-                          <TouchableOpacity>
+                          <TouchableOpacity onPress={() => navigation.navigate("Categorias_revisar_reportes")}>
                             <View style={styles.btnCards}>
                               <MaterialIcons
                                 name={"report"}
@@ -1006,6 +1011,66 @@ const RootStack = createStackNavigator(
 
       navigationOptions: {
         title: 'Categorias_notificaciones',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    Categorias_notificaciones: {
+      screen: Categorias_notificaciones,
+
+      navigationOptions: {
+        title: 'Categorias_notificaciones',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    Categorias_revisar_reportes: {
+      screen: Categorias_revisar_reportes,
+
+      navigationOptions: {
+        title: 'Categorias_revisar_reportes',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    ListadoReporteProductosRevisar: {
+      screen: ListadoReporteProductosRevisar,
+
+      navigationOptions: {
+        title: 'ListadoReporteProductosRevisar',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    ListadoReporteComentariosRevisar: {
+      screen: ListadoReporteComentariosRevisar,
+
+      navigationOptions: {
+        title: 'ListadoReporteComentariosRevisar',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    ListadoReportesRealesProducto: {
+      screen: ListadoReportesRealesProducto,
+
+      navigationOptions: {
+        title: 'ListadoReportesRealesProducto',
+        headerTintColor: '#fff',
+        headerShown: false,
+        headerBackTitleVisible: false,
+      },
+    },
+    ListadoReportesRealesComentarios: {
+      screen: ListadoReportesRealesComentarios,
+
+      navigationOptions: {
+        title: 'ListadoReportesRealesComentarios',
         headerTintColor: '#fff',
         headerShown: false,
         headerBackTitleVisible: false,
