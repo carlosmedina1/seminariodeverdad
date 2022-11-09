@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.3.25
 -- Dumped by pg_dump version 9.3.25
--- Started on 2022-11-03 19:18:14
+-- Started on 2022-11-09 02:30:26
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -735,6 +735,7 @@ COPY public.categoria (id_categoria, nombre_categoria, orden, vigente, url) FROM
 5	LIBROS, REVISTAS Y COMICS	5	t	\N
 6	OTRAS CATEGORIAS	6	t	\N
 7	Prueba	0	t	\N
+8	Ca 2	0	t	\N
 \.
 
 
@@ -744,7 +745,7 @@ COPY public.categoria (id_categoria, nombre_categoria, orden, vigente, url) FROM
 -- Name: categoria_id_categoria_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.categoria_id_categoria_seq', 7, true);
+SELECT pg_catalog.setval('public.categoria_id_categoria_seq', 8, true);
 
 
 --
@@ -754,7 +755,6 @@ SELECT pg_catalog.setval('public.categoria_id_categoria_seq', 7, true);
 --
 
 COPY public.comentarios_producto (id_comentarios_producto, comentario, likes, id_producto, id_usuario, bloqueado, vigente, cant_reportes) FROM stdin;
-4	dsaoudhsakjdbsajkbdjsabdlsahdklasjlkdasdsadasdsadsadiddsaasdsadsadsadasdasdasdasdsadasdsadasdasdasdasdsadasdasdasdsadasdasfdsfdsfdsfdsfsdfsdfdsfdsfdsfsdfdsfdsfsdfsdfdsfsdfsdfsdfsdfsdfsdfsdfsdfsdfdsfds	0	1	2	f	t	0
 7	comentario de prueba	1	2	2	f	t	0
 8	este es un comentario de verdad	0	1	2	f	t	0
 5	dsaoudhsakjdbsajkbdjsabdlsahdklasjlkdasdsadasdsadsadiddsaasdsadsadsadasdasdasdasdsadasdsadasdasdasdasdsadasdasdasdsadasdasfdsfdsfdsfdsfsdfsdfdsfdsfdsfsdfdsfdsfsdfsdfdsfsdfsdfsdfsdfsdfsdfsdfsdfsdfdsfds	1	1	2	f	t	0
@@ -764,6 +764,7 @@ COPY public.comentarios_producto (id_comentarios_producto, comentario, likes, id
 1	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa	0	1	1	f	f	0
 9	hola	1	4	1	f	t	0
 10	este jeans salio muy malo 	1	7	6	f	t	0
+4	dsaoudhsakjdbsajkbdjsabdlsahdklasjlkdasdsadasdsadsadiddsaasdsadsadsadasdasdasdasdsadasdsadasdasdasdasdsadasdasdasdsadasdasfdsfdsfdsfdsfsdfsdfdsfdsfdsfsdfdsfdsfsdfsdfdsfsdfsdfsdfsdfsdfsdfsdfsdfsdfdsfds	0	1	2	f	t	1
 \.
 
 
@@ -903,6 +904,7 @@ SELECT pg_catalog.setval('public.producto_id_producto_seq', 11, true);
 --
 
 COPY public.reportes_comentario (id_reportes_comentario, justificacion, id_comentarios_producto, id_usuario, id_producto, vigente, aceptado, rechazado, fecha) FROM stdin;
+3	malito	4	1	1	t	f	f	2022-11-09 00:40:31.781
 \.
 
 
@@ -912,7 +914,7 @@ COPY public.reportes_comentario (id_reportes_comentario, justificacion, id_comen
 -- Name: reportes_comentario_id_reportes_comentario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.reportes_comentario_id_reportes_comentario_seq', 2, true);
+SELECT pg_catalog.setval('public.reportes_comentario_id_reportes_comentario_seq', 3, true);
 
 
 --
@@ -1141,7 +1143,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2022-11-03 19:18:15
+-- Completed on 2022-11-09 02:30:26
 
 --
 -- PostgreSQL database dump complete
