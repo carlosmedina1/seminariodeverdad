@@ -195,7 +195,7 @@ export default function ListadoReportesRealesComentarios({ navigation }) {
 
 
                         <View style={{ flexDirection: 'column', height: '38%' }}>
-                        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 10, }}>Comentario en Cuestion: </Text>
+                        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 10, }}>Comentario en Cuestión: </Text>
                         <View style={styles.itemContainer}>
                                 <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 5, }}>
                                     <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}>{datax.comentario}</Text>
@@ -229,7 +229,7 @@ export default function ListadoReportesRealesComentarios({ navigation }) {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 10, }}>Justicaciones de reportes: </Text>
+                        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 10, }}>Justificaciones de reportes: </Text>
                         <View style={{ flexDirection: 'column', height: '55%' }}>
                             {
                                 
@@ -270,7 +270,7 @@ export default function ListadoReportesRealesComentarios({ navigation }) {
                                                     <MaterialCommunityIcons name="reload" color='#000' size={80} />
                                                 </Animatable.View>
 
-                                                <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡Sin conexíon a internet!</Text>
+                                                <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡Sin conexión a internet!</Text>
                                                 <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => getReports()}>
                                                     <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'gray', }}>Puede intentar </Text>
                                                     <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'blue', }}>volver a Recargar. </Text>
