@@ -23,6 +23,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native-gesture-handler";
+import Route from './hooks/routes'
 import Login from './src/Login'
 import Registro from './src/Registro'
 import Buscar from './src/Buscar'
@@ -170,7 +171,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 1,
     elevation: 5,
-    
+
   },
   menuCardsAdmin: {
     justifyContent: "center",
@@ -189,7 +190,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 1,
     elevation: 5,
-    
+
     backgroundColor: "lightblue"
   },
   btnCards: {
@@ -213,6 +214,28 @@ const styles = StyleSheet.create({
 });
 
 const HomeScreen = ({ navigation }) => {
+  const [report, setReport] = useState([])
+  useEffect(() => {
+    getReports()
+  }, [])
+  const getReports = async () => {
+    try {
+      const response = await fetch(Route + 'busquedaCategorias',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+      const data = await response.json()
+      setReport(data)
+
+    }
+    catch (e) {
+      console.log(e)
+    }
+  }
   return (
     <ScrollView>
       <View style={{ backgroundColor: "lightgray", flex: 1 }}>
@@ -239,57 +262,16 @@ const HomeScreen = ({ navigation }) => {
             </Text>
           </View>
           <ScrollView horizontal={true} flexDirection="row">
+          {report.map((item, key) => (
             <View style={{ marginLeft: 10 }}>
-              <TouchableOpacity onPress={() => navigation.navigate("Categoria", { cat: 1 })}>
-                <Image
-                  style={styles.imgPersonas}
-                  source={require('./images/icono_ropa.png')}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={{ marginLeft: 10 }}>
-              <TouchableOpacity onPress={() => navigation.navigate("Categoria", { cat: 2 })}>
-                <Image
-                  style={styles.imgPersonas}
-                  source={require('./images/icono_celulares.png')}
-                />
-
-              </TouchableOpacity>
-            </View>
-            <View style={{ marginLeft: 10 }}>
-              <TouchableOpacity onPress={() => navigation.navigate("Categoria", { cat: 3 })}>
-                <Image
-                  style={styles.imgPersonas}
-                  source={require('./images/icono_electronica.png')}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={{ marginLeft: 10 }}>
-              <TouchableOpacity onPress={() => navigation.navigate("Categoria", { cat: 4 })}>
-                <Image
-                  style={styles.imgPersonas}
-                  source={require('./images/icono_juegos.png')}
-                />
-              </TouchableOpacity>
-            </View>
-
-            <View style={{ marginHorizontal: 10 }}>
-              <TouchableOpacity onPress={() => navigation.navigate("Categoria", { cat: 5 })}>
-                <Image
-                  style={styles.imgPersonas}
-                  source={require('./images/icono_libros.png')}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={{ marginHorizontal: 10 }}>
-              <TouchableOpacity onPress={() => navigation.navigate("Categoria", { cat: 6 })}>
-                <Image
-                  style={styles.imgPersonas}
-                  source={require('./images/icono_otros.png')}
-                />
-              </TouchableOpacity>
-            </View>
-
+            <TouchableOpacity onPress={() => navigation.navigate("Categoria", { cat: item.id_categoria })}>
+              <Image
+                style={styles.imgPersonas}
+                source={require('./images/icono_ropa.png')}
+              />
+            </TouchableOpacity>
+          </View>
+          ))}
           </ScrollView>
 
         </View>
@@ -401,7 +383,9 @@ const MenuScreen = ({ navigation }) => {
     await AsyncStorage.removeItem('id_user')
     await AsyncStorage.removeItem('es_admin')
     setLogueado(false)
+
   }
+
   return (
 
     <ScrollView>
@@ -458,7 +442,7 @@ const MenuScreen = ({ navigation }) => {
                     </TouchableOpacity>
                   </View>
                   <View style={styles.menuCards}>
-                    <TouchableOpacity  onPress={() => navigation.navigate("Categorias_reportes")}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Categorias_reportes")}>
                       <View style={styles.btnCards}>
                         <MaterialIcons
                           name={"report"}
@@ -527,7 +511,7 @@ const MenuScreen = ({ navigation }) => {
                   </View>
                 </View>
 
-                
+
 
                 <View style={{ width: "50%", flexDirection: "column", marginTop: 10 }}>
                   <View style={styles.menuCards}>
@@ -539,7 +523,7 @@ const MenuScreen = ({ navigation }) => {
                     </TouchableOpacity>
                   </View>
                   <View style={styles.menuCards}>
-                    <TouchableOpacity  onPress={() => navigation.navigate("Categorias_Likes")}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Categorias_Likes")}>
                       <View style={styles.btnCards}>
                         <Entypo name={"thumbs-up"} size={28} color={"blue"} />
                         <Text>Mis Likes</Text>
@@ -986,7 +970,7 @@ const RootStack = createStackNavigator(
       },
     },
 
-    ListadoNotificacionesProductos : {
+    ListadoNotificacionesProductos: {
       screen: ListadoNotificacionesProductos,
 
       navigationOptions: {
@@ -996,7 +980,7 @@ const RootStack = createStackNavigator(
         headerBackTitleVisible: false,
       },
     },
-    ListadoNotificacionesComentarios : {
+    ListadoNotificacionesComentarios: {
       screen: ListadoNotificacionesComentarios,
 
       navigationOptions: {

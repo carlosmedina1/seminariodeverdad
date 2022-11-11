@@ -487,7 +487,7 @@ const rechazoReporteProducto = async (req, res) => {
 const aprueboReporteProducto = async (req, res) => {
     const { id_producto } = req.body
     try {
-        const response = await pool.query("update producto set bloqueado=true where id_producto = $1", [id_producto]);
+        const response = await pool.query("update producto set bloqueado=true,razon_bloqueo='Reportes aceptados por Administrador' where id_producto = $1", [id_producto]);
         const response22 = await pool.query("update reportes_producto set vigente=false,aceptado=true where id_producto = $1", [id_producto]);
         const detalle_report = await pool.query('select id_usuario from reportes_producto where id_producto= $1;', [id_producto]);
         detalle_report.rows.forEach(async element  => {
