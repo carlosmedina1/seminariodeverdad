@@ -452,12 +452,11 @@ const listadoReportesRealesComentario = async (req, res) => {
 const aprueboReporteComentario = async (req, res) => {
     const { id_comentarios_producto } = req.body
     try {
-        //const response = await pool.query("update comentarios_producto set bloqueado=true where id_comentarios_producto = $1", [id_comentarios_producto]);
-        //const response22 = await pool.query("update reportes_comentario set vigente=false,aceptado=true where id_comentarios_producto = $1", [id_comentarios_producto]);
+        const response = await pool.query("update comentarios_producto set bloqueado=true where id_comentarios_producto = $1", [id_comentarios_producto]);
+        const response22 = await pool.query("update reportes_comentario set vigente=false,aceptado=true where id_comentarios_producto = $1", [id_comentarios_producto]);
         const detalle_report = await pool.query('select id_usuario from reportes_comentario where id_comentarios_producto= $1;', [id_comentarios_producto]);
-        detalle_report.forEach(element => {
-            console.log(element)
-            //const responsez = await pool.query("insert into notificaciones_comentario (id_usuario,id_comentario,notificacion) values ($1,$2,¡Tu Denuncia fue Aceptada!')", [id_usuario, id_comentarios_producto]);
+        detalle_report.rows.forEach(async element => {
+            await pool.query("insert into notificaciones_comentario (id_usuario,id_comentario,notificacion) values ($1,$2,'¡Tu Denuncia fue Aceptada!')", [element.id_usuario, id_comentarios_producto]);
         });
         res.json(1)
     }
@@ -488,12 +487,11 @@ const rechazoReporteProducto = async (req, res) => {
 const aprueboReporteProducto = async (req, res) => {
     const { id_producto } = req.body
     try {
-        //const response = await pool.query("update producto set bloqueado=true where id_producto = $1", [id_producto]);
-        //const response22 = await pool.query("update reportes_producto set vigente=false,aceptado=true where id_producto = $1", [id_producto]);
+        const response = await pool.query("update producto set bloqueado=true where id_producto = $1", [id_producto]);
+        const response22 = await pool.query("update reportes_producto set vigente=false,aceptado=true where id_producto = $1", [id_producto]);
         const detalle_report = await pool.query('select id_usuario from reportes_producto where id_producto= $1;', [id_producto]);
-        detalle_report.forEach(element => {
-            console.log(element)
-            //const responsez = await pool.query("insert into notificaciones_producto(id_usuario,id_producto,notificacion) values ($1,$2,¡Tu Denuncia fue Aceptada!')", [id_usuario, id_producto]);
+        detalle_report.rows.forEach(async element  => {
+            await pool.query("insert into notificaciones_producto(id_usuario,id_producto,notificacion) values ($1,$2,'¡Tu Denuncia fue Aceptada!')", [element.id_usuario, id_producto]);
         });
         res.json(1)
     }

@@ -192,6 +192,7 @@ export default function ListadoNotificacionesProductos({ navigation }) {
                                                             <MaterialIcons name="thumb-up" color="blue" size={50} style={{ flex: 1, alignSelf: 'center' }} />
                                                             </View>
                                                         </View>
+                                                        <Text style={{ flex: 15, fontSize: 17, fontWeight: 'bold', color: '#000', marginTop: 6 }}>{item.nombre_producto}</Text>
                                                     </TouchableOpacity>
                                                 )}
                                                 style={{ height: '70%' }}
