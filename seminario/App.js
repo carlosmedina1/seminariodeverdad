@@ -236,6 +236,10 @@ const HomeScreen = ({ navigation }) => {
       console.log(e)
     }
   }
+  const wena = async (item,key) => {
+    console.log(key)
+    navigation.navigate("Categoria", { cat: item.id_categoria })
+  }
   return (
     <ScrollView>
       <View style={{ backgroundColor: "lightgray", flex: 1 }}>
@@ -264,7 +268,7 @@ const HomeScreen = ({ navigation }) => {
           <ScrollView horizontal={true} flexDirection="row">
           {report.map((item, key) => (
             <View style={{ marginLeft: 10 }}>
-            <TouchableOpacity onPress={() => navigation.navigate("Categoria", { cat: item.id_categoria })}>
+            <TouchableOpacity onPress={() => wena(item,key)}>
               <Image
                 style={styles.imgPersonas}
                 source={require('./images/icono_ropa.png')}
