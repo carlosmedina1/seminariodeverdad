@@ -250,7 +250,7 @@ const busquedaSubcategorias = async (req, res) => {
 }
 const busquedaCategorias = async (req, res) => {
     try {
-        const response = await pool.query('select s.*,(select count(p.id_subcategoria) as cantidad from subcategoria p where p.id_categoria=s.id_categoria and p.vigente=true) from categoria s ORDER BY s.orden');
+        const response = await pool.query('select s.*,(select count(p.id_subcategoria) as cantidad from subcategoria p where p.id_categoria=s.id_categoria and p.vigente=true) from categoria s ORDER BY s.id_categoria');
         res.json(response.rows)
     }
     catch (err) {
@@ -371,7 +371,7 @@ const guardarNuevoProducto = async (req, res) => {
         const response = await pool.query('insert into producto (id_usuario,nombre_producto,descripcion,id_subcategoria) values ($1,$2,$3,$4)', [id_usuario, nombre_producto, descripcion, id_subcategoria]);
         const id_producto = await pool.query('SELECT last_value as id_producto FROM producto_id_producto_seq;');
 
-        res.json(id_producto.rows )
+        res.json(id_producto.rows)
     }
     catch (err) {
         res.json(err)
@@ -392,7 +392,9 @@ const guardarNuevaCategoria = async (req, res) => {
     const { nombre_categoria } = req.body
     try {
         const response = await pool.query('insert into categoria (nombre_categoria) values ($1)', [nombre_categoria]);
-        res.json(1)
+        const id_categoria = await pool.query('SELECT last_value as id_categoria FROM categoria_id_categoria_seq;');
+
+        res.json(id_categoria.rows)
     }
     catch (err) {
         res.json(err)
@@ -415,6 +417,18 @@ const guardarImagenProducto = async (req, res) => {
     const { url_1, url_2, url_3, url_4, id_producto } = req.body
     try {
         const response = await pool.query('update producto set url_1=$1, url_2=$2, url_3=$3, url_4=$4 where id_producto=$5', [url_1, url_2, url_3, url_4, id_producto]);
+        res.json(1)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
+const guardarImagenCategoria = async (req, res) => {
+    const { url_1,  id_categoria } = req.body
+    console.log(url_1,  id_categoria)
+    try {
+        const response = await pool.query('update categoria set url=$1 where id_categoria=$2', [url_1, id_categoria]);
+        console.log()
         res.json(1)
     }
     catch (err) {
@@ -557,5 +571,6 @@ module.exports = {
     rechazoReporteComentario,
     rechazoReporteProducto,
     aprueboReporteProducto,
-    guardarImagenProducto
+    guardarImagenProducto,
+    guardarImagenCategoria,
 }

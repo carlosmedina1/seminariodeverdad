@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, TextInput, View, Image, Platform, TouchableOpacity,ToastAndroid, Alert } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Image, Platform, TouchableOpacity, ToastAndroid, Alert } from 'react-native';
 import {
     ScrollView,
 } from "react-native-gesture-handler";
@@ -8,6 +8,8 @@ import FeatherIcon from 'react-native-vector-icons/Feather'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Route from '../hooks/routes'
 import Message from '../components/message'
+import Route2 from '../hooks/rutaImagen'
+import * as ImagePicker from 'expo-image-picker';
 
 const styles = StyleSheet.create({
     container: {
@@ -26,6 +28,13 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 8,
         elevation: 10,
+    },
+
+    imgPersonas: {
+        width: 200,
+        height: 200,
+        borderRadius: 20,
+        marginVertical: 7,
     },
     header: {
         flex: 2,
@@ -102,11 +111,13 @@ export default function CrearCategoria({ navigation }) {
     const [text, setText] = useState('')
     const [logining, setLogining] = useState(false)
     const [message, setMessage] = useState(false)
-
+    const [image1, setImage1] = useState(Route2 + 'photos/imagen_defecto.jpg')
+    const [img1fija, setImg1fija] = useState(false)
+    const [imageName1, setImageName1] = useState('_cat.jpg')
     const handleLogin = async () => {
         setLogining(true)
-        if (nombre !== '') {
-            const json = JSON.stringify({ nombre_categoria : nombre})
+        if (nombre !== '' && img1fija==true) {
+            const json = JSON.stringify({ nombre_categoria: nombre })
             await fetch(Route + 'guardarNuevaCategoria',
                 {
                     method: 'POST',
@@ -117,6 +128,53 @@ export default function CrearCategoria({ navigation }) {
                 })
                 .then((response) => response.json())
                 .then((data) => {
+                    subirImagenes(data[0].id_categoria)
+                })
+                .catch((error) => {
+                    console.error(error)
+                    setLogining(false)
+                })
+        } else {
+            setLogining(false)
+            setText('El  nombre y la imagen son obligatorio')
+            setMessage(true)
+        }
+    }
+    const subirImagenes = async (id_categoria) => {
+        var i1 = id_categoria + imageName1;
+        try {
+            let type = 'image/jpg';
+            let formData = new FormData();
+            if (img1fija == true) {
+                formData.append('photo', { uri: image1, name: i1, type });
+                await fetch(Route2 + '/upload.php', {
+                    method: 'POST',
+                    body: formData,
+                    header: {
+                        'content-type': 'multipart/form-data',
+                    },
+                });
+            } else {
+                i1 = 'sin_imagen.jpg'
+            }
+        } catch (error) {
+            console.error('1')
+            console.error(error)
+        }
+
+        try {
+            const json = JSON.stringify({ url_1: i1, id_categoria: id_categoria })
+            await fetch(Route + 'guardarImagenCategoria',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: json
+                })
+                .then((response) => response.json())
+                .then((data) => {
+
                     if (Platform.OS === 'android') {
                         ToastAndroid.show('Categoria Creada', ToastAndroid.SHORT)
                         navigation.pop(3)
@@ -130,13 +188,39 @@ export default function CrearCategoria({ navigation }) {
                     console.error(error)
                     setLogining(false)
                 })
-        } else {
-            setLogining(false)
-            setText('El  nombre es obligatorio')
-            setMessage(true)
+        } catch (error) {
+            console.error('2')
+            console.error(error)
+        }
+
+    }
+    async function takePhotoAndUpload(numero) {
+        /*
+        let result = await ImagePicker.launchCameraAsync({
+            allowsEditing: false, // higher res on iOS
+            aspect: [4, 3],
+        });
+        */
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+        if (result.cancelled) {
+            return;
+        }
+        let localUri = result.uri;
+        let filename = localUri.split('/').pop();
+        //let filenamex = localUri.split('.').pop();
+        //let match = /\.(\w+)$/.exec(filename);
+
+
+        if (numero == 1) {
+            setImage1(localUri)
+            setImg1fija(true)
         }
     }
-
 
     return (
         <View style={styles.container}>
@@ -160,6 +244,17 @@ export default function CrearCategoria({ navigation }) {
                             <TextInput placeholder="Nombre(*)" maxLength={50} style={{ marginBottom: 10, width: '100%' }} onChangeText={(text) => setNombre(text)} />
                         </View>
                     </View>
+                    <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 5, }}>
+                        <TouchableOpacity onPress={() => takePhotoAndUpload(1)}>
+                            <View style={{ marginLeft: 10 }}>
+                                <Image
+                                    style={styles.imgPersonas}
+                                    source={{ uri: image1 }}
+                                />
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+
                 </ScrollView>
                 <View style={styles.ingresarContainer}>
                     {

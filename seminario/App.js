@@ -23,6 +23,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native-gesture-handler";
+import Route2 from './hooks/rutaImagen'
 import Route from './hooks/routes'
 import Login from './src/Login'
 import Registro from './src/Registro'
@@ -271,7 +272,7 @@ const HomeScreen = ({ navigation }) => {
             <TouchableOpacity onPress={() => wena(item,key)}>
               <Image
                 style={styles.imgPersonas}
-                source={require('./images/icono_ropa.png')}
+                source={{uri: Route2+'photos/'+item.url}}
               />
             </TouchableOpacity>
           </View>
