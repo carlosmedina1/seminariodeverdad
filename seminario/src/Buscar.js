@@ -8,7 +8,7 @@ import Modal from '../components/customModal'
 import * as Animatable from 'react-native-animatable'
 import Route from '../hooks/routes'
 import { set } from 'react-native-reanimated';
-
+import Route2 from '../hooks/rutaImagen'
 
 const windowHeight = Dimensions.get('screen').height;
 
@@ -136,6 +136,8 @@ export default function reportPendientes({ navigation }) {
             const data = await response.json()
             if (await data.length != 0) {
                 setLoading(false)
+                
+        
                 setFilterReport(data)
                 setReport(data)
             }else {
@@ -148,13 +150,17 @@ export default function reportPendientes({ navigation }) {
     }
 
     const goDetalleProducto = (item) => {
+        console.log(Route2+'/photos/'+item.id_producto+'_1.jpg')
+        /*
         navigation.navigate('DetalleProducto', {
             producto: item,
             editable: false
         })
+        */
     }    
     useEffect(() => {
         getReports()
+        
     }, [])
 
     return (
@@ -190,7 +196,7 @@ export default function reportPendientes({ navigation }) {
                                     renderItem={({ item }) => (
                                         <TouchableOpacity style={styles.itemContainer} onPress={() => goDetalleProducto(item)}>
                                             <View style={{ flexDirection: 'row', width: '100%', }}>
-                                                <Image style={{ width: 100, height: 100, borderRadius: 5, marginVertical: 7 }} source={require('../images/icono_ropa.png')} />
+                                                <Image style={{ width: 100, height: 100, borderRadius: 5, marginVertical: 7 }} source={{uri: Route2+'photos/'+item.id_producto+'_1.jpg'}} />
                                                 <View style={{ flexDirection: 'column', width: '10%', marginTop: 10 }}>
                                                     <MaterialIcons name="fiber-manual-record" color="#5dd069" size={30} style={{ flex: 1, alignSelf: 'center' }} />
                                                     <MaterialIcons name="thumb-up" color="#5dd069" size={30} style={{ flex: 1, alignSelf: 'center' }} />

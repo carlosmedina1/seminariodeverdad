@@ -141,24 +141,31 @@ export default function CrearProducto({ navigation }) {
         setLogining(true)
 
         if (nombre !== '' && descripcion !== '') {
-            const id_user = await AsyncStorage.getItem('id_user')
-            const json = JSON.stringify({ nombre_producto: nombre, descripcion: descripcion, id_subcategoria: datos.id_subcategoria, id_usuario: id_user })
-            await fetch(Route + 'guardarNuevoProducto',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: json
-                })
-                .then((response) => response.json())
-                .then((data) => {
-                    subirImagenes(data[0].id_producto)
-                })
-                .catch((error) => {
-                    console.error(error)
-                    setLogining(false)
-                })
+            if(img1fija==false && img2fija==false && img3fija==false && img4fija==false){
+                setLogining(false)
+                setText('Debe seleccionar al menos una imagen')
+                setMessage(true)
+            }else{
+                const id_user = await AsyncStorage.getItem('id_user')
+                const json = JSON.stringify({ nombre_producto: nombre, descripcion: descripcion, id_subcategoria: datos.id_subcategoria, id_usuario: id_user })
+                await fetch(Route + 'guardarNuevoProducto',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: json
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        subirImagenes(data[0].id_producto)
+                    })
+                    .catch((error) => {
+                        console.error(error)
+                        setLogining(false)
+                    })
+            }
+            
         } else {
             setLogining(false)
             setText('El nombre y descripcion del producto es obligatorio')

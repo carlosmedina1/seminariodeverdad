@@ -10,6 +10,7 @@ import moment from "moment";
 import * as Animatable from 'react-native-animatable'
 import Route from '../hooks/routes'
 import Message from '../components/message'
+import Route2 from '../hooks/rutaImagen'
 
 const windowHeight = Dimensions.get('screen').height;
 
@@ -293,7 +294,6 @@ export default function detalleProducto({ navigation }) {
     useEffect(() => {
         obtenerLikes()
         like_al_entrar()
-        console.log(editable)
     }, [])
 
     return (
@@ -343,31 +343,25 @@ export default function detalleProducto({ navigation }) {
                                         <View style={{ marginLeft: 10 }}>
                                             <Image
                                                 style={styles.imgPersonas}
-                                                source={{ uri: "http://placekitten.com/100/200" }}
+                                                source={{uri: Route2+'photos/'+producto.url_1}}
                                             />
                                         </View>
                                         <View style={{ marginLeft: 10 }}>
                                             <Image
                                                 style={styles.imgPersonas}
-                                                source={{ uri: "http://placekitten.com/100/200" }}
+                                                source={{uri: Route2+'photos/'+producto.url_2}}
                                             />
                                         </View>
                                         <View style={{ marginLeft: 10 }}>
                                             <Image
                                                 style={styles.imgPersonas}
-                                                source={{ uri: "http://placekitten.com/100/200" }}
+                                                source={{uri: Route2+'photos/'+producto.url_3}}
                                             />
                                         </View>
                                         <View style={{ marginLeft: 10 }}>
                                             <Image
                                                 style={styles.imgPersonas}
-                                                source={{ uri: "http://placekitten.com/100/200" }}
-                                            />
-                                        </View>
-                                        <View style={{ marginHorizontal: 10 }}>
-                                            <Image
-                                                style={styles.imgPersonas}
-                                                source={{ uri: "http://placekitten.com/100/200" }}
+                                                source={{uri: Route2+'photos/'+producto.url_4}}
                                             />
                                         </View>
                                     </ScrollView>
