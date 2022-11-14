@@ -7,7 +7,7 @@ const { login, busquedaProductos,obtenerIdUsuario,registro,busquedaProductosUsua
         guardarProductoEditado,obtenerReportesUsuario,obtenerReportesUsuario2,obtenerLikesUsuario,obtenerLikesUsuario2,guardarNuevaSubcategoria,busquedaCategorias,
         busquedaProductosEliminados,habilitarProducto,busquedaUsuarios,cambiarEstadoUsuario,guardarNuevaCategoria,obtenerNotificacionesProducto,
         obtenerNotificacionesComentarios,obtenerReportesProducto,obtenerReportesComentarios,listadoReportesRealesProducto,listadoReportesRealesComentario,
-        aprueboReporteComentario,rechazoReporteComentario,rechazoReporteProducto,aprueboReporteProducto} = require('../controller/functions');
+        aprueboReporteComentario,rechazoReporteComentario,rechazoReporteProducto,aprueboReporteProducto,guardarImagenProducto} = require('../controller/functions');
 
 router.post('/seminarioAPI/login', login);
 router.post('/seminarioAPI/busquedaProductos', busquedaProductos);
@@ -54,4 +54,6 @@ router.post('/seminarioAPI/aprueboReporteComentario', aprueboReporteComentario);
 router.post('/seminarioAPI/rechazoReporteComentario', rechazoReporteComentario);
 router.post('/seminarioAPI/rechazoReporteProducto', rechazoReporteProducto);
 router.post('/seminarioAPI/aprueboReporteProducto', aprueboReporteProducto);
+router.post('/seminarioAPI/guardarImagenProducto', guardarImagenProducto);
+
 module.exports = router;

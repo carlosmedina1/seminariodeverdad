@@ -125,14 +125,18 @@ export default function CrearProducto({ navigation }) {
     const propio = navigation.getParam('propio', 'false')
     const [logining, setLogining] = useState(false)
     const [message, setMessage] = useState(false)
-    const [image1, setImage1] = useState(Route2 + 'imagen_defecto.jpg')
-    const [image2, setImage2] = useState(Route2 + 'imagen_defecto.jpg')
-    const [image3, setImage3] = useState(Route2 + 'imagen_defecto.jpg')
-    const [image4, setImage4] = useState(Route2 + 'imagen_defecto.jpg')
-    const [imageName1, setImageName1] = useState('_1')
-    const [imageName2, setImageName2] = useState('_2')
-    const [imageName3, setImageName3] = useState('_3')
-    const [imageName4, setImageName4] = useState('_4')
+    const [image1, setImage1] = useState(Route2 + 'photos/imagen_defecto.jpg')
+    const [image2, setImage2] = useState(Route2 + 'photos/imagen_defecto.jpg')
+    const [image3, setImage3] = useState(Route2 + 'photos/imagen_defecto.jpg')
+    const [image4, setImage4] = useState(Route2 + 'photos/imagen_defecto.jpg')
+    const [img1fija, setImg1fija] = useState(false)
+    const [img2fija, setImg2fija] = useState(false)
+    const [img3fija, setImg3fija] = useState(false)
+    const [img4fija, setImg4fija] = useState(false)
+    const [imageName1, setImageName1] = useState('_1.jpg')
+    const [imageName2, setImageName2] = useState('_2.jpg')
+    const [imageName3, setImageName3] = useState('_3.jpg')
+    const [imageName4, setImageName4] = useState('_4.jpg')
     const handleLogin = async () => {
         setLogining(true)
 
@@ -140,6 +144,92 @@ export default function CrearProducto({ navigation }) {
             const id_user = await AsyncStorage.getItem('id_user')
             const json = JSON.stringify({ nombre_producto: nombre, descripcion: descripcion, id_subcategoria: datos.id_subcategoria, id_usuario: id_user })
             await fetch(Route + 'guardarNuevoProducto',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: json
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    subirImagenes(data[0].id_producto)
+                })
+                .catch((error) => {
+                    console.error(error)
+                    setLogining(false)
+                })
+        } else {
+            setLogining(false)
+            setText('El nombre y descripcion del producto es obligatorio')
+            setMessage(true)
+        }
+    }
+
+    const subirImagenes = async (id_producto) => {
+        var i1 = id_producto + imageName1;
+        var i2 = id_producto + imageName2;
+        var i3 = id_producto + imageName3;
+        var i4 = id_producto + imageName4;
+        try {
+            let type = 'image/jpg';
+            let formData = new FormData();
+            if (img1fija == true) {
+                formData.append('photo', { uri: image1, name: i1, type });
+                await fetch( Route2 + '/upload.php', {
+                    method: 'POST',
+                    body: formData,
+                    header: {
+                        'content-type': 'multipart/form-data',
+                    },
+                });
+            } else {
+                i1 = 'sin_imagen.jpg'
+            }
+            if (img2fija == true) {
+                formData.append('photo', { uri: image2, name: i2, type });
+                await fetch( Route2 + '/upload.php', {
+                    method: 'POST',
+                    body: formData,
+                    header: {
+                        'content-type': 'multipart/form-data',
+                    },
+                });
+            } else {
+                i2 = 'sin_imagen.jpg'
+            }
+            if (img3fija == true) {
+                formData.append('photo', { uri: image3, name: i3, type });
+                await fetch( Route2 + '/upload.php', {
+                    method: 'POST',
+                    body: formData,
+                    header: {
+                        'content-type': 'multipart/form-data',
+                    },
+                });
+            } else {
+                i3 = 'sin_imagen.jpg'
+            }
+            if (img4fija == true) {
+                formData.append('photo', { uri: image4, name: i4, type });
+                await fetch( Route2 + '/upload.php', {
+                    method: 'POST',
+                    body: formData,
+                    header: {
+                        'content-type': 'multipart/form-data',
+                    },
+                });
+            } else {
+                i4 = 'sin_imagen.jpg'
+            }
+        } catch (error) {
+            console.error('1')
+            console.error(error)
+        }
+
+        try {
+            const json = JSON.stringify({ url_1: i1, url_2: i2, url_3: i3, url_4: i4, id_producto: id_producto })
+            await fetch(Route + 'guardarImagenProducto',
                 {
                     method: 'POST',
                     headers: {
@@ -171,16 +261,12 @@ export default function CrearProducto({ navigation }) {
                     console.error(error)
                     setLogining(false)
                 })
-        } else {
-            setLogining(false)
-            setText('El nombre y descripcion del producto es obligatorio')
-            setMessage(true)
+        } catch (error) {
+            console.error('2')
+            console.error(error)
         }
+
     }
-    useEffect(() => {
-        //console.log(datos)
-        //_loadSession()
-    }, [])
     async function takePhotoAndUpload(numero) {
 
         let result = await ImagePicker.launchCameraAsync({
@@ -191,24 +277,24 @@ export default function CrearProducto({ navigation }) {
         if (result.cancelled) {
             return;
         }
-
         let localUri = result.uri;
         let filename = localUri.split('/').pop();
-        let filenamex = localUri.split('.').pop();
-        let match = /\.(\w+)$/.exec(filename);
-        
-        let type = match ? `image/${match[1]}` : `image`;
-        console.log(type)
-        let formData = new FormData();
-        formData.append('photo', { uri: localUri, name: filename, type });
-        if(numero==1){
+        //let filenamex = localUri.split('.').pop();
+        //let match = /\.(\w+)$/.exec(filename);
+
+
+        if (numero == 1) {
             setImage1(localUri)
-        }else if(numero==2){
+            setImg1fija(true)
+        } else if (numero == 2) {
             setImage2(localUri)
-        }else if(numero==3){
+            setImg2fija(true)
+        } else if (numero == 3) {
             setImage3(localUri)
-        }else if(numero==4){
+            setImg3fija(true)
+        } else if (numero == 4) {
             setImage4(localUri)
+            setImg4fija(true)
         }
         /*
         return await fetch('http://192.168.32.133/upload.php', {
@@ -256,7 +342,7 @@ export default function CrearProducto({ navigation }) {
                             <TextInput maxLength={200} multiline={true} placeholder="Descripcion(200)" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass2) => setDescripcion(pass2)} />
                         </View>
                     </View>
-                    <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 20,marginLeft:10 }}>Imágenes (Max 4):</Text>
+                    <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 20, marginLeft: 10 }}>Imágenes (Max 4):</Text>
                     <View style={styles.itemContainer2}>
                         <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 5, }}>
                             <ScrollView horizontal={true} flexDirection="row">
