@@ -7,7 +7,7 @@ const { login, busquedaProductos,obtenerIdUsuario,registro,busquedaProductosUsua
         guardarProductoEditado,obtenerReportesUsuario,obtenerReportesUsuario2,obtenerLikesUsuario,obtenerLikesUsuario2,guardarNuevaSubcategoria,busquedaCategorias,
         busquedaProductosEliminados,habilitarProducto,busquedaUsuarios,cambiarEstadoUsuario,guardarNuevaCategoria,obtenerNotificacionesProducto,
         obtenerNotificacionesComentarios,obtenerReportesProducto,obtenerReportesComentarios,listadoReportesRealesProducto,listadoReportesRealesComentario,
-        aprueboReporteComentario,rechazoReporteComentario,rechazoReporteProducto,aprueboReporteProducto,guardarImagenProducto,guardarImagenCategoria} = require('../controller/functions');
+        aprueboReporteComentario,rechazoReporteComentario,rechazoReporteProducto,aprueboReporteProducto,guardarImagenProducto,guardarImagenCategoria,busquedaProductosConMasLikes} = require('../controller/functions');
 
 router.post('/seminarioAPI/login', login);
 router.post('/seminarioAPI/busquedaProductos', busquedaProductos);
@@ -56,5 +56,6 @@ router.post('/seminarioAPI/rechazoReporteProducto', rechazoReporteProducto);
 router.post('/seminarioAPI/aprueboReporteProducto', aprueboReporteProducto);
 router.post('/seminarioAPI/guardarImagenProducto', guardarImagenProducto);
 router.post('/seminarioAPI/guardarImagenCategoria', guardarImagenCategoria);
+router.post('/seminarioAPI/busquedaProductosConMasLikes', busquedaProductosConMasLikes);
 
 module.exports = router;

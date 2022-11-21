@@ -216,8 +216,10 @@ const styles = StyleSheet.create({
 
 const HomeScreen = ({ navigation }) => {
   const [report, setReport] = useState([])
+  const [productos, setProductos] = useState([])
   useEffect(() => {
     getReports()
+    getProductos()
   }, [])
   const getReports = async () => {
     try {
@@ -237,8 +239,25 @@ const HomeScreen = ({ navigation }) => {
       console.log(e)
     }
   }
+  const getProductos = async () => {
+    try {
+      const response = await fetch(Route + 'busquedaProductosConMasLikes',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+      const data = await response.json()
+      setProductos(data)
+
+    }
+    catch (e) {
+      console.log(e)
+    }
+  }
   const wena = async (item,key) => {
-    console.log(key)
     navigation.navigate("Categoria", { cat: item.id_categoria })
   }
   return (
@@ -268,7 +287,7 @@ const HomeScreen = ({ navigation }) => {
           </View>
           <ScrollView horizontal={true} flexDirection="row">
           {report.map((item, key) => (
-            <View style={{ marginLeft: 10 }}>
+            <View style={{ marginLeft: 10 }}  key={item.id_categoria}>
             <TouchableOpacity onPress={() => wena(item,key)}>
               <Image
                 style={styles.imgPersonas}
@@ -294,37 +313,16 @@ const HomeScreen = ({ navigation }) => {
             </Text>
           </View>
           <ScrollView horizontal={true} flexDirection="row">
-            <View style={{ marginLeft: 10 }}>
+          {productos.map((item, key) => (
+            <View style={{ marginLeft: 10 }} key={item.id_producto}>
+            <TouchableOpacity>
               <Image
                 style={styles.imgPersonas}
-                source={{ uri: "http://placekitten.com/200/200" }}
+                source={{uri: Route2+'photos/'+item.url_1}}
               />
-            </View>
-            <View style={{ marginLeft: 10 }}>
-              <Image
-                style={styles.imgPersonas}
-                source={{ uri: "http://placekitten.com/200/200" }}
-              />
-            </View>
-            <View style={{ marginLeft: 10 }}>
-              <Image
-                style={styles.imgPersonas}
-                source={{ uri: "http://placekitten.com/200/200" }}
-              />
-            </View>
-            <View style={{ marginLeft: 10 }}>
-              <Image
-                style={styles.imgPersonas}
-                source={{ uri: "http://placekitten.com/200/200" }}
-              />
-            </View>
-            <View style={{ marginHorizontal: 10, borderRadius: 20 }}>
-              <Image
-                style={styles.imgPersonas}
-                source={{ uri: "http://placekitten.com/200/200" }}
-              />
-              <Text></Text>
-            </View>
+            </TouchableOpacity>
+          </View>
+          ))}
           </ScrollView>
         </View>
       </View>

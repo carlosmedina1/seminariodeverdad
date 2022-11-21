@@ -257,6 +257,15 @@ const busquedaCategorias = async (req, res) => {
         res.json(err)
     }
 }
+const busquedaProductosConMasLikes = async (req, res) => {
+    try {
+        const response = await pool.query('select id_producto,url_1 from producto order by likes desc');
+        res.json(response.rows)
+    }
+    catch (err) {
+        res.json(err)
+    }
+}
 
 const busquedaUsuarios = async (req, res) => {
     try {
@@ -573,4 +582,5 @@ module.exports = {
     aprueboReporteProducto,
     guardarImagenProducto,
     guardarImagenCategoria,
+    busquedaProductosConMasLikes,
 }
