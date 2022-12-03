@@ -418,7 +418,6 @@ const MenuScreen = ({ navigation }) => {
                 </View>
                 <View style={{ flexDirection: "column" }}>
                   <Text style={{ fontWeight: "bold" }}>{user}</Text>
-                  <Text style={{ color: "gray" }}>Ver tu perfil</Text>
                 </View>
               </View>
             </TouchableOpacity>

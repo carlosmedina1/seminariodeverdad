@@ -209,7 +209,7 @@ export default function ListadoReporteProductos({ navigation }) {
                                                         <Animatable.View animation="tada" easing="ease-out" iterationCount="infinite">
                                                             <MaterialCommunityIcons name="emoticon-sad" color='#000' size={80} />
                                                         </Animatable.View>
-                                                        <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡Este producto no cuenta con Comentarios!</Text>
+                                                        <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡No existen productos con likes!</Text>
                                                     </View>
                                                 ) : (
                                                     <View style={{ width: '100%', height: '90%', alignItems: 'center', justifyContent: 'center' }}>

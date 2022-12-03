@@ -103,7 +103,7 @@ export default function seleccionCategoriaAgregar({ navigation }) {
     const [loading, setLoading] = useState(false)
     const [sinProductos, setSinProductos] = useState(false)
     const [busqueda, setBusqueda] = useState('')
-    const propio = navigation.getParam('propio', 'false')
+    const propio = navigation.getParam('propio', false)
 
 
     const paraAtras = () => {

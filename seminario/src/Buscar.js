@@ -150,13 +150,10 @@ export default function reportPendientes({ navigation }) {
     }
 
     const goDetalleProducto = (item) => {
-        console.log(Route2+'/photos/'+item.id_producto+'_1.jpg')
-        /*
         navigation.navigate('DetalleProducto', {
             producto: item,
             editable: false
         })
-        */
     }    
     useEffect(() => {
         getReports()

@@ -327,7 +327,7 @@ export default function ListadoReportesRealesComentarios({ navigation }) {
                                                 <Animatable.View animation="tada" easing="ease-out" iterationCount="infinite">
                                                     <MaterialCommunityIcons name="emoticon-sad" color='#000' size={80} />
                                                 </Animatable.View>
-                                                <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡No hay reportes de comentarios!</Text>
+                                                <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡No existen reportes pendientes!</Text>
                                             </View>
                                         ) : (
                                             <View style={{ width: '100%', height: '90%', alignItems: 'center', justifyContent: 'center' }}>

@@ -162,7 +162,13 @@ export default function Reportar({ navigation }) {
                 }
             )
             const data = await response.json()
-            navigation.pop(1)
+            if (Platform.OS === 'android') {
+                ToastAndroid.show('Comentario Reportado', ToastAndroid.SHORT)
+            }
+            else {
+                Alert.alert('Comentario Reportado')
+            }
+            navigation.pop(7)
 
         }
         catch (e) {

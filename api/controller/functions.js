@@ -328,7 +328,7 @@ const obtenerReportesUsuario = async (req, res) => {
 }
 const obtenerReportesProducto = async (req, res) => {
     try {
-        const response = await pool.query('select count(rp.id_reportes_producto)as cantidad_reportes,p.nombre_producto,p.id_producto,p.descripcion from reportes_producto rp join producto p on p.id_producto=rp.id_producto where rp.vigente=true group by p.nombre_producto, p.id_producto')
+        const response = await pool.query('select count(rp.id_reportes_producto)as cantidad_reportes,p.nombre_producto,p.id_producto,p.descripcion,p.url_1 from reportes_producto rp join producto p on p.id_producto=rp.id_producto where rp.vigente=true group by p.nombre_producto, p.id_producto')
         res.json(response.rows)
     }
     catch (err) {

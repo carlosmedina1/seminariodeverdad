@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Animatable from 'react-native-animatable'
 import Route from '../hooks/routes'
 import { set } from 'react-native-reanimated';
-
+import Route2 from '../hooks/rutaImagen'
 
 const windowHeight = Dimensions.get('screen').height;
 
@@ -190,7 +190,7 @@ export default function ListadoReporteProductos({ navigation }) {
                                                         <Text style={{ flex: 15, fontSize: 17, fontWeight: 'bold', color: '#000', marginTop: 6 }}>Cantidad de reportes: {item.cantidad_reportes}</Text>
                                                     </View>
                                                     <View style={{ flexDirection: 'column', width: '20%', marginTop: 10 }}>
-                                                        <Image style={{ width: 100, height: 100, borderRadius: 5, marginVertical: 7 }} source={require('../images/icono_ropa.png')} />
+                                                        <Image style={{ width: 100, height: 100, borderRadius: 5, marginVertical: 7 }} source={{uri: Route2+'photos/'+item.id_producto+'_1.jpg'}} />
                                                     </View>
                                                 </View>
                                             </TouchableOpacity>
@@ -209,7 +209,7 @@ export default function ListadoReporteProductos({ navigation }) {
                                                 <Animatable.View animation="tada" easing="ease-out" iterationCount="infinite">
                                                     <MaterialCommunityIcons name="emoticon-sad" color='#000' size={80} />
                                                 </Animatable.View>
-                                                <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡Este producto no cuenta con Comentarios!</Text>
+                                                <Text style={{ color: '#000', fontSize: 20, fontWeight: 'bold' }}>¡No existen reportes pendientes!</Text>
                                             </View>
                                         ) : (
                                             <View style={{ width: '100%', height: '90%', alignItems: 'center', justifyContent: 'center' }}>
