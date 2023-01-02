@@ -108,6 +108,7 @@ export default function Registro({ navigation }) {
     const [message, setMessage] = useState(false)
 
     const handleLogin = async () => {
+        //COMPUREBA LOS DATOS PARA REGISTRARSE EN LA APP
         setLogining(true)
         console.log(validateEmail(correo))
         if (user !== '' && pass !== '' && pass2 !== '' && correo !== '') {
@@ -160,10 +161,12 @@ export default function Registro({ navigation }) {
         }
     }
     function validateEmail(email) {
+        //VALIDADOR DE EMAIL
         var re = /\S+@\S+\.\S+/;
         return re.test(email);
     }
     const obtenerid = async (user) => {
+        //OBTIENE EL IDE DEL USUARIO RECIEN CREADO
         const json = JSON.stringify({ nu: user })
         const response = await fetch(Route + 'obtener-usuario',
             {
@@ -181,6 +184,7 @@ export default function Registro({ navigation }) {
 
     }
     const _storeSession = async (nombrex, es_admin) => {
+        //GUARDA LA SESION DEL USUARIO RECIEN CREADO
         try {
             await AsyncStorage.setItem('isLoged', 'true')
             await AsyncStorage.setItem('user', nombrex)
@@ -199,9 +203,6 @@ export default function Registro({ navigation }) {
             setLogining(false)
         }
     }
-    useEffect(() => {
-        //_loadSession()
-    }, [])
 
 
     return (

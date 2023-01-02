@@ -150,13 +150,11 @@ export default function detalleProducto({ navigation }) {
     const [likeado, setLikeado] = useState(false)
     const [likes, setLikes] = useState(0)
     const paraAtras = () => {
-        if(editable){
-            navigation.pop(1)
-        }else{
-            navigation.pop(1)
-        }
+        //FUNCION PARA VOLVER HACIA ATRÁS
+        navigation.pop(1)
     }
     const verificar_likes = async () => {
+        //VERIFICA SI EL USUARIO ESTA LOGUEADO PARA DAR LIKES
         try {
             setLoading(true)
             const id_user = await AsyncStorage.getItem('id_user')
@@ -207,6 +205,7 @@ export default function detalleProducto({ navigation }) {
         }
     }
     const like_al_entrar = async () => {
+        //VERIFICA LOS LIKES AL ENTRAR A LA CLASE
         try {
             setLoading(true)
             const id_user = await AsyncStorage.getItem('id_user')
@@ -248,6 +247,7 @@ export default function detalleProducto({ navigation }) {
         }
     }
     const obtenerLikes = async () => {
+        //OBTIENE LOS LIKES DESPUÉS DE DAR LIKE
         try {
             const json = JSON.stringify({ id_producto: producto.id_producto })
             await fetch(Route + 'likesProducto',
@@ -274,6 +274,7 @@ export default function detalleProducto({ navigation }) {
     }
 
     const reportarProducto = async () => {
+        //PASO A LA PANTALLA DE REPORTES, NO DEJA PASAR SI NO SE ESTA LOGUEADO
         const id_user = await AsyncStorage.getItem('id_user')
         if (id_user == null) {
             setMessage(true)
@@ -283,15 +284,19 @@ export default function detalleProducto({ navigation }) {
         }
     }
     const contactosUsuario = async () => {
+        //PASO A LA PANTALLA CONTACTOS
         navigation.navigate("Contactos", { id_usuario: producto.id_usuario })
     }
     const editarProducto = async () => {
+        //PASO A LA PANTALLA EDITAR PRODUCTO
         navigation.navigate("EditarProducto", {  producto: producto })
     }
     const comentarProducto = async () => {
+        //PASO A LA PANTALLA DE COMENTARIOS
         navigation.navigate("Comentarios", { producto: producto })
     }
     useEffect(() => {
+        //INICIO DE LA CLASE
         obtenerLikes()
         like_al_entrar()
     }, [])

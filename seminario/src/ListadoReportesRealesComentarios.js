@@ -145,6 +145,7 @@ export default function ListadoReportesRealesComentarios({ navigation }) {
 
 
     const getReports = async () => {
+        //OBTIENE LOS DATOS DEL COMENTARIO 
         try {
             setLoading(true)
             const json = JSON.stringify({ id_comentarios_producto: datax.id_comentarios_producto })
@@ -176,6 +177,7 @@ export default function ListadoReportesRealesComentarios({ navigation }) {
     }
 
     const enviarApruebo = async () => {
+        //SE APRUEBA EL REPORTE DEL COMENTARIO
         try {
             setLoading(true)
             const json = JSON.stringify({ id_comentarios_producto: datax.id_comentarios_producto })
@@ -208,6 +210,7 @@ export default function ListadoReportesRealesComentarios({ navigation }) {
         }
     }
     const enviarRechazo = async () => {
+        //SE RECHAZAN LOS REPORTES DEL COMENTARIO
         try {
             setLoading(true)
             const json = JSON.stringify({ id_comentarios_producto: datax.id_comentarios_producto })
@@ -240,6 +243,7 @@ export default function ListadoReportesRealesComentarios({ navigation }) {
         }
     }
     useEffect(() => {
+        //INICIO DE LA CLASE
         getReports()
     }, [])
 

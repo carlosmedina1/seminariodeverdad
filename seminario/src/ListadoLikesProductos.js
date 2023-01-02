@@ -127,6 +127,7 @@ export default function ListadoReporteProductos({ navigation }) {
 
 
     const getReports = async () => {
+        //OBTIENE LOS LIKES DE LOS PRODUCTOS DEL USUARIO LOGUEADO
         try {
             setLoading(true)
             const id_user = await AsyncStorage.getItem('id_user')
@@ -157,6 +158,7 @@ export default function ListadoReporteProductos({ navigation }) {
         }
     }
     useEffect(() => {
+        //INICIO DE LA CLASE
         getReports()
     }, [])
 

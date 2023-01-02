@@ -107,6 +107,7 @@ export default function seleccionCategoriaAgregar({ navigation }) {
 
 
     const paraAtras = () => {
+        //DEPENDIENDO DEL CASO, VUELVE A DISTINTAS PANTALLAS
         if(propio){
             navigation.replace("Productos_propios")
         }else{
@@ -114,6 +115,7 @@ export default function seleccionCategoriaAgregar({ navigation }) {
         }
     }
     const filtrarReport = (text) => {
+        //FILTRADO DE NOMBRES DE CATEGORIAS
         if (text) {
             const newData = report.filter((item) => {
                 const itemData = item.nombre_categoria + ' ' + item.nombre_categoria + ' ' + item.nombre_categoria + ' ' + item.nombre_categoria.toUpperCase();
@@ -132,6 +134,7 @@ export default function seleccionCategoriaAgregar({ navigation }) {
     }
 
     const getReports = async () => {
+        //OBTIENE LAS CATEGORIAS EXISTENTES
         setBusqueda('')
         try {
             setLoading(true)
@@ -162,9 +165,11 @@ export default function seleccionCategoriaAgregar({ navigation }) {
     }
 
     const goDetalleProducto = (item) => {
+        //VA HACIA LA CREACION DE SUBCATEGORIAS
         navigation.navigate("CrearSubcategoria", { cat: item.id_categoria})
     }
     useEffect(() => {
+        //INICIO DE LA CLASE
         getReports()
     }, [])
 

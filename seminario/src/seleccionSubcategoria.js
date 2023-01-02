@@ -106,6 +106,7 @@ export default function seleccionSubcategoria({ navigation }) {
 
     const propio = navigation.getParam('propio', 'false')
     const filtrarReport = (text) => {
+        //BUSQUEDA POR NOMBRE DE SUBCATEGORIA
         if (text) {
             const newData = report.filter((item) => {
                 const itemData = item.nombre_subcategoria + ' ' + item.nombre_subcategoria + ' ' + item.nombre_subcategoria + ' ' + item.nombre_subcategoria.toUpperCase();
@@ -124,6 +125,7 @@ export default function seleccionSubcategoria({ navigation }) {
     }
 
     const getReports = async () => {
+        //OBTIENE LAS SUBCATEGORIAS
         setBusqueda('')
         try {
             setLoading(true)
@@ -157,6 +159,7 @@ export default function seleccionSubcategoria({ navigation }) {
     }
 
     const goProductos = (item) => {
+        //VA HACIA LA CREACIÓN DE PRODUCTOS
         //console.log(item)
         navigation.navigate('CrearProducto', {
             subcategoria: item,
@@ -164,6 +167,7 @@ export default function seleccionSubcategoria({ navigation }) {
         })
     }
     useEffect(() => {
+        //INICIO DE LA CLASE
         getReports()
     }, [])
 

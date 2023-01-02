@@ -115,6 +115,7 @@ export default function CrearCategoria({ navigation }) {
     const [img1fija, setImg1fija] = useState(false)
     const [imageName1, setImageName1] = useState('_cat.jpg')
     const handleLogin = async () => {
+        //GUARDA LA CATEGORIA
         setLogining(true)
         if (nombre !== '' && img1fija==true) {
             const json = JSON.stringify({ nombre_categoria: nombre })
@@ -141,6 +142,7 @@ export default function CrearCategoria({ navigation }) {
         }
     }
     const subirImagenes = async (id_categoria) => {
+        //SUBE LA IMAGEN DE LA CATEGORIA
         var i1 = id_categoria + imageName1;
         try {
             let type = 'image/jpg';
@@ -195,12 +197,7 @@ export default function CrearCategoria({ navigation }) {
 
     }
     async function takePhotoAndUpload(numero) {
-        /*
-        let result = await ImagePicker.launchCameraAsync({
-            allowsEditing: false, // higher res on iOS
-            aspect: [4, 3],
-        });
-        */
+        //OBTIENE LA FOTO Y LA GUARDA PARA ENVIARLA
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,

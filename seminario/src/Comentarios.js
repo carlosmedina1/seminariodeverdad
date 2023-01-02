@@ -132,6 +132,7 @@ export default function Productos_propios({ navigation }) {
 
 
     const getReports = async () => {
+        //OBTIENE LOS COMENTARIOS DEL PRODUCTO
         try {
             setLoading(true)
             const json = JSON.stringify({ id_producto: producto.id_producto })
@@ -162,6 +163,7 @@ export default function Productos_propios({ navigation }) {
         }
     }
     const guardarComentario = async () => {
+        //GUARDA UN NUEVO COMENTARIO
         try {
             setLoading(true)
             const id_user = await AsyncStorage.getItem('id_user')
@@ -185,11 +187,13 @@ export default function Productos_propios({ navigation }) {
         }
     }
     const goDetalleComentario = (item) => {
+        //VA AL DETALLE DEL PRODUCTO
         navigation.navigate('DetalleComentario', {
             comentario: item
         })
     }
     const verificar_user = async () => {
+        //SE VERIFICA SI EL USUARIO ESTA LOGUEADO
         const id_user = await AsyncStorage.getItem('id_user')
         if (id_user == null) {
             setLogeado(false)
@@ -198,6 +202,7 @@ export default function Productos_propios({ navigation }) {
         }
     }
     useEffect(() => {
+        //INICIACIÓN DE LA CLASE
         verificar_user()
         getReports()
     }, [])

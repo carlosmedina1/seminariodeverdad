@@ -108,6 +108,7 @@ export default function Productos_eliminados({ navigation }) {
     const [busqueda, setBusqueda] = useState('')
 
     const filtrarReport = (text) => {
+        //BUSQUEDA DE LOS PRODUCTOS ELIMINADOS
         if (text) {
             const newData = report.filter((item) => {
                 const itemData = item.nombre_producto + ' ' + item.nombre_producto + ' ' + item.nombre_producto + ' ' + item.nombre_producto.toUpperCase();
@@ -125,6 +126,7 @@ export default function Productos_eliminados({ navigation }) {
     }
 
     const getReports = async () => {
+        //OBTIENE LOS PRODUCTOS ELIMINADOS
         setBusqueda('')
         try {
             setLoading(true)
@@ -155,11 +157,13 @@ export default function Productos_eliminados({ navigation }) {
     }
 
     const goDetalleProducto = (item) => {
+        //VA HACIA EL DETALLE DEL PRODUCTO ELIMINADO
         navigation.navigate('DetalleProductoEliminado', {
             producto: item
         })
     }
     useEffect(() => {
+        //INICIO DE LA CLASE
         getReports()
     }, [])
 

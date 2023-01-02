@@ -126,12 +126,14 @@ export default function ListadoReporteProductos({ navigation }) {
     const [sinProductos, setSinProductos] = useState(false)
 
     const goLista = (item) => {
+        //VA HACIA EL DETALLE DEL COMENTARIO 
         navigation.navigate('ListadoReportesRealesComentarios', {
             datax: item,
         })
     }
     
     const getReports = async () => {
+        //OBTIENE LOS REPORTES DE LOS COMENTARIOS PARA JUZGARLOS (ADMIN)
         try {
             setLoading(true)
             const response = await fetch(Route + 'obtenerReportesComentarios',
@@ -159,6 +161,7 @@ export default function ListadoReporteProductos({ navigation }) {
         }
     }
     useEffect(() => {
+        //INICIO DE LA CLASE
         getReports()
     }, [])
 

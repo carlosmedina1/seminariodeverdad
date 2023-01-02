@@ -127,6 +127,7 @@ export default function ListadoReporteComentarios({ navigation }) {
 
 
     const getReports = async () => {
+        //OBTIENE EL LISTADO DE LIKES QUE HA HECHO EL USUARIO A LOS COMENTARIOS DE VARIOS PRODUCTOW
         try {
             setLoading(true)
             const id_user = await AsyncStorage.getItem('id_user')
@@ -157,6 +158,7 @@ export default function ListadoReporteComentarios({ navigation }) {
         }
     }
     useEffect(() => {
+        //INICIO DE LA CLASE
         getReports()
     }, [])
 

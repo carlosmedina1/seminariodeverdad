@@ -144,6 +144,7 @@ export default function DetalleProductoEliminado({ navigation }) {
     const usuario = navigation.getParam('usuario', '0')
 
     const comentarProducto = async () => {
+        //HABILITA UN USUARIO ELIMINADO
         const json = JSON.stringify({ id_usuario: usuario.id_usuario,vigente:usuario.vigente })
         await fetch(Route + 'cambiarEstadoUsuario',
             {

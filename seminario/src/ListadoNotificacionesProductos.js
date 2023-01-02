@@ -127,6 +127,7 @@ export default function ListadoNotificacionesProductos({ navigation }) {
 
 
     const getReports = async () => {
+        //OBTIENE LAS NOTIFICACIONES RELACIONADAS A LOS PRODUCTOS
         try {
             setLoading(true)
             const id_user = await AsyncStorage.getItem('id_user')
@@ -157,6 +158,7 @@ export default function ListadoNotificacionesProductos({ navigation }) {
         }
     }
     useEffect(() => {
+        //INICIO DE LA CLASE
         getReports()
     }, [])
 

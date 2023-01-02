@@ -108,6 +108,7 @@ export default function Contactos({ navigation }) {
     const [loading, setLoading] = useState(false)
 
     const getReports = async () => {
+        //OBTIENE LOS CONTANTES DEL USUARIO 
         try {
             setLoading(true)
             const json = JSON.stringify({ id_usuario: id_usuario })
@@ -141,6 +142,7 @@ export default function Contactos({ navigation }) {
     }
 
     useEffect(() => {
+        //INICIACIÓN DE LA CLASE
         getReports()
     }, [])
 

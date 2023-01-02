@@ -99,6 +99,7 @@ export default function Login({ navigation }) {
     const [verificando, setVerificando] = useState(false)
 
     const handleLogin = async () => {
+        //SE CONSULTA LA INFORMACIÓN ENVIADA EN LA BASE DE DATOS
         setLogining(true)
         if (user !== '' && pass !== '') {
             const json = JSON.stringify({ user: user, pass: pass })
@@ -139,6 +140,7 @@ export default function Login({ navigation }) {
         }
     }
     const obtenerid = async (user) => {
+        //OBTIENE EL ID  CUANDO SE ACCEDE CON EXITO
         const json = JSON.stringify({ nu: user })
         const response = await fetch(Route + 'obtener-usuario',
             {
@@ -156,6 +158,7 @@ export default function Login({ navigation }) {
 
     }
     const _storeSession = async (nombrex,es_admin) => {
+        //GUARDA LOS DATOS  EN LA SESION
         try {
             await AsyncStorage.setItem('isLoged', 'true')
             await AsyncStorage.setItem('user', nombrex)
@@ -174,34 +177,7 @@ export default function Login({ navigation }) {
             setLogining(false)
         }
     }
-
-    const _loadSession = async () => {
-        try {
-            const session = await AsyncStorage.getItem('isLoged')
-            if (session) {
-                navigation.replace('Sync')
-            }
-            else {
-                console.log('sin sesión iniciada')
-                setVerificando(false)
-            }
-        }
-        catch (e) {
-            setVerificando(false)
-            console.error('Error al traer los datos para el inicio de sesión: ')
-            console.error(e)
-
-            Alert.alert(
-                'Error al Iniciar Sesión',
-                'Hemos tenido un inconveniente recuperar los datos para el inicio de Sesión',
-                [{ text: 'Entendido', }]
-            )
-        }
-    }
-    useEffect(() => {
-        //_loadSession()
-    }, [])
-
+    
     if (verificando) {
         return (
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -234,12 +210,12 @@ export default function Login({ navigation }) {
 
                     <View style={styles.action}>
                         <FeatherIcon color="gray" name="user" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                        <TextInput placeholder="Correo electronico" style={{ marginBottom: 10, width: '100%' }} onChangeText={(text) => setUser(text)} >ABC@GMAIL.COM</TextInput>
+                        <TextInput placeholder="Correo electronico" style={{ marginBottom: 10, width: '100%' }} onChangeText={(text) => setUser(text)} ></TextInput>
                     </View>
 
                     <View style={styles.action}>
                         <FeatherIcon color="gray" name="unlock" size={20} style={{ marginBottom: 10, marginRight: 10 }} />
-                        <TextInput secureTextEntry={true} placeholder="Contraseña" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass) => setPass(pass)} >1010</TextInput>
+                        <TextInput secureTextEntry={true} placeholder="Contraseña" style={{ marginBottom: 10, width: '100%' }} onChangeText={(pass) => setPass(pass)} ></TextInput>
                     </View>
 
                     <View style={styles.ingresarContainer}>

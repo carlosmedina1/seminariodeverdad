@@ -127,6 +127,7 @@ export default function ListadoReporteComentarios({ navigation }) {
 
 
     const getReports = async () => {
+        //OBTIENE LOS REPORTES HECHO POR EL USUARIO HACIA COMENTARIOS
         try {
             setLoading(true)
             const id_user = await AsyncStorage.getItem('id_user')
@@ -157,6 +158,7 @@ export default function ListadoReporteComentarios({ navigation }) {
         }
     }
     useEffect(() => {
+        //INICIO DE LA CLASE
         getReports()
     }, [])
 

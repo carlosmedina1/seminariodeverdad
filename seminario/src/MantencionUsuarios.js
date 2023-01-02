@@ -107,6 +107,7 @@ export default function MantencionUsuarios({ navigation }) {
     const [busqueda, setBusqueda] = useState('')
 
     const filtrarReport = (text) => {
+        //FILTRO PARA BÚSQUEDA DE USUARIOS
         if (text) {
             const newData = report.filter((item) => {
                 const itemData = item.nombre_usuario + ' ' + item.correo_electronico + ' ' + item.nombre_usuario + ' ' + item.nombre_usuario.toUpperCase();
@@ -124,6 +125,7 @@ export default function MantencionUsuarios({ navigation }) {
     }
 
     const getReports = async () => {
+        //OBTIENE LOS USUARIOS
         setBusqueda('')
         try {
             setLoading(true)
@@ -154,11 +156,13 @@ export default function MantencionUsuarios({ navigation }) {
     }
 
     const goDetalleProducto = (item) => {
+        //VA HACIA EL DETALLE DEL USUARIO
         navigation.navigate('DetalleUsuarios', {
             usuario: item
         })
     }
     useEffect(() => {
+        //INICIO DE LA CLASE
         getReports()
     }, [])
 

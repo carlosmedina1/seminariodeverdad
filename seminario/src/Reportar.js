@@ -149,6 +149,7 @@ export default function Reportar({ navigation }) {
 
 
     const guardarComentario = async () => {
+        //GUARDA EL REPORTE DEL PRODUCTO EN LA DB
         const id_user = await AsyncStorage.getItem('id_user')
         try {
             const json = JSON.stringify({ id_producto: producto.id_producto, id_usuario: id_user, justificacion: comentarioActual })
@@ -176,6 +177,7 @@ export default function Reportar({ navigation }) {
         }
     }
     const verificar_reporte = async () => {
+        //VERIFICA SI EL USUARIO PUEDE REPORTAR UN PRODUCTO, SOLO PUEDE LOS QUE NO SEAN DE EL
         const id_user = await AsyncStorage.getItem('id_user')
         if(id_user==producto.id_usuario){
             setLogeado(false)
@@ -208,6 +210,7 @@ export default function Reportar({ navigation }) {
         
     }
     useEffect(() => {
+        //INICIO DE LA CLASE
         setComentarioActual('')
         verificar_reporte()
     }, [])

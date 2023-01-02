@@ -150,6 +150,7 @@ export default function detalleComentario({ navigation }) {
     const [likes, setLikes] = useState(0)
 
     const verificar_likes = async () => {
+        //FUNCIÓN PARA COMPROBAR LA CANTIDAD DE LIKES DE UN COMENTARIO
         try {
             setLoading(true)
             const id_user = await AsyncStorage.getItem('id_user')
@@ -200,6 +201,7 @@ export default function detalleComentario({ navigation }) {
         }
     }
     const like_al_entrar = async () => {
+        //COMPRUEBA LOS LIKES CUANDO ENTRA EN LA FUNCIÓN
         try {
             setLoading(true)
             const id_user = await AsyncStorage.getItem('id_user')
@@ -241,6 +243,7 @@ export default function detalleComentario({ navigation }) {
         }
     }
     const obtenerLikes = async () => {
+        //COMPRUEBA LOS LIKES CUANDO SE HACE UN LIKE
         try {
             const json = JSON.stringify({ id_comentarios_productos: comentario.id_comentarios_producto })
             await fetch(Route + 'likesComentario',
@@ -266,6 +269,7 @@ export default function detalleComentario({ navigation }) {
         }
     }
     const eliminarComentario = async () => {
+        //ELIMINA UN COMENTARIO SI ES DEL USUARIO LOGUEADO
         try {
             const json = JSON.stringify({ id_comentarios_productos: comentario.id_comentarios_producto })
             await fetch(Route + 'eliminarComentario',
@@ -290,6 +294,7 @@ export default function detalleComentario({ navigation }) {
         }
     }
     const reportarProducto = async () => {
+        //FUNCIÓN PARA AGREGAR UN REPORTE A UN COMENTARIO
         const id_user = await AsyncStorage.getItem('id_user')
         if (id_user == null) {
             setMessage(true)
@@ -299,6 +304,7 @@ export default function detalleComentario({ navigation }) {
         }
     }
     const comentarioPropio = async () => {
+        //COMPRUEBA SI EL COMENTARIO ES PROPIO O AJENO
         const id_user = await AsyncStorage.getItem('id_user')
         if (id_user == comentario.id_usuario) {
             setEsPropio(true)
@@ -307,6 +313,7 @@ export default function detalleComentario({ navigation }) {
         }
     }
     useEffect(() => {
+        //INICIO DE LA CLASE
         comentarioPropio()
         obtenerLikes()
         like_al_entrar()

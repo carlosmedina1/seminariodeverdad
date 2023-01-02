@@ -127,6 +127,7 @@ export default function ListadoNotificacionesComentarios({ navigation }) {
 
 
     const getReports = async () => {
+        //OBTIENE LAS NOTIFICACIONES DE LOS COMENTARIOS
         try {
             setLoading(true)
             const id_user = await AsyncStorage.getItem('id_user')
@@ -157,6 +158,7 @@ export default function ListadoNotificacionesComentarios({ navigation }) {
         }
     }
     useEffect(() => {
+        //INICIO DE LA CLASE
         getReports()
     }, [])
 

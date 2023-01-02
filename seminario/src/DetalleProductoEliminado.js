@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, ActivityIndicator, StatusBar, TouchableOpacity, Image, Dimensions, ScrollView ,Platform,ToastAndroid,Alert  } from 'react-native'
+import { View, StyleSheet, Text, ActivityIndicator, StatusBar, TouchableOpacity, Image, Dimensions, ScrollView, Platform, ToastAndroid, Alert } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import Modal from '../components/customModal'
@@ -10,7 +10,7 @@ import moment from "moment";
 import * as Animatable from 'react-native-animatable'
 import Route from '../hooks/routes'
 import Message from '../components/message'
-
+import Route2 from '../hooks/rutaImagen'
 const windowHeight = Dimensions.get('screen').height;
 
 const styles = StyleSheet.create({
@@ -143,7 +143,8 @@ const styles = StyleSheet.create({
 export default function DetalleProductoEliminado({ navigation }) {
     const producto = navigation.getParam('producto', '0')
 
-    const comentarProducto = async () => {
+    const habilitacion = async () => {
+        //HABILITA UN PRODUCTO ELIMINADO
         const json = JSON.stringify({ id_producto: producto.id_producto })
         await fetch(Route + 'habilitarProducto',
             {
@@ -206,31 +207,25 @@ export default function DetalleProductoEliminado({ navigation }) {
                                     <View style={{ marginLeft: 10 }}>
                                         <Image
                                             style={styles.imgPersonas}
-                                            source={{ uri: "http://placekitten.com/100/200" }}
+                                            source={{ uri: Route2 + 'photos/' + producto.url_1 }}
                                         />
                                     </View>
                                     <View style={{ marginLeft: 10 }}>
                                         <Image
                                             style={styles.imgPersonas}
-                                            source={{ uri: "http://placekitten.com/100/200" }}
+                                            source={{ uri: Route2 + 'photos/' + producto.url_2 }}
                                         />
                                     </View>
                                     <View style={{ marginLeft: 10 }}>
                                         <Image
                                             style={styles.imgPersonas}
-                                            source={{ uri: "http://placekitten.com/100/200" }}
+                                            source={{ uri: Route2 + 'photos/' + producto.url_3 }}
                                         />
                                     </View>
                                     <View style={{ marginLeft: 10 }}>
                                         <Image
                                             style={styles.imgPersonas}
-                                            source={{ uri: "http://placekitten.com/100/200" }}
-                                        />
-                                    </View>
-                                    <View style={{ marginHorizontal: 10 }}>
-                                        <Image
-                                            style={styles.imgPersonas}
-                                            source={{ uri: "http://placekitten.com/100/200" }}
+                                            source={{ uri: Route2 + 'photos/' + producto.url_4 }}
                                         />
                                     </View>
                                 </ScrollView>
@@ -250,7 +245,7 @@ export default function DetalleProductoEliminado({ navigation }) {
                         </View>
                         <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'gray', marginTop: 10, }}>Opciones: </Text>
                         <View style={styles.itemContainer}>
-                            <TouchableOpacity onPress={() => comentarProducto()}>
+                            <TouchableOpacity onPress={() => habilitacion()}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop: 10 }}>
                                     <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
                                         <MaterialIcons name='check' color='green' size={30} />

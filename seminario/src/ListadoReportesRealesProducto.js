@@ -145,6 +145,7 @@ export default function ListadoReportesRealesProducto({ navigation }) {
 
 
     const getReports = async () => {
+        //OBTETIENE LOS REPORTES DEL PRODUCTO ELEGIDO
         try {
             setLoading(true)
             const json = JSON.stringify({ id_producto: datax.id_producto })
@@ -176,6 +177,7 @@ export default function ListadoReportesRealesProducto({ navigation }) {
     }
 
     const enviarApruebo = async () => {
+        //APRUEBA LOS REPORTES
         try {
             setLoading(true)
             const json = JSON.stringify({ id_producto: datax.id_producto })
@@ -208,6 +210,7 @@ export default function ListadoReportesRealesProducto({ navigation }) {
         }
     }
     const enviarRechazo = async () => {
+        //RECHAZA LOS REPORTES
         try {
             setLoading(true)
             const json = JSON.stringify({ id_producto: datax.id_producto })
@@ -241,6 +244,7 @@ export default function ListadoReportesRealesProducto({ navigation }) {
     }
 
     useEffect(() => {
+        //INICIO DE LA CLASE
         getReports()
     }, [])
 

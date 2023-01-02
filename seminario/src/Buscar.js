@@ -105,6 +105,7 @@ export default function reportPendientes({ navigation }) {
     const [busqueda, setBusqueda] = useState('')
 
     const filtrarReport = (text) => {
+        //FILTRO DE BUSQUEDA DE PRODUCTOS
         if (text) {
             const newData = report.filter((item) => {
                 const itemData = item.nombre_producto + ' ' + item.nombre_producto + ' ' + item.nombre_producto + ' ' + item.nombre_producto.toUpperCase();
@@ -122,6 +123,7 @@ export default function reportPendientes({ navigation }) {
     }
 
     const getReports = async () => {
+        //OBTENCION DE LOS PRODUCTOS
         setBusqueda('')
         try {
             setLoading(true)
@@ -150,12 +152,14 @@ export default function reportPendientes({ navigation }) {
     }
 
     const goDetalleProducto = (item) => {
+        //CAMBIA DE PANTALLA A DETALLE PRODUCTO
         navigation.navigate('DetalleProducto', {
             producto: item,
             editable: false
         })
     }    
     useEffect(() => {
+        //INICIACIÓN DE LA CLASE
         getReports()
         
     }, [])

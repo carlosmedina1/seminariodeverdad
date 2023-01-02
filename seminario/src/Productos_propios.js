@@ -107,6 +107,7 @@ export default function Productos_propios({ navigation }) {
     const [busqueda, setBusqueda] = useState('')
 
     const filtrarReport = (text) => {
+        //FILTRO DE BÚSQUEDA DE PRODUCTOS PROPIOS
         if (text) {
             const newData = report.filter((item) => {
                 const itemData = item.nombre_producto + ' ' + item.nombre_producto + ' ' + item.nombre_producto + ' ' + item.nombre_producto.toUpperCase();
@@ -124,6 +125,7 @@ export default function Productos_propios({ navigation }) {
     }
 
     const getReports = async () => {
+        //OBTIENE LOS PRODUCTOS PROPIOS
         setBusqueda('')
         try {
             setLoading(true)
@@ -158,15 +160,18 @@ export default function Productos_propios({ navigation }) {
     }
 
     const goDetalleProducto = (item) => {
+        //VA HACIA EL DETALLE DEL PRODUCTO
         navigation.navigate('DetalleProducto', {
             producto: item,
             editable: true
         })
     }
     const iraCreacionProducto = () => {
+        //VA A LA SELECCION DE SUBCATEGORIA
         navigation.replace("SeleccionCategoria", { propio: true })
     }
     useEffect(() => {
+        //INICIO DE LA CLASE
         console.log('productos propios')
         getReports()
     }, [])

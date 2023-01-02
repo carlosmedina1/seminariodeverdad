@@ -138,6 +138,8 @@ export default function CrearProducto({ navigation }) {
     const [imageName3, setImageName3] = useState('_3.jpg')
     const [imageName4, setImageName4] = useState('_4.jpg')
     const handleLogin = async () => {
+
+        //SE GUARDAN LOS DATOS DEL PRODUCTO
         setLogining(true)
 
         if (nombre !== '' && descripcion !== '') {
@@ -174,6 +176,7 @@ export default function CrearProducto({ navigation }) {
     }
 
     const subirImagenes = async (id_producto) => {
+        //SE SUBEN LAS IMAGENES PARA EL PRODUCTO
         var i1 = id_producto + imageName1;
         var i2 = id_producto + imageName2;
         var i3 = id_producto + imageName3;
@@ -275,7 +278,7 @@ export default function CrearProducto({ navigation }) {
 
     }
     async function takePhotoAndUpload(numero) {
-
+        //SE TOMA LA FOTO CON UNA FUNCION
         let result = await ImagePicker.launchCameraAsync({
             allowsEditing: false, // higher res on iOS
             aspect: [4, 3],

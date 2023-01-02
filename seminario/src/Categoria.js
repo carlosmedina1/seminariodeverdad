@@ -108,6 +108,7 @@ export default function Categoria({ navigation }) {
     const categoria = navigation.getParam('cat', '0')
 
     const filtrarReport = (text) => {
+        //FILTRO DEL PRODUCTO  POR SUBCATEGORIA
         if (text) {
             const newData = report.filter((item) => {
                 const itemData = item.nombre_subcategoria + ' ' + item.nombre_subcategoria + ' ' + item.nombre_subcategoria + ' ' + item.nombre_subcategoria.toUpperCase();
@@ -125,6 +126,7 @@ export default function Categoria({ navigation }) {
     }
 
     const getReports = async () => {
+        //OBTIENE LOS PRODUCTOS POR SUBCATEGORIA
         setBusqueda('')
         try {
             setLoading(true)
@@ -158,11 +160,13 @@ export default function Categoria({ navigation }) {
 
     const goProductos = (item) => {
         //console.log(item)
+        //VA A LA PANTALLA DE PRODUCTOS 
         navigation.navigate('Productos_subcategorias', {
             subcategoria: item
         })
     }
     useEffect(() => {
+        //INICIACIÓN DE LA CLASE
         getReports()
     }, [])
 

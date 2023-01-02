@@ -149,6 +149,7 @@ export default function Reportar({ navigation }) {
     console.log(comentario)
 
     const guardarComentario = async () => {
+        //GUARDA EL COMENTARIO RECIEN CREADO EN LA DB
         const id_user = await AsyncStorage.getItem('id_user')
         try {
             const json = JSON.stringify({ id_producto: comentario.id_producto,id_comentarios_producto: comentario.id_comentarios_producto, id_usuario: id_user, justificacion: comentarioActual })
@@ -176,6 +177,7 @@ export default function Reportar({ navigation }) {
         }
     }
     const verificar_reporte = async () => {
+        //VERIFICA QUE NO SE PUEDA REPORTAR UN COMENTARIO PROPIO
         const id_user = await AsyncStorage.getItem('id_user')
         if(id_user==comentario.id_usuario){
             setLogeado(false)
@@ -208,6 +210,7 @@ export default function Reportar({ navigation }) {
         
     }
     useEffect(() => {
+        //INICIO DE LA CLASE
         setComentarioActual('')
         verificar_reporte()
     }, [])

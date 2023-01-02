@@ -105,6 +105,7 @@ export default function CrearProducto({ navigation }) {
     const [message, setMessage] = useState(false)
 
     const handleLogin = async () => {
+        //GUARDA LOS DATOS DE LA SUBCATEGORIA EN LA DB
         setLogining(true)
         if (nombre !== '') {
             const json = JSON.stringify({ nombre_subcategoria : nombre, id_categoria: datos})
