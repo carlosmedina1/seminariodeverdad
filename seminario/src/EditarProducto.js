@@ -237,28 +237,28 @@ export default function EditarProducto({ navigation }) {
     useEffect(() => {
         //VALORES QUE SE ASIGNAN AL ENTRAR EN PANTALLA
         console.log(producto)
-        setImage1(Route2 + 'photos/'+producto.url_1)
-        setImage2(Route2 + 'photos/'+producto.url_2)
-        setImage3(Route2 + 'photos/'+producto.url_3)
-        setImage4(Route2 + 'photos/'+producto.url_4)
-        if(producto.url_1!='sin_imagen.jpg'){
+        setImage1(Route2 + 'photos/' + producto.url_1)
+        setImage2(Route2 + 'photos/' + producto.url_2)
+        setImage3(Route2 + 'photos/' + producto.url_3)
+        setImage4(Route2 + 'photos/' + producto.url_4)
+        if (producto.url_1 != 'sin_imagen.jpg') {
             setImg1fija(true)
-        }else{
+        } else {
             setImg1fija(false)
         }
-        if(producto.url_2!='sin_imagen.jpg'){
+        if (producto.url_2 != 'sin_imagen.jpg') {
             setImg2fija(true)
-        }else{
+        } else {
             setImg2fija(false)
         }
-        if(producto.url_3!='sin_imagen.jpg'){
+        if (producto.url_3 != 'sin_imagen.jpg') {
             setImg3fija(true)
-        }else{
+        } else {
             setImg3fija(false)
         }
-        if(producto.url_4!='sin_imagen.jpg'){
+        if (producto.url_4 != 'sin_imagen.jpg') {
             setImg4fija(true)
-        }else{
+        } else {
             setImg4fija(false)
         }
         setNombre(producto.nombre_producto)
@@ -273,16 +273,27 @@ export default function EditarProducto({ navigation }) {
 
     const subirImagenes = async (id_producto) => {
         //SUBIDA DE IMAGENES
-        var i1 = id_producto + imageName1;
-        var i2 = id_producto + imageName2;
-        var i3 = id_producto + imageName3;
-        var i4 = id_producto + imageName4;
+        var date = new Date().getDate(); //Current Date
+        var month = new Date().getMonth() + 1; //Current Month
+        var year = new Date().getFullYear(); //Current Year
+        var hours = new Date().getHours(); //Current Hours
+        var min = new Date().getMinutes(); //Current Minutes
+        var sec = new Date().getSeconds(); //Current Seconds
+        var realdate=date + '_' + month + '_' + year+ '_' + hours + '_' + min + '_' + sec
+        var i1 = id_producto + '_' + realdate + imageName1
+        var i2 = id_producto + '_' + realdate + imageName2;
+        var i3 = id_producto + '_' + realdate + imageName3;
+        var i4 = id_producto + '_' + realdate + imageName4;
+        console.log(i1)
+        console.log(i2)
+        console.log(i3)
+        console.log(i4)
         try {
             let type = 'image/jpg';
             let formData = new FormData();
             if (img1fija == true) {
                 formData.append('photo', { uri: image1, name: i1, type });
-                await fetch( Route2 + '/upload.php', {
+                await fetch(Route2 + '/upload.php', {
                     method: 'POST',
                     body: formData,
                     header: {
@@ -294,7 +305,7 @@ export default function EditarProducto({ navigation }) {
             }
             if (img2fija == true) {
                 formData.append('photo', { uri: image2, name: i2, type });
-                await fetch( Route2 + '/upload.php', {
+                await fetch(Route2 + '/upload.php', {
                     method: 'POST',
                     body: formData,
                     header: {
@@ -306,7 +317,7 @@ export default function EditarProducto({ navigation }) {
             }
             if (img3fija == true) {
                 formData.append('photo', { uri: image3, name: i3, type });
-                await fetch( Route2 + '/upload.php', {
+                await fetch(Route2 + '/upload.php', {
                     method: 'POST',
                     body: formData,
                     header: {
@@ -318,7 +329,7 @@ export default function EditarProducto({ navigation }) {
             }
             if (img4fija == true) {
                 formData.append('photo', { uri: image4, name: i4, type });
-                await fetch( Route2 + '/upload.php', {
+                await fetch(Route2 + '/upload.php', {
                     method: 'POST',
                     body: formData,
                     header: {

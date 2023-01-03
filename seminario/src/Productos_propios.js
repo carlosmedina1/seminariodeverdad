@@ -143,6 +143,7 @@ export default function Productos_propios({ navigation }) {
             )
             const data = await response.json()
             if (await data.length != 0) {
+                console.log(data)
                 setSinProductos(false)
                 setLoading(false)
                 setFilterReport(data)
@@ -209,7 +210,7 @@ export default function Productos_propios({ navigation }) {
                                     renderItem={({ item }) => (
                                         <TouchableOpacity style={styles.itemContainer} onPress={() => goDetalleProducto(item)}>
                                             <View style={{ flexDirection: 'row', width: '100%', }}>
-                                                <Image style={{ width: 100, height: 100, borderRadius: 5, marginVertical: 7 }} source={{uri: Route2+'photos/'+item.id_producto+'_1.jpg'}} />
+                                                <Image style={{ width: 100, height: 100, borderRadius: 5, marginVertical: 7 }} source={{uri: Route2+'photos/'+item.url_1}} />
                                                 <View style={{ flexDirection: 'column', width: '10%', marginTop: 10 }}>
                                                     <MaterialIcons name="fiber-manual-record" color="#5dd069" size={30} style={{ flex: 1, alignSelf: 'center' }} />
                                                     <MaterialIcons name="thumb-up" color="#5dd069" size={30} style={{ flex: 1, alignSelf: 'center' }} />
