@@ -193,7 +193,7 @@ export default function ListadoReporteProductos({ navigation }) {
                                                         <Text style={{ flex: 15, fontSize: 17, fontWeight: 'bold', color: '#000', marginTop: 6 }}>Cantidad de reportes: {item.cantidad_reportes}</Text>
                                                     </View>
                                                     <View style={{ flexDirection: 'column', width: '20%', marginTop: 10 }}>
-                                                        <Image style={{ width: 100, height: 100, borderRadius: 5, marginVertical: 7 }} source={{uri: Route2+'photos/'+item.id_producto+'_1.jpg'}} />
+                                                        <Image style={{ width: 100, height: 100, borderRadius: 5, marginVertical: 7 }}  source={{uri: Route2+'photos/'+item.url_1}}/>
                                                     </View>
                                                 </View>
                                             </TouchableOpacity>
